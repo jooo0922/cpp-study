@@ -1,2 +1,2 @@
-# cpp-study
+# C++ Study
 Repository for C++ Study
