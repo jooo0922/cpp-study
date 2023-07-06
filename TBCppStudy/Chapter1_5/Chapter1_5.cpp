@@ -43,6 +43,18 @@ void addTwoNumbers(int a, int b)
     print(); // 함수 내에서 다른 함수를 호출할 수 있다!
 }
 
+void printInputSum()
+{
+    int inputA;
+    int inputB;
+
+    cin >> inputA;
+    cin >> inputB;
+
+    int sum = inputA + inputB;
+    cout << sum << endl;
+}
+
 int main()
 {
     // 함수는 아래와 같이 재사용이 가능하다!
@@ -55,6 +67,8 @@ int main()
     // 반환타입이 void 인 함수는 다른 변수에 할당하지만 않으면, 호출 시 별도 에러가 나지는 않음.
     //int sum = addTwoNumbers(1, 2); 
     addTwoNumbers(1, 2);
+
+    printInputSum();
 
     return 0;
 }
