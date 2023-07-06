@@ -43,7 +43,7 @@ int main()
 
     std::cout << x << std::endl; // 3
 
-    int z;
+    //int z;
     //std::cout << z << std::endl; // 에러 > 메모리 공간을 준비했지만, 값이 할당되지 않음
 
     return 0;
