@@ -22,5 +22,7 @@ int main()
 	cout << "abc" << "\t" << "def" << endl; // cout 에서 "\t" 를 입력하면, 탭 공간만큼 콘솔에서 띄어 줌.
 	cout << "ab" << "\t" << "cdef" << endl; // 빈 공간을 두고 줄맞춤을 해주는 역할도 함.
 
+	cout << "\a"; // \a 는 콘솔 출력 시, 오디오를 출력해 줌.
+
 	return 0;
 }
