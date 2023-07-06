@@ -19,9 +19,28 @@ using namespace std;
 //    //cout << "Hello World 2 " << endl; // return 이후의 코드는 어떠한 경우에도 실행되지 않음. return 호출 이후 곧바로 main 함수 블록으로 돌아가기 때문! 
 //}
 
+void print()
+{
+    cout << "Hello" << endl;
+}
+
 void addTwoNumbers(int a, int b)
 {
+
+    /*
+        아래와 같이 함수 내에서 다른 함수를 중첩해서 선언할 수 없다!
+        js 는 되는데 c++ 은 안되나 봄...
+
+        근데 c++ 도 최근 문법에서는 nested class 선언은 가능!
+
+        void print()
+        {
+            cout << "Hello" << endl;
+        }
+    */
+
     //return a + b;
+    print(); // 함수 내에서 다른 함수를 호출할 수 있다!
 }
 
 int main()
