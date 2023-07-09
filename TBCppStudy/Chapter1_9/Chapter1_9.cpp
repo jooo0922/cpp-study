@@ -26,7 +26,7 @@ int main()
     int num_apples      = 123;
 
     // this is important > 주석이 길어질 경우 코드 오른쪽보다는 코드 위쪽에 달 것!
-    int x = 1 + 2; 
+    //int x = 1 + 2; 
 
     // this is important, too
     int y = 3 + 4; 
