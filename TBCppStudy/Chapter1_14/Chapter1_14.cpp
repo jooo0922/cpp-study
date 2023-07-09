@@ -1,4 +1,3 @@
-#include <iostream>
 #include <algorithm>
 
 using namespace std;
@@ -20,23 +19,17 @@ using namespace std;
 // 매크로 정의 시 괄호로 표현식 부분을 괄호로 한 번 감싸줘야 함. 
 //#define MAX(a, b) (((a)>(b)) ? (a) : (b))
 
+/*
+    또한, #define 매크로는 선언된 파일 내에서만 효력범위를 가짐.
+
+    그래서, 현재 cpp 파일에는 LIKE_APPLE 매크로가 정의되어 있지만,
+    diffrent_source.cpp 파일에는 LIKE_APPLE 매크로가 정의되지 않았기 때문에,
+    diffrent_source.cpp > doSomething() 함수에서
+    #ifndef 에 정의된 전처리기가 빌드 시점에 컴파일될 것임!
+*/
 #define LIKE_APPLE // 매크로를 "정의만" 해놓음.
 
-void doSomething()
-{
-    // #ifdef, #ifndef 도 전처리기. 즉, 런타임이 아니라, 이미 빌드 시점에 아래 조건을 따져서 결정해버림!
-    // 주로 빌드 시작 전, 윈도우인지, 리눅스인지 이런 거 알고 시작할 때!
-    // 또는 그래픽카드 사양에 따라 OpenGL 을 쓸 지 Metal 을 쓸 지 등...
-    // 주로 멀티 플랫폼 상에서 개발할 때 많이 사용한다고 함! > 이런 걸 Conditional Compilation (조건에 따른 컴파일 방식)
-    // 또, #define 은 "교체"하는 매크로이지만, 다른 전처리기 (#ifdef) 안에서는 교체되지 않음.
-    #ifdef LIKE_APPLE // LIKE_APPLE 매크로가 정의가 되어있다면~
-        cout << "Apple" << endl;
-    #endif // LIKE_APPLE // if 문 종료
-
-    #ifndef LIKE_APPLE // LIKE_APPLE 매크로가 정의가 안되어있다면~ > #else 로 사용해서 축약도 가능
-        cout << "Orange" << endl;
-    #endif // !LIKE_APPLE // if not 문 종료
-}
+void doSomething();
 
 int main()
 {
