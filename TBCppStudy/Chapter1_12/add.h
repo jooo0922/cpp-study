@@ -13,7 +13,15 @@
 	이때, 헤더가드 전처리기(#pragma once) 가 선언되어 있으면
 	이런 식으로 때려넣더라도 문제없이 빌드할 수 있도록 해주는 것임!
 */
+
+// 헤더가드는 아래와 같은 전처리기 문법으로도 선언 가능!
+#ifndef MY_ADD // include 를 통해서 MY_ADD 가 정의가 되어있지 않다면, (if not defined)
+#define MY_ADD // MY_ADD(#endif 전처리기 까지의 함수 정의)를 정의하고,
+
 int add(int a, int b)
 {
 	return a + b;
 }
+
+#endif // !MY_ADD // 그렇지 않다면(include 를 통해서 MY_ADD 가 이미 정의되어 있다면), 전처리문을 종료해라 (endif)
+
