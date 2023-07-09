@@ -1,4 +1,4 @@
-//#pragma once
+#pragma once // 좀 더 축약된 심플한 헤더가드 문법 > Visual Studio 는 헤더파일을 만들면 이 문법을 자동으로 생성해 줌.
 
 /*
 	Chapter1_11 에서와 다르게
@@ -15,13 +15,13 @@
 */
 
 // 헤더가드는 아래와 같은 전처리기 문법으로도 선언 가능!
-#ifndef MY_ADD // include 를 통해서 MY_ADD 가 정의가 되어있지 않다면, (if not defined)
-#define MY_ADD // MY_ADD(#endif 전처리기 까지의 함수 정의)를 정의하고,
+//#ifndef MY_ADD // include 를 통해서 MY_ADD 가 정의가 되어있지 않다면, (if not defined)
+//#define MY_ADD // MY_ADD(#endif 전처리기 까지의 함수 정의)를 정의하고,
 
 int add(int a, int b)
 {
 	return a + b;
 }
 
-#endif // !MY_ADD // 그렇지 않다면(include 를 통해서 MY_ADD 가 이미 정의되어 있다면), 전처리문을 종료해라 (endif)
+//#endif // !MY_ADD // 그렇지 않다면(include 를 통해서 MY_ADD 가 이미 정의되어 있다면), 전처리문을 종료해라 (endif)
 
