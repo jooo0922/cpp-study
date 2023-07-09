@@ -18,5 +18,8 @@
     <ClCompile Include="Chapter1_14.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="diffrent_source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
