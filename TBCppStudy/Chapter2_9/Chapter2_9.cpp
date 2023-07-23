@@ -1,4 +1,5 @@
 #include <iostream>
+#include"MY_CONSTANTS.h" // 상수들을 모아둔 헤더파일
 
 /*
     매크로 전처리기는 C 에서 상수를 정의할 때
@@ -78,6 +79,10 @@ int main()
     const int price_per_items = 30;
     int num_item = 123;
     int price = num_item * price_per_items;
+
+    double radius;
+    cin >> radius;
+    double circumference = 2.0 * radius * constants::pi; // 헤더파일의 특정 네임스페이스에 모아둔 상수를 가져다 쓰고 있음. > 다른 cpp 파일에서도 가져다 쓸 수 있는 재사용성!
 
     return 0;
 }
