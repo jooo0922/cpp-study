@@ -142,6 +142,9 @@
     <ClCompile Include="Chapter4_2.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MyConstants.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
