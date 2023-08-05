@@ -1,4 +1,5 @@
 #include <iostream>
+#include "MyConstants.h"
 
 using namespace std;
 
@@ -69,9 +70,38 @@ int main()
     //doSomething();
 
     // test.cpp > doSomething() 함수를 main() 함수에서 실행시키고 싶다면?
-    doSomething();
+    //doSomething();
 
-    cout << a << endl;
+    //cout << a << endl;
+
+    // 우선 헤더파일에 정의된 심볼릭 상수 pi 의 값은 main() 에서나 test.cpp 에서나 동일하게 출력됨.
+    // 그렇다면, main() 에서 출력되는 pi 상수의 메모리 주소와, test.cpp 에서 출력되는 pi 상수의 메모리 주소도 같을까?
+    // 놀랍게도 동일한 헤더파일에서 가져온 pi 임에도 메모리 주소가 다르다!!
+    // > 이 말은, 다른 소스코드에서 pi 상수를 가져올 때마다 계속 새로운 메모리 공간이 할당되고, 메모리 낭비가 발생한다는 뜻!
+    // 이 현상을 방지하는 방법은?
+    // 정답은 헤더파일에서는 심볼릭 상수를 '선언만' 하고, MyConstants.cpp 파일을 별도 생성하여, 그 안에서 각 상수들의 값을 초기화해주면
+    // 다른 .cpp 파일에서는 external linkage 를 거쳐서 동일한 메모리 상에 존재하는 pi 상수의 값을 가져오게 할 수 있다!!
+    cout << "In main.cpp file " << Constants::pi << " " << &Constants::pi << endl;
+    
+    doSomething();
 
     return 0;
 }
+
+/*
+    linking 관련 내용 요약
+
+    int g_x; // external linkage 로 사용 가능. 초기화가 안된 전역변수 forward declaration (전방선언) 
+    static int g_x; // internal linkage 로만 사용 가능. 변수 선언 시 static 이 붙으면, 다른 .cpp 파일에서는 external linkage 로 접근이 불가능하다!
+    const int g_x; // X -> 심볼릭 상수는 반드시 어떠한 값으로 초기화해줘야 한다.
+
+    extern int g_z;
+    extern const int g_z; // extern 은 사용할 수 있지만(전방선언으로써), 어느 한 곳에서라도 해당 심볼릭 상수의 값은 반드시 초기화해줘야 한다!
+
+    int g_y(1); // external linkage 사용 가능. 초기화된 전역변수
+    static int g_y(1); // internal linkage 로만 사용 가능. 초기화된 정적 변수
+    const int g_y(1); // 일반적인 상수 선언. 같은 파일 내에서만 접근할 수 있음.
+
+    extern int g_w(1); // 이미 초기화된 변수는 다른 파일에서 전방선언으로 가져다 사용할 시, 중복 초기화 불가!
+    extern const int g_w(1); // 초기화된 심볼릭 상수. 다른 파일에서 전방선언으로 접근 가능
+*/

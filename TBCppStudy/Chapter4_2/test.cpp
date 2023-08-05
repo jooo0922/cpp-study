@@ -1,4 +1,5 @@
 #include <iostream>
+#include "MyConstants.h"
 
 /*
 	이 변수 a 를 외부 .cpp 파일에서 사용하려고 할 때,
@@ -16,5 +17,5 @@ void doSomething()
 {
 	using namespace std;
 
-	cout << "Hello " << endl;
+	cout << "In test.cpp " << Constants::pi << " " << &Constants::pi << endl;
 }
