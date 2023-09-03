@@ -8,6 +8,14 @@ struct Rectangle
     int width;
 };
 
+enum StudentName
+{
+    JACKJACK,       // = 0
+    DASH,           // = 1
+    VIOLET,         // = 2
+    NUM_STUDENTS,   // = 3
+};
+
 int main()
 {
     //int one_student_score; // 1 variable
@@ -54,13 +62,25 @@ int main()
     //int my_array[5] = { 1, 2, 3, 4, 5 }; // 5개의 int 만큼의 메모리 공간을 예약한 배열에 5개의 int 값으로 초기화
     //int my_array[5] = { 1, 2 }; // 5개의 int 만큼의 메모리 공간을 예약한 배열에 2개의 int 값으로 초기화 > 나머지 3개는 0으로 자동 초기화시킴.
     //int my_array[] = { 1, 2, 3, 4, 5 }; // 메모리 공간의 개수를 선언하지 않은 배열에 5개의 int 값으로 초기화 > 컴파일러가 알아서 초기화된 5개 int 개수에 맞춰 5개의 메모리 공간을 자동으로 할당해 줌.
-    int my_array[]{ 1, 2, 3, 4, 5 }; // c++ 11 부터는 대입 연산자 없이도 초기화 가능. > 마치 변수를 uniform initialization 하는 것처럼 초기화 가능.
+    //int my_array[]{ 1, 2, 3, 4, 5 }; // c++ 11 부터는 대입 연산자 없이도 초기화 가능. > 마치 변수를 uniform initialization 하는 것처럼 초기화 가능.
 
-    cout << my_array[0] << endl;
-    cout << my_array[1] << endl;
-    cout << my_array[2] << endl;
-    cout << my_array[3] << endl;
-    cout << my_array[4] << endl;
+    //cout << my_array[0] << endl;
+    //cout << my_array[1] << endl;
+    //cout << my_array[2] << endl;
+    //cout << my_array[3] << endl;
+    //cout << my_array[4] << endl;
+
+    // enum 의 값을 배열 index 로 사용하는 것도 가능
+    //cout << my_array[JACKJACK] << endl;
+    //cout << my_array[DASH] << endl;
+    //cout << my_array[VIOLET] << endl;
+
+
+    // Enum 과 배열을 연동해서 사용하기
+    int students_scores[NUM_STUDENTS]; // 마지막 enum 요소르 배열 개수를 초기화할 수 있음. > enum 개수와 딱 맞게 배열 메모리 공간을 할당할 수 있음.
+
+    students_scores[JACKJACK] = 0;
+    students_scores[DASH] = 100;
 
 
     return 0;
