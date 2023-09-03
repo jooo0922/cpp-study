@@ -16,12 +16,61 @@ using namespace std;
 //    NUM_STUDENTS,   // = 3
 //};
 
-void doSomething(int students_scores[20])
+void doSomething(int students_scores[]) // 그래서 배열을 인자로 받는 매개변수를 선언할 때에는, 실제 배열 크기와 상관없이 크기를 할당하지 않아도 됨. 어차피 내부적으로는 포인터 변수로 처리되어 버리니까 배열 개수가 중요한 게 아님!
 {
-    cout << students_scores[0] << endl;
-    cout << students_scores[1] << endl;
-    cout << students_scores[2] << endl;
+    // 파라미터로 전달된 배열의 요소의 '값'은 동일하게 출력된 걸 확인함.
+    //cout << students_scores[0] << endl;
+    //cout << students_scores[1] << endl;
+    //cout << students_scores[2] << endl;
 
+    // 이번에는 파라미터로 전달된 배열 요소의 '메모리 공간 주소'를 출력해보자
+    /*
+        여기서 알 수 있는 아주아주 중요한 포인트!
+
+        왜 함수의 파라미터로 전달받는 배열 매개변수 int students_scores[20] 만
+        혼자서 메모리 주소값이 다를까?
+
+        그 이유는, 이 함수에서 선언해놓은 매개변수가
+        마치 배열의 모양새를 하고 있어서 배열처럼 보이지만,
+        컴파일러는 내부적으로 이를 '새롭게 선언된 포인터 변수'로 처리하고 있음!!!
+
+        뭐에 대한 포인터 변수냐?
+        바로 함수의 파라미터로 전달받는 배열 (main 함수에서 선언한 int students_scores[20])의
+        메모리 주소값을 담고있는 포인터 변수다!
+        
+        즉, 함수의 파라미터로 전달받는 배열 int students_scores[20] 의 
+        메모리 공간을 가리키는 포인터 변수라는 뜻!
+
+        그렇기에, 이 포인터 변수는 main 함수에서 선언한 int students_scores[20] 의
+        메모리 주소를 '값'으로 갖고 있기는 하지만, 이것이 이 포인터 변수의 '메모리 주소'는 아닌 것이지!
+
+        포인터 변수 자체의 메모리 주소는 이것과 별개로 따로 존재할테니까!
+
+        그래서 이 포인터 변수가 '값'으로 갖고 있는 메모리 주소는 17956312,
+        즉, main 함수에서 선언한 int students_scores[20] 의 메모리 주소이자,
+        main 함수에서 선언한 int students_scores[20] 의 첫 번째 요소의 메모리 주소 (int)&(students_scores[0]) 와 같은 것임!
+
+        그러나, 이 포인터 변수 자체에 할당된 '메모리 공간 주소'는 17956100 으로,
+        main 함수에서 선언한 int students_scores[20] 와는 아예 관련이 없는 메모리 공간의 주소라는 것임!
+
+        한 편, 이 포인터 변수를 통해 접근한
+        배열의 첫번째 요소(&(students_scores[0]))는
+        main 함수에서 출력해 본 배열의 첫 번째 요소와 메모리 주소가 일치함!
+
+        오직, 매개변수로 선언한 int students_scores[20] 만이
+        포인터 변수로써, 넘겨받은 배열과 전혀 무관한 메모리 공간에 저장되어 있음을 알 수 있음!
+    */
+    cout << (int)&students_scores << endl; // 17956100 > 엥? main 에서 출력한 배열 자체의 메모리 주소는 17956312(== 첫 번째 요소의 메모리 주소)와 같았는데 여기서는 왜 다르지???
+    cout << (int)&(students_scores[0]) << endl; // 17956312 (+ 4 bytes)
+    cout << (int)&(students_scores[1]) << endl; // 17956316 (+ 4 bytes)
+    cout << (int)&(students_scores[2]) << endl; // 17956320 (+ 4 bytes)
+
+    // 이게 또 웃긴 게, x86(32 bit) 로 빌드하느냐 x64(64 bit) 로 빌드하느냐에 따라 포인터 변수의 메모리 공간 크기가 다르게 출력됨.
+    // 포인터 변수는 x86 으로 빌드된 프로그램에서 4 bytes 의 메모리 공간을 할당받지만,
+    // x64 로 빌드된 프로그램에서는 8 bytes 메모리 공간을 할당받음!
+    // 왜냐? x64 프로그램은 사용하는 메모리 공간이 더 많아지기 때문에, 메모리 공간의 주소를 표현할 때, 그 길이가 더 길어질 수 밖에 없기 때문에,
+    // 메모리 주소를 담는 포인터 변수의 크기도 그만큼 더 커질 수밖에 없는 것!
+    cout << "Size in doSomething " << sizeof(students_scores) << endl; // 4 bytes 출력 > 매개변수로 선언된 students_scores[20] 이 배열이 아닌 포인터 변수라는 또 다른 증거!
 }
 
 int main()
@@ -104,7 +153,7 @@ int main()
     // cin 으로 입력된 값을 배열 개수로 선언하고자 한다면,
     // 런타임에 입력된 값으로 배열 개수를 선언하려고 한다는 뜻이기 때문에,
     // 컴파일러가 에러를 발생시킴 > 배열의 크기(개수)는 반드시 '컴파일 타임'에서 미리 결정되어 있어야 함.
-    int students_scores[num_students];
+    //int students_scores[num_students];
 
     // 메모리 공간 주소는 16진수로 출력되므로, 보기 편하도록 c-style casting 으로 10진수 정수형으로 변환해서 출력함.
     /*
@@ -118,13 +167,34 @@ int main()
         한 요소씩 건너뛰어서 메모리 공간 주소를 확인할수록, 4 bytes 씩 증가된 십진수 메모리 주소가 출력된다!
         > 즉, 4 bytes 간격으로 연이어 붙어있는 메모리 공간을 예약하는구나!
     */
-    cout << (int)&students_scores << endl; // 배열 자체가 저장된 메모리 공간 주소 > 7797532
-    cout << (int)&(students_scores[0]) << endl; // 배열의 첫 번째 요소가 저장된 메모리 공간 주소 > 7797532 (배열 자체의 메모리 공간 주소와 일치!)
-    cout << (int)&(students_scores[1]) << endl; // 배열의 두 번째 요소가 저장된 메모리 공간 주소 > 7797536 (+ 4 bytes)
-    cout << (int)&(students_scores[2]) << endl; // 배열의 세 번째 요소가 저장된 메모리 공간 주소 > 7797540 (+ 4 bytes)
-    cout << (int)&(students_scores[3]) << endl; // 배열의 네 번째 요소가 저장된 메모리 공간 주소 > 7797544 (+ 4 bytes)
+    //cout << (int)&students_scores << endl; // 배열 자체가 저장된 메모리 공간 주소 > 7797532
+    //cout << (int)&(students_scores[0]) << endl; // 배열의 첫 번째 요소가 저장된 메모리 공간 주소 > 7797532 (배열 자체의 메모리 공간 주소와 일치!)
+    //cout << (int)&(students_scores[1]) << endl; // 배열의 두 번째 요소가 저장된 메모리 공간 주소 > 7797536 (+ 4 bytes)
+    //cout << (int)&(students_scores[2]) << endl; // 배열의 세 번째 요소가 저장된 메모리 공간 주소 > 7797540 (+ 4 bytes)
+    //cout << (int)&(students_scores[3]) << endl; // 배열의 네 번째 요소가 저장된 메모리 공간 주소 > 7797544 (+ 4 bytes)
 
-    cout << sizeof(students_scores) << endl; // 80 bytes
+    //cout << sizeof(students_scores) << endl; // 80 bytes
+
+
+    int students_scores[num_students] = { 1, 2, 3, 4, 5, }; // fixed size array(크기가 고정된 배열) 정의 및 초기화
+
+    // 초기화된 배열 요소의 값 일부 출력
+    //cout << students_scores[0] << endl;
+    //cout << students_scores[1] << endl;
+    //cout << students_scores[2] << endl;
+
+    // 이번에는 배열 요소 일부의 메모리 공간 주소를 출력해보자
+    // 여기서 출력한 메모리 주소는 이전에 확인했던 내용과 일치함.
+    cout << (int)&students_scores << endl; // 17956312 (배열 변수 자체의 메모리 주소 == 배열의 첫 번째 요소 메모리 주소)
+    cout << (int)&(students_scores[0]) << endl; // 17956312 (+ 4 bytes)
+    cout << (int)&(students_scores[1]) << endl; // 17956316 (+ 4 bytes)
+    cout << (int)&(students_scores[2]) << endl; // 17956320 (+ 4 bytes)
+
+    cout << "Size in main " << sizeof(students_scores) << endl; // 배열의 크기 80 bytes 가 정상 출력.
+    
+    // 배열을 함수의 파라미터로 넘겨준 뒤, 내부에서 동일한 배열 요소의 값 일부 출력
+    // > 일단 배열 요소의 값 자체는 동일하게 출력되는 것을 확인할 수 있었음.
+    doSomething(students_scores);
 
     return 0;
 }
