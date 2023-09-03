@@ -37,16 +37,31 @@ int main()
     //// 배열의 각 요소를 변수처럼 사용할 수 있어, 연산자를 사용해 두 요소의 평균을 구하는 것도 가능함.
     //cout << (student_scores[0] + student_scores[1]) / 2.0 << endl;
 
+
     // 구조체를 배열로 선언하기
-    cout << sizeof(Rectangle) << endl; // 8 bytes
+    //cout << sizeof(Rectangle) << endl; // 8 bytes
 
-    Rectangle rect_arr[10]; // 8 bytes 짜리 구조체 Rectangle 10 개를 집어넣을 수 있는 메모리 공간을 예약함. > 구조체 배열!
+    //Rectangle rect_arr[10]; // 8 bytes 짜리 구조체 Rectangle 10 개를 집어넣을 수 있는 메모리 공간을 예약함. > 구조체 배열!
 
-    cout << sizeof(rect_arr) << endl; // 80 bytes
+    //cout << sizeof(rect_arr) << endl; // 80 bytes
 
-    // 구조체 배열의 요소에 접근해서 멤버변수 값 초기화하기
-    rect_arr[0].length = 1;
-    rect_arr[0].width = 2;
+    //// 구조체 배열의 요소에 접근해서 멤버변수 값 초기화하기
+    //rect_arr[0].length = 1;
+    //rect_arr[0].width = 2;
+
+
+    // 배열 초기화 방법
+    //int my_array[5] = { 1, 2, 3, 4, 5 }; // 5개의 int 만큼의 메모리 공간을 예약한 배열에 5개의 int 값으로 초기화
+    //int my_array[5] = { 1, 2 }; // 5개의 int 만큼의 메모리 공간을 예약한 배열에 2개의 int 값으로 초기화 > 나머지 3개는 0으로 자동 초기화시킴.
+    //int my_array[] = { 1, 2, 3, 4, 5 }; // 메모리 공간의 개수를 선언하지 않은 배열에 5개의 int 값으로 초기화 > 컴파일러가 알아서 초기화된 5개 int 개수에 맞춰 5개의 메모리 공간을 자동으로 할당해 줌.
+    int my_array[]{ 1, 2, 3, 4, 5 }; // c++ 11 부터는 대입 연산자 없이도 초기화 가능. > 마치 변수를 uniform initialization 하는 것처럼 초기화 가능.
+
+    cout << my_array[0] << endl;
+    cout << my_array[1] << endl;
+    cout << my_array[2] << endl;
+    cout << my_array[3] << endl;
+    cout << my_array[4] << endl;
+
 
     return 0;
 }
