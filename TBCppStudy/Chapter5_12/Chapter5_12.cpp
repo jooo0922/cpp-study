@@ -77,10 +77,26 @@ int main()
 
 
     // Enum 과 배열을 연동해서 사용하기
-    int students_scores[NUM_STUDENTS]; // 마지막 enum 요소르 배열 개수를 초기화할 수 있음. > enum 개수와 딱 맞게 배열 메모리 공간을 할당할 수 있음.
+    //int students_scores[NUM_STUDENTS]; // 마지막 enum 요소르 배열 개수를 초기화할 수 있음. > enum 개수와 딱 맞게 배열 메모리 공간을 할당할 수 있음.
 
-    students_scores[JACKJACK] = 0;
-    students_scores[DASH] = 100;
+    //students_scores[JACKJACK] = 0;
+    //students_scores[DASH] = 100;
+
+
+    // 배열의 크기는 항상 '컴파일 타임'에 선언되어야 함!
+    //int num_students = 0;
+    //cin >> num_students;
+
+    // 만약에, int 타입 변수로 배열의 크기를 할당하고자 한다면,
+    // 그 변수는 반드시 const, 즉 상수 변수로 선언해줘야 함.
+    // 왜냐하면, const 가 아닌 변수는 런타임에 언제든지 값이 바뀔 수 있기 때문에,
+    // '컴파일 타임'에 크기가 선언되어야 하는 배열의 특성 상, 값이 변경되지 않음을 보장할 수 있는 const 변수로만 배열의 크기를 선언할 수 있음!
+    const int num_students = 5;
+
+    // cin 으로 입력된 값을 배열 개수로 선언하고자 한다면,
+    // 런타임에 입력된 값으로 배열 개수를 선언하려고 한다는 뜻이기 때문에,
+    // 컴파일러가 에러를 발생시킴 > 배열의 크기(개수)는 반드시 '컴파일 타임'에서 미리 결정되어 있어야 함.
+    int students_scores[num_students];
 
 
     return 0;
