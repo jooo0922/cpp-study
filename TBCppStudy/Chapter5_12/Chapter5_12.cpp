@@ -2,19 +2,27 @@
 
 using namespace std;
 
-struct Rectangle
-{
-    int length;
-    int width;
-};
+//struct Rectangle
+//{
+//    int length;
+//    int width;
+//};
 
-enum StudentName
+//enum StudentName
+//{
+//    JACKJACK,       // = 0
+//    DASH,           // = 1
+//    VIOLET,         // = 2
+//    NUM_STUDENTS,   // = 3
+//};
+
+void doSomething(int students_scores[20])
 {
-    JACKJACK,       // = 0
-    DASH,           // = 1
-    VIOLET,         // = 2
-    NUM_STUDENTS,   // = 3
-};
+    cout << students_scores[0] << endl;
+    cout << students_scores[1] << endl;
+    cout << students_scores[2] << endl;
+
+}
 
 int main()
 {
@@ -91,13 +99,32 @@ int main()
     // 그 변수는 반드시 const, 즉 상수 변수로 선언해줘야 함.
     // 왜냐하면, const 가 아닌 변수는 런타임에 언제든지 값이 바뀔 수 있기 때문에,
     // '컴파일 타임'에 크기가 선언되어야 하는 배열의 특성 상, 값이 변경되지 않음을 보장할 수 있는 const 변수로만 배열의 크기를 선언할 수 있음!
-    const int num_students = 5;
+    const int num_students = 20;
 
     // cin 으로 입력된 값을 배열 개수로 선언하고자 한다면,
     // 런타임에 입력된 값으로 배열 개수를 선언하려고 한다는 뜻이기 때문에,
     // 컴파일러가 에러를 발생시킴 > 배열의 크기(개수)는 반드시 '컴파일 타임'에서 미리 결정되어 있어야 함.
     int students_scores[num_students];
 
+    // 메모리 공간 주소는 16진수로 출력되므로, 보기 편하도록 c-style casting 으로 10진수 정수형으로 변환해서 출력함.
+    /*
+        여기서 알 수 있는 중요한 포인트 두 가지!
+
+        1. 배열 자체의 메모리 공간 주소를 찍으면,
+        배열의 첫 번째 요소가 저장된 메모리 공간 주소와 일치한다!
+        > 즉, 배열의 메모리 주소는 배열의 첫 번째 요소가 저장된 메모리 공간의 주소를 가리키는 것!
+
+        2. int (4 bytes) 타입의 배열을 선언했기 때문에,
+        한 요소씩 건너뛰어서 메모리 공간 주소를 확인할수록, 4 bytes 씩 증가된 십진수 메모리 주소가 출력된다!
+        > 즉, 4 bytes 간격으로 연이어 붙어있는 메모리 공간을 예약하는구나!
+    */
+    cout << (int)&students_scores << endl; // 배열 자체가 저장된 메모리 공간 주소 > 7797532
+    cout << (int)&(students_scores[0]) << endl; // 배열의 첫 번째 요소가 저장된 메모리 공간 주소 > 7797532 (배열 자체의 메모리 공간 주소와 일치!)
+    cout << (int)&(students_scores[1]) << endl; // 배열의 두 번째 요소가 저장된 메모리 공간 주소 > 7797536 (+ 4 bytes)
+    cout << (int)&(students_scores[2]) << endl; // 배열의 세 번째 요소가 저장된 메모리 공간 주소 > 7797540 (+ 4 bytes)
+    cout << (int)&(students_scores[3]) << endl; // 배열의 네 번째 요소가 저장된 메모리 공간 주소 > 7797544 (+ 4 bytes)
+
+    cout << sizeof(students_scores) << endl; // 80 bytes
 
     return 0;
 }
