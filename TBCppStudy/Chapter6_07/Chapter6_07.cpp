@@ -3,6 +3,12 @@
 
 using namespace std;
 
+// 구조체에 대한 포인터 변수도 선언해보자!
+struct Something
+{
+    int a, b, c, d; // 이 구조체의 메모리 사이즈는 4 bytes * 4 = 16 bytes 를 사용하겠군. 
+};
+
 int main()
 {
     int x = 5;
@@ -82,6 +88,16 @@ int main()
     cout << sizeof(d) << endl; // 8 bytes
     cout << sizeof(&x) << " " << sizeof(ptr_x) << endl; // 4 bytes 4 bytes
     cout << sizeof(&d) << " " << sizeof(ptr_d) << endl; // 4 bytes 4 bytes > 모든 메모리 주소값은 x86 아키텍쳐 기준 4 bytes 로 동일함!
+
+    Something ss; // Something 구조체 타입의 변수 선언
+    Something *ptr_s; // Something 구조체 타입(의 데이터를 저장하는 공간의 메모리 주소값이 저장된) 포인터 변수 선언
+
+    cout << sizeof(Something) << endl; // 16 bytes
+    cout << sizeof(ptr_s) << endl; // 4 bytes (x86 아키텍쳐에서 메모리 주소값은 항상 4 bytes 로 저장!)
+
+    // 초기화되지 않은 포인터 변수를 de-referencing 하여 출력해보기
+    int* ptr_a;
+    //cout << *ptr_a << endl; // ptr_a 변수가 초기화되지 않았다고 빌드 에러를 발생시킴. > 이런 실수가 가장 많이 발생함
 
     return 0;
 }
