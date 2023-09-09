@@ -60,5 +60,17 @@ int main()
 
     cout << endl;
 
+    // 연습문제 
+    // while 문에서 포인터 연산으로 문자열 배열 출력하기
+    int ix = 0;
+
+    while (true)
+    {
+        if (*(name + ix) == '\0') break; // de-referencing 한 참조값이 공백문자일 경우 반복문 탈출
+
+        cout << *(name + ix);
+        ix++;
+    }
+
     return 0;
 }
