@@ -2,6 +2,11 @@
 
 using namespace std;
 
+void printArray(int array[])
+{
+    cout << sizeof(array) << endl;
+}
+
 int main()
 {
     // 사이즈가 5개인 정적 배열 선언 및 초기화
@@ -38,6 +43,19 @@ int main()
     int* ptr = array; // 이번에는 아예 포인터 변수를 선언한 뒤, 거기에 배열 변수 array 에 저장된 주소값을 할당해보자.
     cout << ptr << endl; // 역시 array 에 저장된 메모리 주소와 동일한 주소값이 출력됨.
     cout << *ptr << endl; // array 에 저장된 메모리 주소를 de-referencing 한 것과 마찬가지이므로, 9가 출력됨.
+
+
+    /*
+        그렇다면 배열과 포인터 변수가 완벽히 동일한가?
+
+        그렇지는 않다.
+        배열은 사용자의 편의를 위해
+        몇 가지 추가 기능을 더 제공하고 있다.
+    */
+    // sizeof() 로 배열의 크기를 측정하면, 예외적으로 배열은 포인터 변수임에도 불구하고,
+    // array 에 담긴 전체 요소의 메모리 주소값의 사이즈가 합쳐져서 반환됨.
+    cout << sizeof(array) << endl; // 4 bytes * 5 = 20 bytes
+    cout << sizeof(ptr) << endl; // 4 bytes (기본적으로 모든 타입의 포인터 변수에 저장된 메모리 주소값은 x86 아키텍쳐 기준 4 bytes 로 동일하다고 했었지?)
 
     return 0;
 }
