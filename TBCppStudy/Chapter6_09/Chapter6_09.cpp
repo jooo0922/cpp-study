@@ -42,5 +42,23 @@ int main()
         cout << *(arrPtr + i) << " " << (uintptr_t)(arrPtr + i) << endl;
     }
 
+
+    // 이번에는 문자열 배열에 포인터 연산을 적용해보자
+    char name[] = "Jack Jack";
+
+    const int n_name = sizeof(name) / sizeof(char); // 문자열 개수 구하는 방법 > 전체 문자열 메모리 사이즈 / char 타입 1개의 메모리 사이즈 (이때 나오는 개수는 마지막에 숨어있는 공백문자 '\0'을 포함한 값)
+
+    for (int i = 0; i < n_name; ++i)
+    {
+        // name 은 문자열 배열이기는 하지만, 동시에 포인터 변수라고도 했지?
+        // 그래서 위에 int *arrPtr 처럼 별도의 포인터 변수를 만들어서 
+        // 배열의 메모리 주소값을 할당하지 않고서도,
+        // 포인터 연산 및 de-referencing 을 바로 적용해서
+        // 각 포인터 연산의 결과가 되는 메모리 주소값에 담긴 값을 역참조하는 것도 가능함!
+        cout << *(name + i);
+    }
+
+    cout << endl;
+
     return 0;
 }
