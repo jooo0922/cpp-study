@@ -2,6 +2,12 @@
 
 using namespace std;
 
+// 문자열 심볼릭 상수를 함수의 반환 타입으로도 선언할 수 있음.
+const char* getName()
+{
+    return "Jack Jack";
+}
+
 int main()
 {
     //char name[] = "Jack Jack";
@@ -40,7 +46,8 @@ int main()
     */
     const char* name = "Jack Jack";
     const char* name2 = "Jack Jack"; // 또 다른 const char* 타입 포인터 변수를 변수명만 다르게 선언함.
-    
+    const char* name3 = getName();
+
     cout << name << endl; // "Jack Jack"
 
     /*
@@ -58,6 +65,7 @@ int main()
 
     cout << (uintptr_t)name << endl;
     cout << (uintptr_t)name2 << endl;
+    cout << (uintptr_t)name3 << endl; // 문자열 리터럴의 내용이 같다면, 역시 동일한 메모리 주소를 출력할 것임.
 
     return 0;
 }
