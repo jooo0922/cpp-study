@@ -48,7 +48,7 @@ int main()
     const char* name2 = "Jack Jack"; // 또 다른 const char* 타입 포인터 변수를 변수명만 다르게 선언함.
     const char* name3 = getName();
 
-    cout << name << endl; // "Jack Jack"
+    //cout << name << endl; // "Jack Jack"
 
     /*
         동일한 내용의 문자열 리터럴을 할당받은 
@@ -63,9 +63,31 @@ int main()
         이런 느낌으로 처리했기 때문임!
     */
 
-    cout << (uintptr_t)name << endl;
-    cout << (uintptr_t)name2 << endl;
-    cout << (uintptr_t)name3 << endl; // 문자열 리터럴의 내용이 같다면, 역시 동일한 메모리 주소를 출력할 것임.
+    //cout << (uintptr_t)name << endl;
+    //cout << (uintptr_t)name2 << endl;
+    //cout << (uintptr_t)name3 << endl; // 문자열 리터럴의 내용이 같다면, 역시 동일한 메모리 주소를 출력할 것임.
 
+    int int_arr[5] = { 1, 2, 3, 4, 5 }; // 정수 타입 배열 (포인터)
+    char char_arr[] = "Hello, World!"; // 문자열 배열 (포인터)
+    const char* name4 = "Jack Jack"; // 문자열 심볼릭 상수 > 얘도 내부적으로 처리하는 원리 상으로는 문자열 배열로 봐도 됨. (포인터)
+    
+    // 배열은 포인터와 거의 같다고 했으면서, 
+    // 왜 문자열 배열만 cout 으로 출력하면 문자열 리터럴이 나오는거지?
+    // 이것도 그냥 cout 스트림 출력이 문자열 배열을 만나면 특별하게 처리한다고만 이해해야 함. 
+    // > 그냥 얘내는 예외적으로 이렇게 작동하는구나 하고 외워야 함.
+    cout << int_arr << endl; // 00F3FD44 (메모리 주소 출력)
+    cout << char_arr << endl; // "Hello, World!" (문자열 출력)
+    cout << name4 << endl; // "Jack Jack" (문자열 출력)
+
+    // 그렇다면, 만약 스트림 출력에서
+    // char 타입 문자 변수의 주소를 & 주소연산자로 출력하려고 한다면?
+    // cout 은 문자열이나 문자 변수를 만날 경우, 
+    // '아 얘는 문자니까 문자로 처리해야겠다' 하고 예외적으로 특별하게 처리한다고 했지? 
+    // 그래서 문자 변수의 주소값을 넣어도, '문자 변수'로 인식을 해버려서
+    // 주소값에서 공백문자(null)가 나올 때까지 계속 문자로써 출력하려다보니
+    // 알 수 없는 특수문자들이 출력되는 등 예상치 않은 결과가 나타남.
+    char c = 'Q';
+    cout << &c << endl;
+    
     return 0;
 }
