@@ -62,5 +62,23 @@ int main()
     int value2 = 6;
     ptr = &value2;
 
+
+    // 이번에는, const int* 형태로 선언된 포인터 변수가 아니라,
+    // int* const 형태로 선언된 포인터 변수는 어떻게 되는지 살펴보자!
+    int value3 = 5;
+    int* const ptr2 = &value3;
+
+    *ptr2 = 10; // 엥? 이번에는 오히려 포인터 변수 de-referencing 을 통한 값 변경이 되네?
+
+    /*
+        int* const 형태의 포인터 변수는
+        실제 포인터 변수 안에 담긴 메모리 주소값을 불변으로 만드는 것!
+
+        어떻게 보면 이게 진정한 const 포인터 변수라고도 생각하는 게 맞을 것 같음.
+        '주소값을 불변으로' 만드니까!
+    */
+    int value4 = 8;
+    //ptr2 = &value4; // 아, 진짜 포인터 변수의 주소값이 불변으로 만들어지는구나!
+
     return 0;
 }
