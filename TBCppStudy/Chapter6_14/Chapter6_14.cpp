@@ -23,6 +23,17 @@ void doSomething(int& n)
     cout << "In doSomething " << n << endl;
 }
 
+struct Something
+{
+    int v1;
+    float v2;
+};
+
+struct Other
+{
+    Something st;
+};
+
 int main()
 {
     int value = 5;
@@ -97,6 +108,14 @@ int main()
     doSomething(n); // 매개변수가 참조변수로 선언된 함수에 외부변수 n 을 파라미터로 전달
 
     cout << n << endl; // 10. > 매개변수가 참조변수로 선언되면 함수 내부에서 외부변수의 값을 바꿔버릴 수 있구나!
+
+
+    // 구조체의 멤버변수를 참조변수로 정의하기
+    // 즉, depth 가 깊은 구조체 멤버변수를 참조변수를 사용해서 '별칭'으로 만들어버리면,
+    // 나중에 해당 멤버변수에 접근할 때, 코딩하는 길이가 훨씬 짧아지고 간편해지겠지!
+    Other ot;
+    int& v1 = ot.st.v1;
+    v1 = 1; // 별칭으로 구조체 멤버변수 접근 및 쓰기 가능!
 
     return 0;
 }
