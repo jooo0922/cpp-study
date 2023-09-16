@@ -48,5 +48,11 @@ int main()
     cout << ptr << endl; // 00EFFB8C
     cout << &ptr << endl; // 00EFFB80 (포인터 변수 자체의 주소값만 다르구나!)
 
+
+    // 참조변수와 const
+    const int y = 8;
+    //int& ref = y; // 원본변수가 const 불변인데 참조변수는 const 가 아니라면, 참조변수에 의해 값 변경이 일어날 수 있어 컴파일러가 에러를 발생시킴!
+    const int& ref = y; // 원본변수를 const 로 지정했다면, 별명인 참조변수도 const 로 지정해줘야 에러가 안남!
+
     return 0;
 }
