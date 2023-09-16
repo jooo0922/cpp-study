@@ -51,8 +51,20 @@ int main()
 
     // 참조변수와 const
     const int y = 8;
-    //int& ref = y; // 원본변수가 const 불변인데 참조변수는 const 가 아니라면, 참조변수에 의해 값 변경이 일어날 수 있어 컴파일러가 에러를 발생시킴!
-    const int& ref = y; // 원본변수를 const 로 지정했다면, 별명인 참조변수도 const 로 지정해줘야 에러가 안남!
+    //int& ref1 = y; // 원본변수가 const 불변인데 참조변수는 const 가 아니라면, 참조변수에 의해 값 변경이 일어날 수 있어 컴파일러가 에러를 발생시킴!
+    const int& ref1 = y; // 원본변수를 const 로 지정했다면, 별명인 참조변수도 const 로 지정해줘야 에러가 안남!
+
+
+    // 참조변수는 재할당이 가능한가?
+    int value1 = 5;
+    int value2 = 10;
+
+    int& ref2 = value1;
+    cout << ref2 << endl; // 5
+
+    ref2 = value2;
+
+    cout << ref2 << endl; // 10. 가능하군!
 
     return 0;
 }
