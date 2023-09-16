@@ -117,5 +117,17 @@ int main()
     int& v1 = ot.st.v1;
     v1 = 1; // 별칭으로 구조체 멤버변수 접근 및 쓰기 가능!
 
+
+    // 참조변수와 const 포인터 변수는 본질적으로 같다!
+    int value3 = 5;
+
+    // 이 둘은 본질적으로 같다!
+    // 참조변수 또한 내부적으로 포인터 변수로 구현되어 있음!
+    int* const ptr2 = &value3;
+    int& ref3 = value3;
+
+    *ptr2 = 10;
+    ref3 = 10;
+
     return 0;
 }
