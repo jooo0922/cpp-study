@@ -80,5 +80,19 @@ int main()
     int value4 = 8;
     //ptr2 = &value4; // 아, 진짜 포인터 변수의 주소값이 불변으로 만들어지는구나!
 
+
+    // 이번에는 위의 두 케이스를 합친 포인터 변수 const 지정 방식을 살펴보자!
+    int value5 = 5;
+    const int* const ptr3 = &value5;
+
+    /*
+        const int* const 형태로 포인터 변수를 지정할 경우,
+        de-referecing 을 통한 값 변경도 안되고,
+        포인터 변수의 주소값 자체도 변경이 안되겠지 당연히!
+    */
+    //*ptr3 = 10; // de-referecing 을 통한 값 변경도 안됨
+    int value6 = 6;
+    //ptr3 = &value6; // 포인터 변수의 주소값 자체도 변경이 안됨!
+
     return 0;
 }
