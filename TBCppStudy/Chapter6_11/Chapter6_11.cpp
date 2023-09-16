@@ -46,15 +46,39 @@ int main()
 
         c 언어에서 malloc() 과 동일한 역할!
     */
-    int* ptr = new int;
+    /*
+        이때, 만약 다른 프로그램들이 메모리를 모두 점유하고 있어서,
+        new 키워드로 남아있는 메모리 공간을 할당받는 데에 실패한다면,
+        프로그램이 죽어버리도록 놔둘수도 있겠지만,
+
+        에러를 발생시키지 않고,
+        프로그램이 이어서 계속 실행되도록 밀어붙이고 싶다면?
+
+        new 키워드 뒤에
+        (std::nothrow) 를 붙여주면,
+        new 키워드로 메모리 할당에 실패하더라도 에러를 발생시키지 않고,
+        그냥 nullptr 을 포인터 변수에 할당한 채 계속 프로그램을 진행시킴.
+    */
+    int* ptr = new (std::nothrow) int;
     *ptr = 7; // 이렇게 de-referencing 으로 해당 메모리 공간에 값을 초기화할 수 있음!
     
     // 아래처럼 힙 메모리 영역 할당과 동시에 초기화하는 것도 가능
     // int* ptr = new int(7);
     // int* ptr = new int{ 7 };
 
-    cout << ptr << endl; // 힙 메모리 영역에 할당된 주소
-    cout << *ptr << endl; // de-referencing 으로 역참조한 실제 값
+    // new 키워드에 의한 메모리 할당에 실패할 경우,
+    // 위에서 설명했듯이 포인터 변수에 nullptr 을 반환하므로,
+    // 포인터에 대해 nullptr 이 아닌 유의미한 주소값을 갖는지 한 번 체크해줘야 함!
+    if (ptr)
+    {
+        cout << ptr << endl; // 힙 메모리 영역에 할당된 주소
+        cout << *ptr << endl; // de-referencing 으로 역참조한 실제 값
+    }
+    else
+    {
+        // 메모리 할당에 실패했다는 메시지 출력 > 좀 더 친절한 프로그래밍!
+        cout << "Could not allocate memory" << endl;
+    }
 
     /*
         힙 메모리 영역을 동적으로 할당하는 방법을 배웠다면,
