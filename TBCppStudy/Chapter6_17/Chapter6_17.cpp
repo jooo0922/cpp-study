@@ -1,12 +1,19 @@
 #include <iostream>
 #include <limits> // numeric_limits<> 관련 함수(상수?)를 사용하기 위해 포함
 #include <algorithm> // max() 함수를 사용하기 위해 포함
+#include <vector>
 
 using namespace std;
 
 int main()
 {
-    int fibonacci[] = { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89 };
+    //int fibonacci[] = { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89 };
+
+    // 참고로, 동적 할당 배열 (https://github.com/jooo0922/cpp-study/blob/main/TBCppStudy/Chapter6_12/Chapter6_12.cpp 참고)
+    // 의 경우, for-each 를 사용할 수 없음!
+    // 이럴 경우, 동적 할당 배열 대신, vector 를 사용하면 됨!
+    // vector 는 동적 할당 배열의 기능과 역할을 아주 편리하게 사용할 수 있도록 std 에 구현해 둔 자료구조!
+    std::vector<int> fibonacci = { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89 };
     
     // for-each 문으로 배열 요소 순회하며 값 변경하기
     // 이때, 각 요소를 의미하는 number 변수를 일반 변수로 선언하면,
