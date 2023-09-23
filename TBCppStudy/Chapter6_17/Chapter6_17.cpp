@@ -1,4 +1,6 @@
 #include <iostream>
+#include <limits> // numeric_limits<> 관련 함수(상수?)를 사용하기 위해 포함
+#include <algorithm> // max() 함수를 사용하기 위해 포함
 
 using namespace std;
 
@@ -23,6 +25,15 @@ int main()
         cout << number << " ";
 
     cout << endl;
+
+    int max_number = numeric_limits<int>::lowest(); // int 타입 데이터로 표현할 수 있는 최솟값을 반환함.
+
+    for (const auto& n : fibonacci)
+        // 표현할 수 있는 가장 작은 int 타입 정수값과 배열 안의 정수값들을 비교해가면서
+        // 더 큰 정수값을 계속 덮어씀 > 반복문 순회가 끝나면 가장 큰 정수값이 들어있게 되겠지!
+        max_number = max(max_number, n); 
+
+    cout << max_number << endl;
 
     return 0;
 }
