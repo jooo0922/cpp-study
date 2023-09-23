@@ -73,5 +73,12 @@ int main()
         cout << endl; // 행 출력이 끝날 때마다 줄바꿈 처리
     }
 
+    // new 키워드로 동적으로 생성한 배열들은 항상 delete 키워드로 메모리를 반납해줘야 한다고 했었지?
+    // 2차원 동적 배열의 경우, 1차원 배열의 메모리들부터 먼저 반납해주면 됨!
+    delete r1;
+    delete r2;
+    delete r3;
+    delete rows;
+
     return 0;
 }
