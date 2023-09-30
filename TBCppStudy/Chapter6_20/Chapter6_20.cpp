@@ -1,5 +1,5 @@
 #include <iostream>
-#include <array>
+#include <array> // 정적 배열 라이브러리 std::array 를 사용하기 위해 라이브러리 추가
 #include <algorithm> // 배열 정렬 알고리즘 사용을 위해 라이브러리 추가
 
 using namespace std;
