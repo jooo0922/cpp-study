@@ -42,6 +42,20 @@ int& get(std::array<int, 100>& my_array, int ix)
     return my_array[ix];
 }
 
+// return by Struct (구조체에 의한 반환)
+// 여러 개의 데이터를 반환하고 싶은 경우, 구조체로 묶어서 반환하는 방법이 한 가지 있음!
+// > 그러나, 매번 데이터 구조를 struct 로 선언해야 해서 권장되는 방식은 아님.
+struct S
+{
+    int a, b, c, d;
+};
+
+S getStruct()
+{
+    S my_s{ 1, 2, 3, 4 };
+    return my_s;
+}
+
 int main()
 {
     int value1 = getValue1(3); // 반환된 값이 복사되어 저장
@@ -75,6 +89,8 @@ int main()
     my_array[30] = 10;
     get(my_array, 30) = 1024; // 이게 my_array[30] = 1024; 와 같은 형태가 되어버리는 셈!
     cout << my_array[30] << endl;
+
+    S my_s = getStruct();
 
     return 0;
 }
