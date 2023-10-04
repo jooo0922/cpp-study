@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -32,6 +33,18 @@ void print2(int x, int y, int z)
     cout << x << " " << y << " " << z << endl;
 }
 
+
+/*
+    함수 오버로딩 시, 어떤 함수는 매개변수 기본값이 존재하고,
+    어떤 함수는 존재하지 않는 경우
+*/
+void print3(std::string str) {}
+void print3(char ch = ' ') {}
+
+// ambiguous call 빌드 에러가 발생할 수 있는 함수 오버로딩 케이스
+void print4(int x) {}
+void print4(int x, int y = 20) {}
+
 int main()
 {
     print(10); // 10
@@ -41,6 +54,15 @@ int main()
     print2(100);
     print2(100, 200);
     print2(100, 200, 300);
+
+    // 만약, 인자를 입력하지 않을 경우,
+    // 오버로딩된 함수들 중에서 매개변수 기본값이 설정된 함수로 컴파일됨!
+    print3();
+
+    // 아래와 같이 인자를 전달할 경우,
+    // 두 개의 함수 오버로딩 모두 컴파일이 가능하기 때문에,
+    // 어떤 함수를 사용해야 할 지 모호한(ambiguous) 상황이 발생함!
+    print4(10);
 
     return 0;
 }
