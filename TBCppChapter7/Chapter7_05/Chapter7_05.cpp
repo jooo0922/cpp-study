@@ -1,4 +1,5 @@
 #include <iostream>
+#include <array>
 
 using namespace std;
 
@@ -26,6 +27,21 @@ int* allocateMemory(int size)
     return new int[size];
 }
 
+// return by reference (참조에 의한 반환)
+int& getValue3(int x)
+{
+    int value = x * 2;
+    return value; // 참조변수가 반환타입이라면, 원본변수를 그대로 넘겨줘도 무방함.
+}
+
+// return by reference 는 아래 함수와 같이,
+// 배열 안에 특정 index 자리에 대한 레퍼런스를 반환하여 그 값을 수정하기 용이하다!
+// 단, 배열 매개변수도 참조변수로 선언해줘야 함!
+int& get(std::array<int, 100>& my_array, int ix)
+{
+    return my_array[ix];
+}
+
 int main()
 {
     int value1 = getValue1(3); // 반환된 값이 복사되어 저장
@@ -43,6 +59,22 @@ int main()
     // new 키워드랑 delete 키워드가 짝짝이로 같이 다녀야 가독성 좋고 안전한 코딩이 되는데,
     // new 키워드는 함수 내에만 존재하고 delete 키워드가 함수 바깥에 존재하니 메모리 할당-반납의 흐름을 확인하기 어려울 것임!
     delete[] array;
+
+    // 레퍼런스로 반환된 참조변수의 값이 복사되어 value3 에 들어갈 것임.
+    int value3 = getValue3(5);
+    
+    // 실수하지 말아야 할 게, 반환값이 참조변수라고 해서, 받는 변수도 참조변수로 선언해버리면,
+    // 위에 return by address 와 마찬가지로 자동반납될 로컬 변수를 참조하게 되는 거라서 똑같은 이유로 위험한 코딩 방식임!
+    //int& value3 = getValue3(5);
+
+    cout << value3 << endl;
+
+    // return by reference 는 아래 함수와 같이,
+    // 배열 안에 특정 index 자리에 대한 레퍼런스를 반환하여 그 값을 수정하기 용이하다!
+    std::array<int, 100> my_array;
+    my_array[30] = 10;
+    get(my_array, 30) = 1024; // 이게 my_array[30] = 1024; 와 같은 형태가 되어버리는 셈!
+    cout << my_array[30] << endl;
 
     return 0;
 }
