@@ -1,5 +1,6 @@
 #include <iostream>
 #include <array>
+#include <tuple>
 
 using namespace std;
 
@@ -56,6 +57,15 @@ S getStruct()
     return my_s;
 }
 
+// return by tuple (튜플에 의한 반환)
+// 여러 개의 데이터를 묶어서 반환하는 또 다른 방식!
+std::tuple<int, double> getTuple()
+{
+    int a = 10;
+    double d = 3.14;
+    return std::make_tuple(a, d); // 튜플 타입을 생성하고 싶을 때, make_tuple() 함수 사용 가능
+}
+
 int main()
 {
     int value1 = getValue1(3); // 반환된 값이 복사되어 저장
@@ -91,6 +101,21 @@ int main()
     cout << my_array[30] << endl;
 
     S my_s = getStruct();
+
+
+    // 튜플에 의한 반환
+    std::tuple<int, double> my_tp = getTuple();
+
+    // 튜플에 묶여있는 n번째 값을 가져오는 방법 > std::get<n>(std::tuple<>)
+    // 그러나, 이 방식 또한 튜플 안의 값들을 확인하기 불편하다는 단점이 존재함.
+    cout << std::get<0>(my_tp) << endl; // a
+    cout << std::get<1>(my_tp) << endl; // d
+
+    // 프로젝트의 language 를 c++ 17 로 바꿔주면,
+    // 아래와 같이 auto 를 이용해서 tuple 내의 값들을 destructuring 으로 가져올 수 있음!
+    auto [a, d] = getTuple();
+    cout << a << endl;
+    cout << d << endl;
 
     return 0;
 }
