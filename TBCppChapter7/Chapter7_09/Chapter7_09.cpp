@@ -1,4 +1,5 @@
 #include <iostream>
+#include <array>
 
 using namespace std;
 
@@ -10,6 +11,33 @@ int func()
 int goo()
 {
     return 10;
+}
+
+// 짝수 여부 검사 함수
+bool isEven(const int& number)
+{
+    if (number % 2 == 0) return true;
+    else return false;
+}
+
+// 홀수 여부 검사 함수
+bool isOdd(const int& number)
+{
+    if (number % 2 != 0) return true;
+    else return false;
+}
+
+// 배열을 const 참조변수(=입력 매개변수) 로 받아서 짝수 또는 홀수 출력 함수
+// 이때, 짝수 또는 홀수 여부 검사 함수를 함수 포인터 변수 매개변수를 선언하여 받음!
+// -> 함수 포인터를 다른 함수의 매개변수로 선언하여 사용할 수 있구나!
+void printNumbers(const array<int, 10>& my_array, bool(*check_fcn)(const int&))
+{
+    for (auto element : my_array)
+    {
+        if (check_fcn(element) == true) cout << element; // 짝수 출력
+    }
+    cout << endl;
+
 }
 
 int main()
@@ -33,6 +61,13 @@ int main()
     fcnptr = goo;
 
     cout << fcnptr() << endl; // 10 > goo 함수의 주소값이 할당되어 해당 함수 실행
+
+
+    std::array<int, 10> my_array = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+    // 함수 포인터를 매개변수로 선언했기 때문에, 함수를 직접 인자로 전달 가능
+    printNumbers(my_array, isEven);
+    printNumbers(my_array, isOdd);
 
     return 0;
 }
