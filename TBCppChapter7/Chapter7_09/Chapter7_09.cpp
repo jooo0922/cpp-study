@@ -27,11 +27,19 @@ bool isOdd(const int& number)
     else return false;
 }
 
+// 어떤 함수 포인터 타입이 자주 사용된다면, 매번 선언해서 쓰기 귀찮을테니, 
+// 하나의 사용자 정의 타입으로 선언해서 사용하는 것도 가능!
+//typedef bool(*check_fcn_t)(const int&);
+
+// 타입 별칭(type alias)으로도 선언 가능 -> typedef 와 완전히 동일한 기능임
+// https://github.com/jooo0922/cpp-study/blob/main/TBCppStudy/Chapter4_9/Chapter4_9.cpp 참고!
+using check_fcn_t = bool(*)(const int&);
+
 // 배열을 const 참조변수(=입력 매개변수) 로 받아서 짝수 또는 홀수 출력 함수
 // 이때, 짝수 또는 홀수 여부 검사 함수를 함수 포인터 변수 매개변수를 선언하여 받음!
 // -> 함수 포인터를 다른 함수의 매개변수로 선언하여 사용할 수 있구나!
 // 또한, 함수 포인터 매개변수에는 기본값(default)도 할당 가능!
-void printNumbers(const array<int, 10>& my_array, bool(*check_fcn)(const int&) = isEven)
+void printNumbers(const array<int, 10>& my_array, check_fcn_t check_fcn = isEven)
 {
     for (auto element : my_array)
     {
