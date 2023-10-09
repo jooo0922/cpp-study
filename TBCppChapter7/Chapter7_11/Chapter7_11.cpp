@@ -3,6 +3,15 @@
 
 using namespace std;
 
+void printStack(const std::vector<int>& stack)
+{
+    for (auto& e : stack)
+    {
+        cout << e << " ";
+    }
+    cout << endl;
+}
+
 int main()
 {
     // int* v_ptr = new int[3]{ 1, 2, 3 }; // std::vector 는 내부적으로 이렇게 동적 배열 할당과 유사하게 동작함.
@@ -97,6 +106,50 @@ int main()
     */
     int* ptr = v.data();
     cout << ptr[2] << endl; // 3
+
+
+    /* vector 를 스택처럼 사용하기 */
+    /*
+        함수를 재귀호출 하는 등의 상황에서는
+        stack overflow(스택 메모리가 가득 차는 현상)이 발생하기 쉬운데,
+
+        그럼에도 불구하고 재귀 알고리즘을 반드시 사용해야 한다면,
+        vector 를 하나의 스택 메모리로 사용하는 방법이 존재함
+    */
+    std::vector<int> stack;
+
+    /*
+        그런데 왜 하필 스택을 vector 로 구현하느냐?
+
+        vector 에서 reserve() 로 미리
+        capacity 메모리 공간을 여유롭게 늘려놓으면,
+
+        push_back() 으로 스택에 어떤 노드를 추가할 때,
+        다시 new 키워드를 사용해서 동적으로 메모리를 재할당할 필요가 없으니까
+
+        push 동작을 더 빠르게 할 수 있다는 이점 때문에
+        vector 를 활용하는 것임!
+    */
+    // stack.reserve(1024);
+
+    // vector 에서 스택처럼 push, pop 하는 동작을 구현하려면 아래와 같이 사용하면 됨.
+    stack.push_back(3);
+    printStack(stack);
+
+    stack.push_back(5);
+    printStack(stack);
+
+    stack.push_back(7);
+    printStack(stack);
+
+    stack.pop_back(); // 후입선출 (가장 마지막에 push 된 것부터 제거하기 시작)
+    printStack(stack);
+
+    stack.pop_back();
+    printStack(stack);
+
+    stack.pop_back();
+    printStack(stack);
 
     return 0;
 }
