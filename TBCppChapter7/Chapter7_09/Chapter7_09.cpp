@@ -1,5 +1,6 @@
 #include <iostream>
 #include <array>
+#include <functional> // c++ 11 부터 추가된 기능!
 
 using namespace std;
 
@@ -46,7 +47,16 @@ void printNumbers(const array<int, 10>& my_array, check_fcn_t check_fcn = isEven
         if (check_fcn(element) == true) cout << element; // 짝수 출력
     }
     cout << endl;
+}
 
+// c++ 11 에 추가된 functional 을 사용해서 매개변수를 함수 포인터 타입으로 정의하기
+void printNumbers2(const array<int, 10>& my_array, std::function<bool(const int&)> check_fcn)
+{
+    for (auto element : my_array)
+    {
+        if (check_fcn(element) == true) cout << element; // 짝수 출력
+    }
+    cout << endl;
 }
 
 int main()
@@ -74,9 +84,20 @@ int main()
 
     std::array<int, 10> my_array = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
+
     // 함수 포인터를 매개변수로 선언했기 때문에, 함수를 직접 인자로 전달 가능
     printNumbers(my_array); // 아무런 인자를 전달하지 않으면, 기본값 함수 포인터인 isEven 이 실행될 것임.
     printNumbers(my_array, isOdd);
+
+    // functional 기능 사용해보기
+    std::function<bool(const int&)> fcnptr2 = isEven;
+
+    // c++ 11 functional 을 사용해서 함수 포인터와 동일하게 사용할 수 있음!
+    printNumbers2(my_array, fcnptr2);
+
+    fcnptr2 = isOdd;
+
+    printNumbers2(my_array, fcnptr2);
 
     return 0;
 }
