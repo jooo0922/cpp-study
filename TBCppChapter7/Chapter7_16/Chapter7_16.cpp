@@ -35,5 +35,17 @@ double findAverage(int count, ...)
 
 int main()
 {
+    // 가변 인자 목록 개수를 1개로 전달했는데, 실제 가변 인자 목록이 1개 이상이면,
+    // 첫 번째 가변 인자 1을 제외한 나머지 인자들은 싹 다 무시됨.
+    cout << findAverage(1, 1, 2, 3, "Hello", "c") << endl;
+
+
+    cout << findAverage(3, 1, 2, 3) << endl;
+    cout << findAverage(5, 1, 2, 3, 4, 5) << endl;
+
+    // 가변 인자 목록 개수를 10개로 전달했는데, 실제 가변 인자 목록이 5개 밖에 안되면,
+    // 에러가 발생함. -> 가변 인자 목록 개수를 맞춰줘야 함!
+    cout << findAverage(10, 1, 2, 3, 4, 5) << endl;
+
     return 0;
 }
