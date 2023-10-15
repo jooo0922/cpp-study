@@ -33,7 +33,29 @@ int main()
 
     std::array<int, 5> my_array{ 1, 2, 3, 4, 5 };
 
-    printValue(my_array, 100);
+    //printValue(my_array, 100);
+
+    
+    /* static assert */
+    /*
+        static assert 는 그냥 assert 와 달리,
+        '컴파일 타임'에 에러를 표시할 수 있는 디버깅 툴!
+
+        그래서, 컴파일 타임 이후, 런타임에 값이 변경될 수 있는
+        일반 변수의 경우, static_assert() 로 검사할 수 없음.
+
+        오로지 const 변수를 사용해야만
+        런타임에 값이 변경되지 않으므로,
+        컴파일 타임에 에러를 검사하는 static_assert 는
+        const 변수를 사용해야만 함.
+    */
+    //int x = 5;
+    const int x = 10;
+
+    // 추가로, static_assert() 는 두 번째 인자로 에러가 출력될 때 어떤 문구를 같이 전달하여 출력할 수 있음.
+    // 그래서 이것은 실행파일을 실행하기 전 단계, 
+    // 즉, 빌드 단계와 컴파일 단계에서 하단의 Output 창에 표시할 수 있는 에러라고 보면 됨!
+    static_assert(x == 5, "x should be 5");
 
     return 0;
 }
