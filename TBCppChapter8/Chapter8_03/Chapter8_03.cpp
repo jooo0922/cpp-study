@@ -46,6 +46,40 @@ public:
     }
 };
 
+class Second
+{
+public:
+    Second()
+    {
+        cout << "class Second constructor()" << endl;
+    }
+};
+
+// 클래스 안의 클래스 
+// First 클래스 안에 Second 클래스 멤버가 선언되어 있는 상황
+/*
+    이럴 경우, 멤버로 선언된 클래스 Second 의 생성자 함수가
+    그것을 품고 있는 클래스 First 의 생성자 함수보다 먼저 호출됨.
+
+    어떻게 생각해보면 당연한 것이,
+    클래스 멤버변수가 먼저 초기화되어 있어야
+    클래스 생성자 함수 안에서 그 멤버변수에 값을 초기화하건 변경하건 할테니까!
+
+    무조건 멤버들이 먼저 초기화되어야 하므로,
+    클래스로 된 멤버라면 그 멤버 클래스의 생성자 함수가 더 먼저 호출되는 게 맞음!
+*/
+class First
+{
+    Second sec;
+
+public:
+    First()
+    {
+        cout << "class First constructor()" << endl;
+    }
+
+};
+
 int main()
 {
     // Fraction 클래스의 인스턴스들의 멤버변수를 초기화하고 싶다면 어떻게 할까?
@@ -78,6 +112,8 @@ int main()
     // 이게 더 좋다고 하는 의견이 있음.
     Fraction one_thirds(1.0, 3); 
     one_thirds.print();
+
+    First fir;
 
     return 0;
 }
