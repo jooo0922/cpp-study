@@ -15,13 +15,26 @@ public:
     // 이 함수는 코딩을 하면서 외부에서 의도적으로 호출하는 게 아닌, 클래스의 인스턴스 생성과 동시에 실행되는 함수!
     // 즉, 클래스 인스턴스가 메모리에 할당되는 즉시 실행되는 함수!
     // 생성자 매개변수는 다른 함수와 마찬가지로 default value 할당 가능
-    Fraction(const int& num_in, const int& den_in = 1) 
+    Fraction(const int& num_in = 1, const int& den_in = 1) 
     {
         m_numerator = num_in;
         m_denominator = den_in;
 
         cout << "Fraction() constructor" << endl;
     }
+
+    // 아래와 같이 매개변수가 없는 또다른 생성자를 오버로딩하고자 한다면,
+    // 위에서 먼저 선언한 매개변수 기본값이 할당된 생성자와 중복된다고 컴파일러가 에러를 발생시킴.
+    // 즉, 정확히는 중복된 default constructor 를 갖고 있다는 에러를 출력하는데,
+    // 이게 왜 그러냐면, 위의 생성자도 매개변수들이 기본값을 갖고 있어서, 
+    // 외부에서 클래스를 생성할 때, 파라미터를 넘겨주지 않아도 위의 생성자를 호출할 수 있음.
+    // 이렇게 되면, 컴파일러 입장에서는 위의 매개변수를 선언한 생성자를 호출하라는 건지,
+    // 아래의 매개변수 없는 생성자를 호출하라는 건지 알 수가 없으니 에러를 발생시킨 것!
+    //Fraction()
+    //{
+    //    m_numerator = 2;
+    //    m_denominator = 1;
+    //}
 
     // 참고로, 클래스 안에 생성자를 별도로 정의해놓지 않았다면,
     // 아래와 같이 default constructor 를 컴파일러가 알아서 만들어서 넣어줌. 
@@ -47,13 +60,16 @@ int main()
 
         Fraction frac() 이어야 하는 거 아닐까?
 
-        c++ 에서는 클래스의 생성자에 매개변수를 선언하지 않았다면,
+        c++ 에서는 클래스의 생성자에 파라미터를 넘겨주지 않게 된다면,
+        (그 이유가, 생성자에 멤버변수를 선언하지 않았든, 아니면 default value 를 사용하려고 하는 것이든 간에...)
         클래스 인스턴스 선언 시, 괄호를 붙이지 않는 것을 원칙으로 함.
+
+        이거는 외워야 함!!
     */
     //Fraction frac;
     //frac.print();
 
-    Fraction one_thirds(1, 3);
+    Fraction one_thirds;
     one_thirds.print();
 
     return 0;
