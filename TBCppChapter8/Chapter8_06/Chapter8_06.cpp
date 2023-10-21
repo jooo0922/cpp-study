@@ -1,6 +1,3 @@
-// Chapter8_06.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
 
 using namespace std;
@@ -40,7 +37,7 @@ public:
 		m_length = length_in;
 		m_arr = new int[m_length]; // 생성자에서 배열 멤버에 힙 메모리를 동적으로 할당
 
-		cout << "Constructor " << endl;
+		//cout << "Constructor " << endl;
 	};
 
 	~IntArray()
