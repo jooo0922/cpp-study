@@ -69,7 +69,14 @@ int main()
     //Fraction frac;
     //frac.print();
 
-    Fraction one_thirds;
+    // 참고로, 생성자 매개변수를 선언해놓으면, 멤버를 캡슐화해놔도 uniform initialization 으로 멤버의 값 초기화 가능!
+    // 그렇다면, uniform initialization {} 와 생성자 호출 () 의 차이가 뭔가?
+    //Fraction one_thirds{ 1.0, 3 }; // 얘는 파라미터의 형변환을 자동으로 해주지 못해서 빌드 에러를 발생시킴
+
+    // 얘는 warning 은 뜨지만 작동은 함. 
+    // > 그러나, 최근에는 uniform initialization 이 좀 더 엄격하게 타입 에러를 체크해줘서 
+    // 이게 더 좋다고 하는 의견이 있음.
+    Fraction one_thirds(1.0, 3); 
     one_thirds.print();
 
     return 0;
