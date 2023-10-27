@@ -7,11 +7,31 @@ using namespace std;
 
 class Something
 {
+public:
+	/* Inner Class (클래스 안의 클래스) 를 사용해서 클래스 내부에서 정적 멤버변수 초기화하기 */
+	class _init
+	{
+	public:
+		_init()
+		{
+			s_value = 9876;
+		}
+	};
+
 private:
 	static int s_value; // 정적 멤버 변수
 	int m_value;
 
+	static _init s_initializer; // 클래스 안에 또 다른 클래스(Inner Class) 타입 멤버를 정적 멤버로 정의
+
 public:
+	// 또한, 인스턴스 종속성이 없는 정적 멤버변수는
+	// 인스턴스 생성과 별개로 초기화되어야 하므로,
+	// 인스턴스가 생성되는 시점에 호출되는 생성자 함수에서 초기화하는 것도 불가능함!
+	Something()
+		: m_value(123) //, s_value(1024) 
+	{}
+
 	// 정적 멤버 함수로 getter 정의
 	static int getValue()
 	{
@@ -37,6 +57,12 @@ public:
 };
 
 int Something::s_value = 1024;
+
+// 클래스 안의 정적 멤버변수인 Inner Class 를 생성함과 동시에,
+// 정적 멤버인 Inner Class 의 생성자가 호출되어 Something 의 정적 멤버변수 s_value 가 자동으로 초기화 됨!
+// 그래서 맨 위에서 1024 로 초기화 되었지만, Inner Class 생성자에서 정적 멤버변수 s_value 값이 9876 으로 다시 변경됨!
+// -> 이 방식이 바로 c++ 클래스 내부에서 간접적으로 정적 멤버변수를 초기화하는 방법! > 조금 번거롭지만 가능은 하다!
+Something::_init Something::s_initializer; 
 
 int main()
 {
