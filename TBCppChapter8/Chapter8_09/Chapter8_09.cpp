@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -42,6 +43,29 @@ public:
 	}
 };
 
+class SomethingB
+{
+public:
+	string m_value = "default";
+
+	/* const 여부를 활용한 멤버함수 오버로딩 */
+
+	// 두 개의 getValue() 멤버함수를 구현했는데,
+	// 하나는 반환값도 const 로 지정한 상수 멤버함수이고,
+	// 다른 하나는 어느것도 const 로 지정하지 않은 그냥 멤버함수 
+	const string& getValue() const 
+	{ 
+		cout << "const version" << endl;
+		return m_value; 
+	}
+
+	string& getValue() 
+	{ 
+		cout << "non-const version" << endl;
+		return m_value; 
+	}
+};
+
 // 이 함수의 매개변수 st 에 Something 클래스 인스턴스를 넘겨주는 순간,
 // 해당 인스턴스의 복사본이 매개변수에 저장되어 넘어오기 때문에,
 // 클래스의 복사 생성자(Copy Constructor)가 호출됨!
@@ -74,7 +98,7 @@ int main()
 	cout << something.getValue() << endl;
 
 
-	/* 딴거 */
+	/* 복사 생성자 */
 	Something something2;
 
 	// 외부에서 출력한 Something 클래스 인스턴스의 주소값과 
@@ -84,6 +108,16 @@ int main()
 	cout << &something2 << endl;
 
 	print(something2);
+
+
+	/* const 여부를 활용한 멤버함수 오버로딩 */
+	// 여기서 호출된 getValue() 를 호출하면 SomethingB 의 그냥 멤버함수가 실행됨
+	SomethingB somethingB;
+	somethingB.getValue() = 10; // 또한, 얘는 non-const reference 타입을 반환하므로, 반환값을 바꿔줄 수 있음!
+
+	// 여기서 호출된 getValue() 를 호출하면 SomethingB 의 상수 멤버함수가 실행됨
+	const SomethingB somethingB2;
+	somethingB2.getValue(); // = 10; // 그러나, 얘는 const renference 타입을 반환하므로, 반환값을 바꿀 수 없음!
 
     return 0;
 }
