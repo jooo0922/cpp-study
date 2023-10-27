@@ -23,6 +23,10 @@ private:
     // -> 이럴 때 사용하는 것이 바로 전방선언! 즉, 클래스 B 의 전방선언을 클래스 A 위에 추가함으로써, 
     // 클래스 A 에게 클래스 B 의 존재를 일단 알려두는 것!
     friend void doSomething(A& a, B& b);
+
+    // 클래스 B 를 클래스 A 의 친구 클래스로 등록!
+    // 이제 클래스 B 는 클래스 A 의 private 멤버에도 접근이 가능함. why? 둘이 친구가 되었으니까!
+    friend class B; 
 };
 
 class B
@@ -31,6 +35,14 @@ private:
     int m_value = 2;
 
     friend void doSomething(A& a, B& b);
+    
+public:
+    // 이번에는 클래스 B 의 멤버함수에서 클래스 A 의 private 멤버에 접근하고 싶다면??
+    // 이럴 경우, 클래스 B 를 클래스 A 의 '친구 클래스' 로 등록해버리면 됨!
+    void doSomething2(A& a)
+    {
+        cout << a.m_value << endl;
+    }
 };
 
 // 이렇게 특정 함수에서 클래스 인스턴스를 참조변수로 입력받은 뒤,
@@ -47,7 +59,10 @@ void doSomething(A& a, B& b)
 int main()
 {
     A a;
-    doSomething(a);
+    B b;
+    doSomething(a, b);
+
+    b.doSomething2(a);
 
     return 0;
 } 
