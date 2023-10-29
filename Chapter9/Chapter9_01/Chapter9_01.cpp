@@ -16,7 +16,7 @@ public:
 	friend Cents operator + (const Cents& c1, const Cents& c2)
 	{
 		// 또한, 이왕 friend 멤버로 등록해놓은 김에 구현부까지 클래스 블록 안으로 옮겨놓으면 더 보기 좋겠지
-		return Cents(c1.getCents() + c2.getCents());
+		return Cents(c1.m_cents + c2.m_cents);
 	};
 };
 
@@ -38,3 +38,19 @@ int main()
 
 	return 0;
 }
+
+/*
+	참고로, 오버로딩이 안되는 연산자들
+	
+	- ? : (삼항 연산자)
+	- :: (scope 연산자)
+	- sizeof (sizeof 연산자)
+	- . (member selection 연산자)
+	- .* (member pointer selection 연산자)
+
+	또한, 연산자 자체를 오버로딩하여 변경할 수는 있지만.
+	'연산자 우선순위' 는 개발자가 멋대로 바꿀 수 없다!
+
+	즉, 개발자가 아무리 오버로딩으로 연산자를 재정의 했더라도,
+	연산자 우선순위는 기존 순서를 따름. 
+*/
