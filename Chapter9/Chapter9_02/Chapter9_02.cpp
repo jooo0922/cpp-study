@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream> // 파일 입출력 관련 기능 포함
 
 using namespace std;
 
@@ -51,11 +52,23 @@ public:
 
 int main()
 {
+	// 출력할 파일 스트림 (ofstream == output file stream)을 변수에 정의함.
+	// 이제 Point 클래스에서 오버로딩한 출력 연산자 << 를 사용하여
+	// Point 의 좌표값을 .txt 파일에 출력시킬(= 기록할) 수 있음!
+	// 출력 연산자에 오버로딩한 기능이 파일 스트림 출력 시에도 그대로 적용 가능하여 아주 편리함!
+	// 그래서 출력할 파일을 생성할 때에도 유용하겠지!
+	ofstream of("out.txt");
+
 	Point p1(0.0, 0.1, 0.2), p2(3.4, 1.5, 2.0);
 
 	// Point 를 출력할 때, 매번 클래스 안에 print~() 멤버함수 구현하기 귀찮은데
 	// 아예 입출력 연산자 <<, >> 등을 오버로딩해서 클래스에 대한 입출력을 직접 정의해서 편리하게 쓸 수는 없을까?
-	cout << p1 << ' ' << p2 << endl;
+	cout << p1 << " " << p2 << endl;
+
+	// 파일스트림에 각 Point 좌표값을 기록
+	of << p1 << " " << p2 << endl;
+
+	of.close(); // 프로그램 종료 전 파일 스트림 종료
 
     return 0;
 }
