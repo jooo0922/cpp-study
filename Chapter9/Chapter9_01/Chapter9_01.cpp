@@ -13,11 +13,20 @@ public:
 
 	// 연산자 오버로딩 프로토타입을 friend 멤버로 등록해놓으면, 해당 연산자 오버로딩 내에서 private 멤버에도 접근 가능!
 	// getCents() 같은 getter 를 사용할 필요가 없어져서 더 편함
-	friend Cents operator + (const Cents& c1, const Cents& c2)
+	//friend Cents operator + (const Cents& c1, const Cents& c2)
+	//{
+	//	// 또한, 이왕 friend 멤버로 등록해놓은 김에 구현부까지 클래스 블록 안으로 옮겨놓으면 더 보기 좋겠지
+	//	return Cents(c1.m_cents + c2.m_cents);
+	//};
+
+	// friend 로 등록할 게 아니라, 아예 연산자 오버로딩 자체를 멤버 함수로 등록하는 것은 안되나? 당연히 됨!
+	Cents operator + (const Cents& c2)
 	{
-		// 또한, 이왕 friend 멤버로 등록해놓은 김에 구현부까지 클래스 블록 안으로 옮겨놓으면 더 보기 좋겠지
-		return Cents(c1.m_cents + c2.m_cents);
-	};
+		// 단, 조건이 있음! 산술연산자 오버로딩 시, 매개변수는 1개로 제한됨.
+		// 엥? + 는 이항 연산자니까 더하려면 2개의 값이 필요할텐데?
+		// 그렇기 한데, 연산자 오버로딩이 멤버함수로 들어왔다면, 그 2개 중 하나는 '자기 자신(this)' 으로 표현할 수 있잖아!
+		return Cents(this->m_cents + c2.m_cents);
+	}
 };
 
 // 이것이 Cents 인스턴스 간 + 연산자를 사용할 때 어떤 기능을 수행할 것인지 오버로딩한 '연산자 오버로딩'
