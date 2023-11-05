@@ -17,12 +17,26 @@ public:
 		out << cents.m_cents;
 		return out;
 	}
+
+	/* 비교 연산자 오버로딩 */
+	// 친구함수로 등록해서 오버로딩
+	friend bool operator == (const Cents& c1, const Cents& c2)
+	{
+		return c1.m_cents == c2.m_cents;
+	}
 };
 
 int main()
 {
 	Cents cents1(6);
-	Cents cents2(0);
+	Cents cents2(6);
+
+	/* 비교 연산자 오버로딩 테스트 */
+
+	if (cents1 == cents2)
+	{
+		cout << "Equal " << endl;
+	}
 
     return 0;
 }
