@@ -5,7 +5,7 @@ using namespace std;
 class IntList
 {
 private:
-	int m_list[10];
+	int m_list[10] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
 public:
 	/*void setItem(int index, int value)
@@ -26,6 +26,16 @@ public:
 	{
 		return m_list[index];
 	}
+
+	// IntList 클래스 인스턴스를 const 변수에 생성할 경우,
+	// int& 참조변수 타입의 반환값을 변경하려고 하면 컴파일 에러가 발생함.
+	// 이를 위해, 첨자 연산자 오버로딩 멤버 함수를 멤버의 불변성을 보장하는 '상수 함수' 로 다시 오버로딩 함으로써,
+	// int& 타입의 참조변수를 '읽기'만 할 수 있고, '쓰기'는 못하도록 막을 수 있음!
+	// 이때, 상수 함수의 반환 타입 또한 값을 변경하지 못하도록 const 로 지정해줘야 할 것임!
+	const int& operator [] (const int index) const
+	{
+		return m_list[index];
+	}
 };
 
 int main()
@@ -37,7 +47,7 @@ int main()
 
 	/* 첨자 연산자 오버로딩 멤버함	수 테스트 */
 	IntList my_list;
-	my_list[3] = 10;
+	//my_list[3] = 10;
 	cout << my_list[3] << endl;
 
     return 0;
