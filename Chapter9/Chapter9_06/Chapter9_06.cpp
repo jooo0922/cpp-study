@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cassert> // assert 를 사용하기 위해 포함
 
 using namespace std;
 
@@ -24,6 +25,15 @@ public:
 	// 매개변수는 const int 타입의 입력 매개변수로 선언했는데, 나중에 Map 같은 자료구조 구현할 때에는 string 타입도 사용 가능!
 	int& operator [] (const int index)
 	{
+		// 항상 배열의 범위를 넘어서는 index 가 입력될 경우를 대비해서,
+		// index 범위를 체크하여, 범위를 벗어날 경우 명시적으로 에러를 출력하는 assert() 를 사용하면
+		// 추후 디버깅에 아주 용이해 질 것임. 
+		// -> if 문으로 체크할 수도 있긴 한데, 이런 연산자 오버로딩은 매우 자주 사용되도록 구현된 것이기 때문에
+		// if 문이 그렇게 자주 사용되면 성능 상의 문제가 있어 assert() 를 사용하는 게 더 적합함!
+		// https://github.com/jooo0922/cpp-study/blob/main/TBCppChapter7/Chapter7_14/Chapter7_14.cpp 참고
+		assert(index >= 0);
+		assert(index < 10);
+
 		return m_list[index];
 	}
 
@@ -34,6 +44,9 @@ public:
 	// 이때, 상수 함수의 반환 타입 또한 값을 변경하지 못하도록 const 로 지정해줘야 할 것임!
 	const int& operator [] (const int index) const
 	{
+		assert(index >= 0);
+		assert(index < 10);
+
 		return m_list[index];
 	}
 };
