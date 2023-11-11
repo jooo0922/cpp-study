@@ -42,7 +42,20 @@ public:
 
 int main()
 {
-	Fraction result(3, 5);
+	// 여기서는 일반 생성자 함수가 호출되겠지?
+	Fraction frac(3, 5);
+
+	// 여기서 복사 생성자 함수가 호출되겠지?
+	//Fraction fr_copy(frac);
+
+	// 이번에는 copy initialization (복사 초기화)
+	// 말이 어려워서 복사 초기화지 그냥 동일한 타입을 갖는 인스턴스를 다른 변수에 할당하는 개념
+	// 그런데, 중요한 건, 이렇게 값을 복사 할당하는 경우에도 "Copy constructor called" 가 콘솔에 출력됨.
+	// 아아!! 복사 초기화를 하더라도 복사 생성자 함수가 호출되는구나!
+	Fraction fr_copy = frac;
+
+	// 여기서 친구함수로 오버로딩한 출력 스트림 연산자가 실행되겠지?
+	cout << frac << " " << fr_copy << endl;
 
     return 0;
 }
