@@ -40,9 +40,23 @@ public:
 	}
 };
 
+void doSomething(Fraction frac)
+{
+	cout << frac << endl;
+}
+
 int main()
 {
-	Fraction frac(3, 5);
+	Fraction frac(7);
+
+	// 이렇게 하면 doSomething() 에 선언된 매개변수로 copy initialization 이 발생하여 복사 생성자가 호출됨.
+	doSomething(frac);
+
+	// 이렇게 하는 것도 안될 것 같지만 가능함. 
+	// 이때, 컴파일러가 doSomething() 의 매개변수는 Fraction 타입밖에 없는데, 7이 전달되었다고 하면,
+	// 그냥 알아서 7을 매개변수로 선언된 Fraction frac 의 생성자 함수의 매개변수로 전달해버림.
+	// -> 이렇게 자동으로 변환해주는 것을 'Converting Cosntructor' 라고 함
+	doSomething(7);
 
 	return 0;
 }
