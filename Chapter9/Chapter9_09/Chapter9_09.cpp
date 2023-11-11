@@ -49,6 +49,15 @@ public:
 	}
 };
 
+Fraction doSomething()
+{
+	Fraction temp(1, 2);
+
+	cout << &temp << endl;
+
+	return temp;
+}
+
 int main()
 {
 	// 여기서는 일반 생성자 함수가 호출되겠지?
@@ -70,6 +79,33 @@ int main()
 
 	// 여기서 친구함수로 오버로딩한 출력 스트림 연산자가 실행되겠지?
 	cout << frac << " " << fr_copy << endl;
+
+
+	/* 
+		아래 코드를 Debug 모드로 빌드하면 
+		doSomething() 함수의 반환값에 의해 
+		copy initialization 이 발생하여 복사 생성자가 호출됨.
+
+		반면, Release 모드로 빌드하면, 컴파일러가
+		doSomething() 함수 안에서 Fraction temp(1, 2) 와 같이 생성하는 코드는
+		해당 함수가 종료되면 굳이 유지할 필요가 없는 변수라고 판단하여,
+		해당 인스턴스를 생성하는 코드를 곧바로 Fraction result 쪽으로 옮겨버림.
+
+		그래서 실제로는 Fraction result(1, 2); 이렇게 인스턴스를 생성하는 것으로 컴파일함.
+		-> 이로 인해 복사 생성자 함수 호출이 발생하지 않음! 
+		애초에 copy initialization 이 성립하지 않으니까!
+
+		-> 실제로 두 변수 temp 와 result 의 주소값을
+		Debug 모드에서 찍어보면 서로 다른데,
+		Release 모드에서 빌드 후 찍어보면 주소값이 같음! -> 복사가 일어나지 않았다는 뜻!
+
+		이러한 기술을 '반환값 최적화(RVO, Return Value Optimization)' 이라고 함.
+	*/
+	Fraction result = doSomething();
+
+	cout << &result << endl;
+
+	cout << result << endl;
 
     return 0;
 }
