@@ -9,6 +9,15 @@ private:
 	int m_numerator; // 분자 멤버
 	int m_denominator; // 분모 멤버
 
+	/* 복사 생성자 호출을 못하게 막기 */
+
+	// 아래와 같이 복사 생성자를 private 으로 캡슐화하면 외부에서 복사 생성자 호출을 못하도록 막을 수 있음!
+	//Fraction(const Fraction& fraction)
+	//	: m_numerator(fraction.m_numerator), m_denominator(fraction.m_denominator) // 멤버 초기화 리스트에서 매개변수로 들어온 인스턴스의 멤버들을 복사해주고 있지?
+	//{
+	//	cout << "Copy constructor called" << endl;
+	//}
+
 public:
 	Fraction(int num = 0, int den = 1) 
 		: m_numerator(num), m_denominator(den) 
