@@ -10,6 +10,12 @@ private:
 	int m_denominator; // 분모 멤버
 
 public:
+	/* delete 키워드 */
+	// 어떤 생성자 함수가 이전 버전에서는 허용되었다가,
+	// 다음 버전에서는 허용을 못하도록 막아버리고 싶을 경우 사용
+	// 힙 메모리 반납 시 사용하는 delete 키워드랑 별개!
+	Fraction(char) = delete;
+
 	/* explicit 키워드 */
 	// 만약, 아래 main 함수의 예제 코드에서 살펴본 Converting constructor 기능을 막아버리고 싶다면,
 	// 생성자 앞에 'explicit' 키워드를 붙여주면 됨! explicit == '명시적인, 엄격한' 이라는 뜻을 갖고 있는 키워드로써,
@@ -66,6 +72,10 @@ int main()
 	// 이미 생성된 인스턴스를 전달하는 방법을 사용해야겠지!
 	doSomething(frac);
 	doSomething(Fraction(7));
+
+	/* delete 키워드 테스트 */
+	// delete 키워드에 의해 지워진 생성자 함수라서 사용할 수 없다는 컴파일 에러가 뜸.
+	Fraction frac2('c');
 
 	return 0;
 }
