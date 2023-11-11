@@ -20,6 +20,26 @@ public:
 		m_data = new int[length];
 	}
 
+	/* 
+		std::initializer_list 타입의 매개변수로 
+		생성자 함수를 오버로딩하여  
+		
+		우리가 만든 클래스에도 initialization list 를
+		사용할 수 있도록 해보자!
+	*/
+	IntArray(const std::initializer_list<int>& list)
+		: IntArray(list.size()) // 멤버변수 초기화 리스트에서 맨 위에 일반 생성자를 호출하여 배열에 필요한 메모리를 동적 할당함!
+	{
+		// for-each 문 안에서 새롭게 동적 할당된 배열의 메모리에다가
+		// 매개변수로 전달받은 list 의 요소들을 직접 복사해 넣음
+		int count = 0;
+		for (auto& element : list)
+		{
+			m_data[count] = element;
+			++count;
+		}
+	}
+
 	/* 소멸자 */
 	~IntArray()
 	{
@@ -50,6 +70,12 @@ int main()
 	// initializer_list 라이브러리를 include 할 경우,
 	// 아래와 같이 auto 키워드로 자동 형변환을 시도했을 때, std::initializer_list<int> 타입으로 형변환 시켜줌!
 	auto il = { 10, 20, 30 };
+
+	// 그렇다면, 우리가 만든 클래스 IntArray 타입도 일반 배열처럼 initialization list 를 사용할 수는 없을까?
+	// std::initializer_list 타입의 매개변수가 선언된 생성자 함수를 오버로딩하면 가능!
+	IntArray int_array { 1, 2, 3, 4, 5 };
+	//IntArray int_array = { 1, 2, 3, 4, 5 }; // 생성자 함수를 오버로딩 했으니 요렇게도 사용 가능하겠지?
+	cout << int_array << endl;
 
 	return 0;
 }
