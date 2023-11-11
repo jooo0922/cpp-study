@@ -34,6 +34,12 @@ public:
 
 	/* 아래 main() 함수의 안쪽 scope 에서 발생한 문제 해결방법 */
 
+	// 가장 좋은 방법은 복사 생성자에 깊은 복사를 직접 구현하는 것이지만,
+	// 만약, 복사 생성자를 직접 구현할 시간이 없다면, 
+	// 미봉책으로라도, '컴파일러가 자동으로 추가해주는 복사 생성자는 쓰지 마!' 라는 의미로
+	// 아래와 같이 복사 생성자에 delete 키워드를 붙여주는 방법도 있음
+	// MyString(const MyString& source) = delete;
+
 	/* 복사 생성자 (copy constructor) 내에서 '깊은 복사(deep copy)' 구현을 통한 해결 */
 	MyString(const MyString& source)
 	{
