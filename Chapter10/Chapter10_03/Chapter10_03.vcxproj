@@ -142,6 +142,7 @@
     <ClCompile Include="Chapter10_03.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Lecture.h" />
     <ClInclude Include="Student.h" />
     <ClInclude Include="Teacher.h" />
   </ItemGroup>
