@@ -45,15 +45,14 @@ public:
 	}
 
 	// 만나야 할 의사들을 for-each 문으로 출력하는 멤버 함수
-	void meetDoctors()
-	{
-		for (auto& ele : m_doctors)
-		{
-			// Patient 클래스가 Doctor 클래스의 친구 클래스로 등록되어 있으므로,
-			// Doctor 클래스의 private 멤버인 m_name 에 접근하여 출력 가능!
-			cout << "Meet doctor : " << ele->m_name << endl;
-		}
-	}
+	// 이때, meetDoctors() 내부에서 Doctor.m_name 에 접근하려고 하는데,
+	// 아무리 Doctor 클래스를 전방선언 해줬다고 해도, '전방선언 자체'만으로는 내부의 '캡슐화된 멤버변수'까지 알 수는 없음!
+	// -> 이로 인해 빌드 에러가 발생하게 됨!
+	// 이를 해결하기 위해, 멤버함수의 prototype 만 남겨두고, 실제 구현부(body)는 Doctor 클래스 구현부 이후로 옮겨주면
+	// 해당 멤버함수에서도 Doctor 클래스의 캡슐화된 멤버변수 m_name 을 인지할 수 있음!
+	// 이미 관련 내용은 friend 친구함수 공부할 때 배웠었음!
+	// https://github.com/jooo0922/cpp-study/blob/main/TBCppChapter8/Chapter8_12/Chapter8_12.cpp 참고!
+	void meetDoctors();
 
 	// Doctor 클래스를 Patient 클래스의 친구 클래스로 만듦으로써,
 	// Doctor 클래스 내에서 Patient 클래스의 private 멤버에 접근 가능!
@@ -94,6 +93,18 @@ public:
 	friend class Patient;
 };
 
+// 만나야 할 의사들을 for-each 문으로 출력하는 멤버 함수의 구현부를 Doctor 클래스 구현부 이후로 이동
+// 이처럼 '제휴관계'가 클래스 구현을 복잡하게 만들어버린다는 단점이 있음... 
+void Patient::meetDoctors()
+{
+	for (auto& ele : m_doctors)
+	{
+		// Patient 클래스가 Doctor 클래스의 친구 클래스로 등록되어 있으므로,
+		// Doctor 클래스의 private 멤버인 m_name 에 접근하여 출력 가능!
+		cout << "Meet doctor : " << ele->m_name << endl;
+	}
+}
+
 int main()
 {
 	// 환자 클래스 동적 할당으로 힙 메모리에 생성
@@ -105,9 +116,23 @@ int main()
 	Doctor* d1 = new Doctor("Doctor K");
 	Doctor* d2 = new Doctor("Doctor L");
 
+	// 각 환자와 의사 인스턴스가 서로를 등록함 (상호적!)
+	p1->addDoctor(d1);
+	d1->addPatient(p1);
+
+	p2->addDoctor(d2);
+	d2->addPatient(p2);
+
+	p2->addDoctor(d1);
+	d1->addPatient(p2);
+
 	// patient meet doctors
+	// p1 환자가 만나는 의사들 목록 출력
+	p1->meetDoctors();
 
 	// doctors meet patients
+	// d2 의사가 만나는 환자들 목록 출력
+	d1->meetPatients();
 
 	// 동적 할당으로 생성된 클래스들을 scope 종료 직전에 메모리 해제
 	delete p1;
