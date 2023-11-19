@@ -1,32 +1,36 @@
 #pragma once
 
-#include <iostream> // 출력 스트림 연산자 오버로딩을 위해 포함
 #include <string>
+#include "Position2D.h" // Position2D 클래스 사용을 위해 포함
 
 // Monster 클래스 구현
 class Monster
 {
 private:
 	std::string m_name; // 몬스터 이름 멤버
-	int m_x; // 몬스터 위치 멤버
-	int m_y;
+	Position2D m_location; // 몬스터 위치 멤버를 클래스로 별도 추출 -> 깔끔해 짐.
+	//int m_x; // 몬스터 위치 멤버
+	//int m_y;
 
 public:
-	Monster(const std::string name_in, const int& x_in, const int& y_in)
-		: m_name(name_in), m_x(x_in), m_y(y_in)
+	Monster(const std::string name_in, const Position2D& pos_in)
+		: m_name(name_in), m_location(pos_in)
 	{}
 
 	// 몬스터 위치 변경 멤버 함수
-	void moveTo(const int& x_target, const int& y_target)
+	void moveTo(const Position2D& pos_target)
 	{
-		m_x = x_target;
-		m_y = y_target;
+		m_location.set(pos_target);
+		/*m_x = x_target;
+		m_y = y_target;*/
 	}
 
 	// 출력 스트림 연산자 오버로딩을 친구 함수로 등록해서 구현
 	friend std::ostream& operator << (std::ostream& out, const Monster& monster)
 	{
-		out << monster.m_name << " " << monster.m_x << " " << monster.m_y << std::endl;
+		// 아래와 같이 monster.m_location 을 출력 스트림 중간에 끼워주면,
+		// Position2D 클래스 안에 등록된 출력 스트림 오버로딩도 같이 실행된다!
+		out << monster.m_name << " " << monster.m_location;
 
 		return out;
 	}
