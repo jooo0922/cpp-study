@@ -5,13 +5,15 @@ using namespace std;
 
 int main()
 {
-    Monster mon1("Sanson", 0, 0);
+    Monster mon1("Sanson", Position2D(0, 0));
+
+    cout << mon1 << endl;
     
     //while (1) // game loop
     {
         // event
         // 몬스터 위치 이동
-        mon1.moveTo(1, 1);
+        mon1.moveTo(Position2D(1, 1));
 
         // 몬스터 정보를 출력 스트림 오버로딩 함수를 통해 출력
         cout << mon1 << endl;
