@@ -20,6 +20,15 @@ public:
 	// 몬스터 위치 변경 멤버 함수
 	void moveTo(const Position2D& pos_target)
 	{
+		/*
+			아래와 같이,
+
+			상위 클래스인 Monster 는
+			하위 클래스인 Position2D 가 '잘은 모르지만, set() 으로 위치값을 변경할 수 있구나'
+			라는 인터페이스만 알면 충분하고,
+
+			내부에서 그 동작이 '어떻게(How)' 구현되는지는 모를수록 좋다!
+		*/
 		m_location.set(pos_target);
 		/*m_x = x_target;
 		m_y = y_target;*/
