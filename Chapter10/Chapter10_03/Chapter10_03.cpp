@@ -8,25 +8,46 @@ using namespace std;
 int main()
 {
     // 집합관계(Aggregation Relationship)로 변경하기 위해, 각 하위 클래스를 별개의 인스턴스로 우선 생성함
-    Student std1("Jack Jack", 0);
-    Student std2("Dash", 1);
-    Student std3("Violet", 2);
+    //Student std1("Jack Jack", 0);
+    //Student std2("Dash", 1);
+    //Student std3("Violet", 2);
 
-    Teacher teacher1("Prof. Hong");
-    Teacher teacher2("Prof. Good");
+    //Teacher teacher1("Prof. Hong");
+    //Teacher teacher2("Prof. Good");
+
+    // 위와 같이 local variable 로 하위 클래스를 생성하면, main 함수 scope 종료 시 메모리가 자동으로 반환되도록 할 수도 있지만,
+    // 만약 현재 scope 가 main 함수가 아니거나, 함수가 종료되더라도 해당 인스턴스들이 필요할 경우, 
+    // 아래와 같이 new 키워드로 힙 메모리에 동적 할당할 수도 있음!
+    Student* std1 = new Student("Jack Jack", 0);
+    Student* std2 = new Student("Dash", 1);
+    Student* std3 = new Student("Violet", 2);
+
+    Teacher* teacher1 = new Teacher("Prof. Hong");
+    Teacher* teacher2 = new Teacher("Prof. Good");
+
 
     // Composition Relationship (기존에 구성관계로 구현된 각 클래스 사이의 관계)
+    //Lecture lec1("Introduction to Computer Programming");
+    //lec1.assignTeacher(&teacher1);
+    //lec1.registerStudent(&std1);
+    //lec1.registerStudent(&std2);
+    //lec1.registerStudent(&std3);
+
+    //Lecture lec2("Computational Thinking");
+    //lec2.assignTeacher(&teacher2);
+    //lec2.registerStudent(&std1);
+
+    // 동적 할당으로 하위 클래스를 생성했다면, 위 변수들 자체가 포인터 변수, 즉 주소값이므로,
+    // &(앰퍼샌드. 주소연산자) 없이 바로 매개변수로 넘겨줘도 됨.
     Lecture lec1("Introduction to Computer Programming");
-    lec1.assignTeacher(&teacher1);
-    lec1.registerStudent(&std1);
-    lec1.registerStudent(&std2);
-    lec1.registerStudent(&std3);
+    lec1.assignTeacher(teacher1);
+    lec1.registerStudent(std1);
+    lec1.registerStudent(std2);
+    lec1.registerStudent(std3);
 
     Lecture lec2("Computational Thinking");
-    lec2.assignTeacher(&teacher2);
-    lec2.registerStudent(&std1);
-
-    // TODO : implement Aggregation Relationship (기존 구성관계를 '집합관계'로 수정!)
+    lec2.assignTeacher(teacher2);
+    lec2.registerStudent(std1);
 
     // test
     {
@@ -46,6 +67,15 @@ int main()
         cout << lec1 << endl;
         cout << lec2 << endl;
     }
+
+    // 만약, 하위 클래스를 new 키워드로 동적 할당 해줬다면, 
+    // scope 종료 직전에는 항상 delete 키워드로 메모리 반납을 해줘야지!
+    delete std1;
+    delete std2;
+    delete std3;
+
+    delete teacher1;
+    delete teacher2;
 
     return 0;
 }
