@@ -43,6 +43,21 @@ public:
 	{
 		m_doctors.push_back(new_doctor);
 	}
+
+	// 만나야 할 의사들을 for-each 문으로 출력하는 멤버 함수
+	void meetDoctors()
+	{
+		for (auto& ele : m_doctors)
+		{
+			// Patient 클래스가 Doctor 클래스의 친구 클래스로 등록되어 있으므로,
+			// Doctor 클래스의 private 멤버인 m_name 에 접근하여 출력 가능!
+			cout << "Meet doctor : " << ele->m_name << endl;
+		}
+	}
+
+	// Doctor 클래스를 Patient 클래스의 친구 클래스로 만듦으로써,
+	// Doctor 클래스 내에서 Patient 클래스의 private 멤버에 접근 가능!
+	friend class Doctor;
 };
 
 class Doctor
@@ -61,6 +76,22 @@ public:
 	{
 		m_patients.push_back(new_patient);
 	}
+
+	// 만나야 할 환자들을 for-each 문으로 출력하는 멤버 함수
+	void meetPatients()
+	{
+		for (auto& ele : m_patients)
+		{
+			// Patient 클래스가 Doctor 클래스의 친구 클래스로 등록되어 있으므로,
+			// Doctor 클래스의 private 멤버인 m_name 에 접근하여 출력 가능!
+			cout << "Meet patients : " << ele->m_name << endl;
+		}
+	}
+
+	// Patient 클래스를 Doctor 클래스의 친구 클래스로 만듦으로써,
+	// Patient 클래스 내에서 Doctor 클래스의 private 멤버에 접근 가능!
+	// friend 관련 https://github.com/jooo0922/cpp-study/blob/main/TBCppChapter8/Chapter8_12/Chapter8_12.cpp 참고!
+	friend class Patient;
 };
 
 int main()
