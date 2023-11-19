@@ -142,6 +142,7 @@
     <ClCompile Include="Chapter10_03.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Student.h" />
     <ClInclude Include="Teacher.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
