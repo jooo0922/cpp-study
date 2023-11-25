@@ -22,6 +22,11 @@ public:
 		return m_intel;
 	}
 
+	void study()
+	{
+		std::cout << getName() << " is studying " << std::endl;
+	}
+
 	// 출력 스트림 연산자 오버로딩을 친구 함수로 등록
 	friend std::ostream& operator << (std::ostream& out, const Student& student)
 	{

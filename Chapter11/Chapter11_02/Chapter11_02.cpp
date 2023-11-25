@@ -24,5 +24,17 @@ int main()
     std.doNothing();
     teacher1.doNothing();
 
+    // 각 자식 클래스에 각자에게 필요한 기능을 나눠서 구현
+    std.study();
+    teacher1.teach();
+
+    Person person;
+    person.setName("Mr. Incredible");
+    person.getName();
+
+    // 그러나, 자식 클래스에만 구현된 기능은 부모 클래스에서 사용 불가! 당연한 거지!
+    //person.study(); 
+    //person.teach();
+
     return 0;
 }
