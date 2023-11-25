@@ -1,0 +1,26 @@
+#pragma once
+
+#include <iostream>
+#include <string>
+
+class Person
+{
+private:
+	std::string m_name;
+
+public:
+	/*
+		m_name 멤버가 부모 클래스인 Person 으로 이동한 이상,
+		이 멤버변수 초기화 및 관리에 대한 책임이 Person 클래스로 이전한 것이다.
+
+		따라서, 해당 멤버로 초기화하는 생성자 함수는
+		Person 클래스에 구현을 해줘야 하고,
+
+		Person 클래스를 상속받는 자식 클래스인
+		Student 및 Teacher 의 생성자 함수에서 
+		Person 의 생성자 함수를 호출하는 구조로 정리가 되어야 한다!
+	*/
+	Person(const std::string& name_in = "No Name")
+		: m_name(name_in)
+	{}
+};
