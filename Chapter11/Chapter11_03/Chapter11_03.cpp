@@ -53,6 +53,35 @@ public:
 	}
 };
 
+
+/* 클래스를 좀 더 깊게 상속하는(2 ~ 3회) 경우 */
+class A
+{
+public:
+	A()
+	{
+		cout << "A constructor" << endl;
+	}
+};
+
+class B : public A
+{
+public:
+	B()
+	{
+		cout << "B constructor" << endl;
+	}
+};
+
+class C : public B
+{
+public:
+	C()
+	{
+		cout << "C constructor" << endl;
+	}
+};
+
 int main()
 {
 	// 이렇게 자식 클래스 인스턴스를 생성하는 시점에
@@ -87,7 +116,17 @@ int main()
 		부모 클래스의 멤버라고 하더라도 public 으로 접근 가능하다면,
 		어디서 재할당하고 변경하든지 상관 없으니까!
 	*/
-	Child c1;
+	//Child c1;
+
+	// 클래스가 다중 구조로 상속되는 경우, 생성 순서가 어떻게 될까?
+	/*
+		예상했듯이,
+		A constructor
+		B constructor
+		C constructor
+		순으로 생성자 함수가 호출됨
+	*/
+	C c;
 
     return 0;
 }
