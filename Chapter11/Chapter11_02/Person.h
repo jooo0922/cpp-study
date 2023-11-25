@@ -23,4 +23,17 @@ public:
 	Person(const std::string& name_in = "No Name")
 		: m_name(name_in)
 	{}
+
+	// m_name setter 를 부모 클래스로 이동 
+	// 이처럼 자식 클래스들에서 중복되는 코드들은 가급적 부모 클래스로 보내버리는 게 좋음!
+	void setName(const std::string& name_in)
+	{
+		m_name = name_in;
+	}
+
+	// m_name getter 를 부모 클래스로 이동 
+	std::string getName()
+	{
+		return m_name;
+	}
 };
