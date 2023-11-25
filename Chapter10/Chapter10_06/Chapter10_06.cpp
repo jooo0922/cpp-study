@@ -85,7 +85,7 @@ public:
 	}
 
 	/* 요소 삽입 */
-	void insertBefore(const int value, const unsigned int index)
+	void insertBefore(const int& value, const unsigned int& index)
 	{
 		if (index > m_length - 1)
 		{
@@ -130,7 +130,7 @@ public:
 	}
 
 	/* 요소 제거 */
-	void remove(const unsigned int index)
+	void remove(const unsigned int& index)
 	{
 		if (index > m_length - 1)
 		{
@@ -157,6 +157,31 @@ public:
 
 		// 새로운 배열에 원본 배열 복사
 		copy(m_data, m_data + newLength, newData);
+
+		// 원본 배열 제거
+		delete[] m_data;
+
+		// 새로운 배열 주소값 할당
+		m_data = newData;
+
+		// 새로운 배열 길이 할당
+		m_length = newLength;
+	}
+
+	/* 요소 추가 */
+	void push_back(const int& value)
+	{
+		// 요소가 추가된 새로운 배열 길이 계산
+		int newLength = m_length + 1;
+
+		// 추가된 요소만큼 새로운 메모리 동적 할당
+		int* newData = new int[newLength];
+
+		// 새로운 배열에 원본 배열 전체 복사
+		copy(m_data, m_data + m_length, newData);
+
+		// 새로운 배열의 마지막 요소에 추가할 요소를 복사
+		newData[newLength - 1] = value;
 
 		// 원본 배열 제거
 		delete[] m_data;
@@ -202,6 +227,9 @@ int main()
 	cout << my_arr << endl;
 
 	my_arr.remove(3);
+	cout << my_arr << endl;
+
+	my_arr.push_back(13);
 	cout << my_arr << endl;
 
 	my_arr.resize(10);
