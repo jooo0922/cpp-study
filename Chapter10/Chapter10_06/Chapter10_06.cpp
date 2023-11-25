@@ -84,6 +84,13 @@ public:
 
 	void insertBefore(const int value, const unsigned int index)
 	{
+		if (index > m_length - 1)
+		{
+			// 배열 길이를 초과하는 인덱스를 전달받을 경우 예외 처리
+			cout << "index " << index << " exceeded last index " << m_length - 1 << endl;
+			return;
+		}
+
 		// 요소가 추가된 새로운 배열 길이 계산
 		int newLength = m_length + 1;
 
@@ -97,15 +104,17 @@ public:
 				// 삽입될 위치 이전까지의 원본 요소 복사
 				newData[i] = m_data[i];
 			}
+			else if (i == index)
+			{
+				// 삽입될 위치에 새로운 요소 복사
+				newData[i] = value;
+			}
 			else
 			{
 				// 삽입될 위치 이후의 원본 요소 복사
 				newData[i] = m_data[i - 1];
 			}
 		}
-
-		// 삽입될 위치에 새로운 요소 복사
-		newData[index] = value;
 
 		// 원본 배열 제거
 		delete[] m_data;
