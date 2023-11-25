@@ -37,4 +37,9 @@ public:
 	{
 		return m_name;
 	}
+
+	void doNothing() const
+	{
+		std::cout << m_name << " is doing nothing " << std::endl;
+	}
 };

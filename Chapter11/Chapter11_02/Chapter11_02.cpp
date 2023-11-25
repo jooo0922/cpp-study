@@ -19,5 +19,10 @@ int main()
     std::cout << std << std::endl;
     std::cout << teacher1 << std::endl;
 
+    // 부모 클래스 Person 에 추가한 멤버함수인데
+    // 자식 클래스인 Student, Teacher 모두에서 실행 가능! -> 이것이 상속의 장점!
+    std.doNothing();
+    teacher1.doNothing();
+
     return 0;
 }
