@@ -44,6 +44,7 @@ public:
 		m_data = new int[length]; // 힙 메모리에 배열 크기 만큼을 동적 할당하여 주소값 저장
 	}
 
+	/* 배열 초기화 */
 	void reset()
 	{
 		m_length = 0;
@@ -54,6 +55,7 @@ public:
 		}
 	}
 
+	/* 배열 크기 조절 */
 	void resize(const unsigned int newLength, const int defaultValue = 0)
 	{
 		// resize 된 배열을 저장할 메모리 공간 동적 할당
@@ -82,6 +84,7 @@ public:
 		m_length = newLength;
 	}
 
+	/* 요소 삽입 */
 	void insertBefore(const int value, const unsigned int index)
 	{
 		if (index > m_length - 1)
@@ -126,6 +129,45 @@ public:
 		m_length = newLength;
 	}
 
+	/* 요소 제거 */
+	void remove(const unsigned int index)
+	{
+		if (index > m_length - 1)
+		{
+			// 배열 길이를 초과하는 인덱스를 전달받을 경우 예외 처리
+			cout << "index " << index << " exceeded last index " << m_length - 1 << endl;
+			return;
+		}
+
+		for (unsigned int i = 0; i < m_length; i++)
+		{
+			// index 이후의 요소들을 1칸 씩 앞으로 당겨서 복사함
+			if (i > index)
+			{
+				int value = m_data[i];
+				m_data[i - 1] = value;
+			}
+		}
+
+		// 요소가 제거된 새로운 배열 길이 계산
+		int newLength = m_length - 1;
+
+		// 제거된 요소만큼 새로운 메모리 동적 할당
+		int* newData = new int[newLength];
+
+		// 새로운 배열에 원본 배열 복사
+		copy(m_data, m_data + newLength, newData);
+
+		// 원본 배열 제거
+		delete[] m_data;
+
+		// 새로운 배열 주소값 할당
+		m_data = newData;
+
+		// 새로운 배열 길이 할당
+		m_length = newLength;
+	}
+
 	// 출력 스트림 연산자 오버로딩을 친구 함수로 등록
 	friend std::ostream& operator << (std::ostream& out, const IntArray& my_arr)
 	{
@@ -157,6 +199,9 @@ int main()
 	cout << my_arr << endl;
 
 	my_arr.insertBefore(10, 1);
+	cout << my_arr << endl;
+
+	my_arr.remove(3);
 	cout << my_arr << endl;
 
 	my_arr.resize(10);
