@@ -25,11 +25,21 @@ public:
 	}
 };
 
+// Mother 클래스를 상속받는 Child 클래스를 선언!
+class Child : public Mother
+{
+
+};
+
 int main()
 {
 	Mother mother;
 	mother.setValue(1024);
 	cout << mother.getValue() << endl;
+
+	Child child;
+	child.setValue(128);
+	cout << child.getValue() << endl;
 
     return 0;
 }
