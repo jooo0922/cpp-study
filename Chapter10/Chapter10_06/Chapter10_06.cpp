@@ -1,5 +1,6 @@
 #include <iostream>
 #include <initializer_list>
+#include <algorithm>
 
 using namespace std;
 
@@ -52,7 +53,36 @@ public:
 			m_data = nullptr;
 		}
 	}
+
+	void resize(const unsigned int newLength, const int defaultValue = 0)
+	{
+		// resize 된 배열을 저장할 메모리 공간 동적 할당
+		int* newData = new int[newLength];
+
+		// 원본 배열로부터 복사할 길이 계산
+		int copyLength = min(m_length, newLength);
+
+		// 새로운 배열에 원본 배열 복사
+		copy(m_data, m_data + copyLength, newData);
+
+		for (unsigned int i = copyLength; i < newLength; i++)
+		{
+			// 만약, resize 한 길이가 원본 배열 길이보다 더 길다면,
+			// 늘어난 메모리 공간을 기본값 0으로 초기화
+			newData[i] = defaultValue;
+		}
+
+		// 원본 배열 제거
+		delete[] m_data;
+
+		// 새로운 배열 주소값 할당
+		m_data = newData;
+
+		// 새로운 배열 길이 할당
+		m_length = newLength;
+	}
 };
+
 int main()
 {
     return 0;
