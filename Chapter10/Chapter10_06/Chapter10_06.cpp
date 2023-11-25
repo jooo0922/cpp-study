@@ -85,20 +85,23 @@ public:
 	// 출력 스트림 연산자 오버로딩을 친구 함수로 등록
 	friend std::ostream& operator << (std::ostream& out, const IntArray& my_arr)
 	{
-		out << "--------------------" << endl;
-
 		// 배열 길이 출력
 		out << "Length : " << my_arr.m_length << endl;
 
 		// 배열 요소 출력
 		out << "Data : ";
+		
+		// 배열에 요소가 없을 시 해당 문구 출력
+		if (my_arr.m_length == 0) {
+			out << "Empty IntArray" << endl;
+			return out;
+		}
+
 		for (unsigned int i = 0; i < my_arr.m_length; i++)
 		{
 			out << my_arr.m_data[i] << " ";
 		}
 		out << endl;
-
-		out << "--------------------" << endl;
 
 		return out;
 	}
@@ -107,7 +110,15 @@ public:
 int main()
 {
 	IntArray my_arr{ 1, 3, 5, 7, 9 };
+	cout << my_arr << endl;
 
+	my_arr.resize(10);
+	cout << my_arr << endl;
+
+	my_arr.resize(3);
+	cout << my_arr << endl;
+
+	my_arr.reset();
 	cout << my_arr << endl;
 
     return 0;
