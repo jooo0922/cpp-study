@@ -32,7 +32,8 @@ public:
 	}
 
 	// m_name getter 를 부모 클래스로 이동 
-	std::string getName()
+	// 이때, 자식 클래스의 인스턴스가 const 로 선언된 상태에서 getName() 호출하려면 멤버함수도 상수 멤버함수로 지정되어야 함
+	std::string getName() const
 	{
 		return m_name;
 	}
