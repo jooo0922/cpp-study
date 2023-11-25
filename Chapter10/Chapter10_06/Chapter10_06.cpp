@@ -1,4 +1,5 @@
 #include <iostream>
+#include <initializer_list>
 
 using namespace std;
 
@@ -15,6 +16,19 @@ public:
 		initialize(length);
 	}
 
+	/* initializer list 를 사용하여 배열을 생성하기 위해 생성자 오버로딩 */
+	IntArray(const initializer_list<int>& list)
+		: IntArray(list.size())
+	{
+		// 동적 할당된 메모리에 initializer list 에 담긴 데이터들을 복사
+		int count = 0;
+		for (auto& element : list)
+		{
+			m_data[count] = element;
+			++count;
+		}
+	}
+
 	/* 소멸자 */
 	~IntArray()
 	{
@@ -27,6 +41,16 @@ public:
 	{
 		m_length = length; // 배열 길이 멤버 초기화
 		m_data = new int[length]; // 힙 메모리에 배열 크기 만큼을 동적 할당하여 주소값 저장
+	}
+
+	void reset()
+	{
+		m_length = 0;
+		if (m_data != nullptr)
+		{
+			delete[] m_data;
+			m_data = nullptr;
+		}
 	}
 };
 int main()
