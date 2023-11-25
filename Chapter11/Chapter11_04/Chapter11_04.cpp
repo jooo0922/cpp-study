@@ -30,6 +30,52 @@ public:
 	}
 };
 
+
+/* 소멸자(destructor) 호출 순서 예제 */
+class A
+{
+public:
+	A(int a)
+	{
+		cout << "A: " << a << endl;
+	}
+
+	~A()
+	{
+		cout << "Destructor A" << endl;
+	}
+};
+
+class B : public A
+{
+public:
+	B(int a, double b)
+		: A(a)
+	{
+		cout << "B : " << b << endl;
+	}
+
+	~B()
+	{
+		cout << "Destructor B" << endl;
+	}
+};
+
+class C : public B
+{
+public:
+	C(int a, double b, char c)
+		: B(a, b)
+	{
+		cout << "C : " << c << endl;
+	}
+
+	~C()
+	{
+		cout << "Destructor C" << endl;
+	}
+};
+
 int main()
 {
 	Child c1;
@@ -52,6 +98,30 @@ int main()
 		부모 클래스의 멤버도 포함할 수 있는 수준의
 		더 큰 메모리 사이즈를 할당받아서 사용하게 된다는 것!
 	*/
+
+	/*
+		다중 상속 구조의 클래스 C 의 인스턴스를 생성할 때,
+		생성자와 소멸자 호출 순서는 아래와 같이 출력됨
+
+		A : 1024
+		B : 3.14
+		C : a
+		Destructor C
+		Destructor B
+		Destructor A
+
+		즉, 생성자는 부모 -> 자식 순으로 호출되지만,
+		소멸자는 반대로 자식 -> 부모 역순으로 호출됨!
+
+		메모리를 반납할 시점이 되면,
+
+		가장 나중에 메모리가 할당된 클래스들(= 자식 클래스)부터
+		먼저 메모리를 반납하고,
+
+		그 다음에 맨 먼저 메모리가 할당된 클래스들(=부모 클래스)을
+		마지막에 메모리 반납하는 순서가 더 타당한 거겠지!
+	*/
+	C c(1024, 3.14, 'a');
 
 	return 0;
 }
