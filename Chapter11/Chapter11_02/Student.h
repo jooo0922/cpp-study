@@ -1,19 +1,15 @@
 #pragma once
 
-#include <iostream>
-#include <string>
+#include "Person.h"
 
-class Student
+class Student : public Person
 {
 private:
-	std::string m_name; // 학생 이름 멤버
 	int m_intel; // 학생의 지적능력 지수 멤버
-
-	// TODO : add more members like address, phone, favorate food, habits, ...
 
 public:
 	Student(const std::string& name_in = "No Name", const int& intel_in = 0)
-		: m_name(name_in), m_intel(intel_in)
+		: Person(name_in), m_intel(intel_in) // 자식 클래스 생성자를 통해 부모 클래스(Person) 생성자를 호출함으로써, 부모 클래스 멤버변수 m_name 초기화에 대한 책임이 옮겨졌다!
 	{}
 
 	void setName(const std::string& name_in)

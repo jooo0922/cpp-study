@@ -1,17 +1,15 @@
 #pragma once
 
-#include <string>
+#include "Person.h"
 
 // Teacher 클래스 구현
-class Teacher
+class Teacher : public Person
 {
 private:
-	std::string m_name; // 강사 이름 멤버
-	// TODO : more members like home address, salary, age, evaluatio, etc.
 
 public:
 	Teacher(const std::string& name_in = "No Name")
-		: m_name(name_in)
+		: Person(name_in)
 	{}
 
 	void setName(const std::string& name_in)
