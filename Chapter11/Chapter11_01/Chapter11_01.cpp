@@ -33,6 +33,13 @@ private:
 	double m_d;
 
 public:
+	Child(const int& i_in, const double& d_in)
+		//: m_i(i_in), m_d(d_in) // 멤버 초기화 리스트 문법으로는 부모 클래스의 멤버변수까지 초기화할 수 없음!
+	{
+		Mother::setValue(i_in);
+		m_d = d_in;
+	}
+
 	void setValue(const int& i_in, const double& d_in)
 	{
 		// m_i 를 protected 접근지정자로 지정해서 직접 부모 클래스 멤버에 할당하는 방법도 있겠지만,
@@ -62,9 +69,10 @@ int main()
 	mother.setValue(1024);
 	cout << mother.getValue() << endl;
 
-	Child child;
-	child.Mother::setValue(1024); // 이런 식으로 자식 클래스 인스턴스를 통해 부모 클래스에 정의된 멤버함수에 접근하는 것도 가능!
-	child.setValue(128);
+	Child child(1024, 128);
+	//child.Mother::setValue(1024); // 이런 식으로 자식 클래스 인스턴스를 통해 부모 클래스에 정의된 멤버함수에 접근하는 것도 가능!
+	//child.setValue(128);
+	cout << child.Mother::getValue() << endl;
 	cout << child.getValue() << endl;
 
     return 0;
