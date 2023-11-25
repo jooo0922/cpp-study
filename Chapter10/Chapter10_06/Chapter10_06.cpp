@@ -82,6 +82,41 @@ public:
 		m_length = newLength;
 	}
 
+	void insertBefore(const int value, const unsigned int index)
+	{
+		// 요소가 추가된 새로운 배열 길이 계산
+		int newLength = m_length + 1;
+
+		// 삽입할 요소의 개수가 추가된 새로운 메모리 동적 할당
+		int* newData = new int[newLength];
+
+		for (unsigned int i = 0; i < newLength; i++)
+		{
+			if (i < index)
+			{
+				// 삽입될 위치 이전까지의 원본 요소 복사
+				newData[i] = m_data[i];
+			}
+			else
+			{
+				// 삽입될 위치 이후의 원본 요소 복사
+				newData[i] = m_data[i - 1];
+			}
+		}
+
+		// 삽입될 위치에 새로운 요소 복사
+		newData[index] = value;
+
+		// 원본 배열 제거
+		delete[] m_data;
+
+		// 새로운 배열 주소값 할당
+		m_data = newData;
+
+		// 새로운 배열 길이 할당
+		m_length = newLength;
+	}
+
 	// 출력 스트림 연산자 오버로딩을 친구 함수로 등록
 	friend std::ostream& operator << (std::ostream& out, const IntArray& my_arr)
 	{
@@ -110,6 +145,9 @@ public:
 int main()
 {
 	IntArray my_arr{ 1, 3, 5, 7, 9 };
+	cout << my_arr << endl;
+
+	my_arr.insertBefore(10, 1);
 	cout << my_arr << endl;
 
 	my_arr.resize(10);
