@@ -4,7 +4,7 @@ using namespace std;
 
 class Base
 {
-private:
+protected:
     int m_value;
 
 public:
@@ -25,6 +25,14 @@ public:
         : Base(value) 
     {
 
+    }
+
+    // 가급적 부모클래스의 private 멤버는 부모클래스에서 관리하는 것이 좋지만,
+    // 만약, 부득이하게 자식클래스에서 부모클래스의 멤버를 변경하는 기능을 추가해야 한다면?
+    // -> 부모클래스의 private 멤버를 protected 멤버로 변경하면 해결됨!
+    void setValue(int value)
+    {
+        Base::m_value = value;
     }
 };
 
