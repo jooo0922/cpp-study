@@ -30,11 +30,19 @@ public:
     Derived(int value)
         : Base(value)
     {}
+
+    // 만약, 자식클래스에서 부모클래스 멤버의 접근지정자를 바꾸고 싶다면 어떻게 할까?
+    // 사실 사람 관점에서는 '부모에게 물려받은 것을 자식이 함부로 바꾸다니!' 할 수도 있긴 하지만...
+    // 어쨋든 using 키워드를 사용하면, 부모클래스의 접근지정자를 원하는 대로 변경해줄 수 있음!
+    using Base::m_i;
 };
 
 int main()
 {
     Derived derived(7);
+
+    // using 키워드를 사용해서 부모클래스의 protected 멤버를 자식클래스에서 public 멤버로 변경! -> 외부에서 접근 가능!
+    derived.m_i = 1024;
 
     return 0;
 }
