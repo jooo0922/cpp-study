@@ -16,6 +16,13 @@ public:
     {
         cout << "I'm base " << endl;
     }
+
+    // 친구함수로 출력 스트림 연산자 오버로딩 등록하기
+    friend std::ostream& operator << (std::ostream& out, const Base& b)
+    {
+        out << "This is base output" << endl;
+        return out;
+    }
 };
 
 class Derived : public Base
@@ -52,15 +59,35 @@ public:
         Base::print();
         cout << "I'm derived " << endl;
     }
+
+    // 부모클래스에서 친구함수로 등록한 오버로딩을 자식클래스에도 구현
+    friend std::ostream& operator << (std::ostream& out, const Derived& b)
+    {
+        // 여기서도 print() 와 마찬가지로, 
+        // 부모클래스에서 friend 로 등록한 오버로딩 함수를 실행하고 나서,
+        // 자식클래스에서 추가로 다른 작업을 수행하도록 하고 싶다면???
+        
+        // 정답은 아주 간단함! Derived 타입의 참조변수(인스턴스 자신)을 부모클래스 타입 Base 로 캐스팅하고,
+        // 이를 cout 으로 출력하면 됨! 
+        // -> 이렇게 하면 부모클래스 Base 에 오버로딩된 출력스트림 연산자 친구함수가 먼저 실행될 것임!
+        // 이런 식으로 자식클래스가 부모클래스로 casting 이 가능한 이유는,
+        // 자식클래스가 저장된 메모리는 부모클래스 데이터가 저장된 메모리에 추가로 데이터를 저장한 것에 불과하기 때문에,
+        // 두 부모-자식 클래스 간 형변환이 가능하다!
+        cout << static_cast<Base>(b);
+        out << "This is derived output" << endl;
+        return out;
+    }
 };
 
 int main()
 {
     Base base(5);
-    base.print();
+    //base.print();
+    cout << base;
 
     Derived derived(7);
-    derived.print();
+    //derived.print();
+    cout << derived;
 
     return 0;
 }
