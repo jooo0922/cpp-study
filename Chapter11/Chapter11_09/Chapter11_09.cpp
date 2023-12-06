@@ -42,5 +42,19 @@ public:
 
 int main()
 {
+    USBNetworkDevice my_device(3.14, 6.022);
+
+    // 다중상속을 받은 자식클래스는 부모클래스의 모든 기능을 동시에 사용할 수 있다는 장점이 있음.
+    my_device.networking();
+    my_device.plugAndPlay();
+
+    // 반면, 부모클래스 간 서로 겹치는 기능을 실행할 때 문제가 발생함!
+    //my_device.getID(); // ambiguous access of 'getID' 에러 발생 -> 즉, 어느 부모클래스의 getID() 를 실행해야 할 지 모르겠다는 뜻!
+
+    // 이럴 때 해결 방법은 의외로 간단함.
+    // 특정 부모클래스의 getID() 를 영역표시 연산자(::)로 명시하는 것!
+    my_device.USBDevice::getID();
+    my_device.NetworkDevice::getID();
+
     return 0;
 }
