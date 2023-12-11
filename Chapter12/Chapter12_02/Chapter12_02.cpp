@@ -58,5 +58,13 @@ int main()
     // -> 즉, B 클래스에서 'overriding 된' 함수를 그대로 사용할 수 있게 됨!
     ref.print(); // B 출력
 
+    // 그렇다면, 이번에는 A 참조변수에 c 를 넣을 경우에도,
+    // c 에서 overriding 된 print() 함수를 실행할까?
+    // c 는 중간에 B 클래스를 거쳐서 상속받은 손자 클래스인데, 
+    // A 클래스의 virtual 가상함수가 손자 클래스의 overriding 함수까지 실행할 수 있을까?
+    // -> 정답은 실행 가능!
+    A& ref2 = c;
+    ref2.print();
+
     return 0;
 }
