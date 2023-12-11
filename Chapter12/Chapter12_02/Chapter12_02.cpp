@@ -1,0 +1,14 @@
+#include <iostream>
+
+using namespace std;
+
+class A
+{
+public:
+    void print() { cout << "A" << endl; }
+};
+
+int main()
+{
+    return 0;
+}
