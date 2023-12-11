@@ -22,18 +22,26 @@ public:
 class B : public A
 {
 public:
+    // 최상위 부모 클래스 A 에 이미 print() 함수는 가상함수로 선언되어 있으므로, 
+    // 자식클래스들에서 virtual 을 붙이는 게 문법적으로 큰 차이는 없음!
+    // 그러나, 대부분의 프로그래머는 가독성 및 디버깅을 위해, virtual 이 존재하는 최상위 부모 클래스 밑에
+    // 자식 클래스 들에도, 해당하는 멤버함수들에 모두 virtual 을 명시함으로써, 해당 멤버함수가
+    // 부모 클래스로부터 overriding 하고 있음을 명확히 표시하는 경우가 많음!
+    //virtual void print() { cout << "B" << endl; }
     void print() { cout << "B" << endl; }
 };
 
 class C : public B
 {
 public:
+    //virtual void print() { cout << "C" << endl; }
     void print() { cout << "C" << endl; }
 };
 
 class D : public C
 {
 public:
+    //virtual void print() { cout << "D" << endl; }
     void print() { cout << "D" << endl; }
 };
 
