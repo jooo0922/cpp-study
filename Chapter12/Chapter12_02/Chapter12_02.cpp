@@ -43,6 +43,10 @@ class D : public C
 public:
     //virtual void print() { cout << "D" << endl; }
     void print() { cout << "D" << endl; }
+
+    // 만약, overriding 하는 함수의 return type 이 다르면 어떡할 것인가? -> 일단 컴파일 안됨.
+    // 항상 부모클래스의 함수를 overriding 할 때에는 return type 을 맞춰서 설계하도록!
+    //virtual int print() { cout << "D" << endl; return 0; }
 };
 
 int main()
