@@ -39,6 +39,17 @@ public:
 
 int main()
 {
+    /*
+        이때, 소멸자 호출 순서에 따라
+
+        ~Derived
+        ~Base
+
+        순으로 출력됨.
+
+        소멸자는 항상 자식 -> 부모 역순으로 호출된다고 했었지?
+        https://github.com/jooo0922/cpp-study/blob/main/Chapter11/Chapter11_04/Chapter11_04.cpp 참고!
+    */
     Derived derived(5);
 
     return 0;
