@@ -49,7 +49,39 @@ public:
 class C : public B
 {
 public:
-    virtual void print(int x) { cout << "C" << endl; }
+    //virtual void print(int x) { cout << "C" << endl; }
+};
+
+class AA
+{
+public:
+    void print() { cout << "AA" << endl; }
+    virtual AA* getThis() 
+    {
+        cout << "AA::getThis()" << endl;
+        return this; 
+    }
+};
+
+class BB : public AA
+{
+public:
+    void print() { cout << "BB" << endl; }
+
+    /*
+        공변 반환값 (covariant)
+
+        위에서 반환값 타입이 다르면 멤버함수는
+        overriding 이 안된다고 했었지?
+
+        그런데, 반환값 타입으로 지정된 두 클래스 AA 와 BB 가
+        서로 '부모 - 자식' 관계라면, 예외적으로 overriding 가능!
+    */
+    virtual BB* getThis() 
+    { 
+        cout << "BB::getThis()" << endl;
+        return this; 
+    }
 };
 
 int main()
@@ -60,6 +92,38 @@ int main()
 
     A& ref = b;
     ref.print(1);
+
+    /* 공변 반환값(covariant) 테스트 */ 
+    AA aa;
+    BB bb;
+
+    AA& ref2 = bb;
+
+    // BB::getThis() 실행 후, BB 출력
+    bb.getThis()->print(); 
+
+    // BB:getThis() 실행 후, AA 출력
+    /*
+        왜 이런 결과가 나올까?
+
+        getThis() 멤버함수는 virtual 키워드에 의해
+        자식클래스 BB 에서 overriding 되었기 때문에,
+
+        자식클래스 인스턴스 bb 를 저장한 참조변수 ref2 를 통해
+        getThis() 멤버함수를 실행하면, 
+        당연히 BB::getThis() 가 실행되는 것은 지극히 정상!
+
+        그러나, 한편으로는
+        ref2 는 AA 클래스 타입의 참조변수이기 때문에,
+        BB::getThis() 가 실행되더라도, 
+        
+        반환값을 중간에 AA* 타입의 주소값으로 
+        바꿔치기해서 반환해주므로,
+        AA*->print() 형태로 실행되었던 것이고,
+
+        그로 인해 마지막으로는 AA 가 출력되었던 것임!
+    */
+    ref2.getThis()->print(); 
 
     return 0;
 }
