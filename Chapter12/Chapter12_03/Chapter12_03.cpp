@@ -34,14 +34,23 @@ public:
         '그렇게 하면 overriding 못해!' 라고 미리 에러를 발생시킴! 
     */
     //void print(short x) { cout << "B" << endl; }
-    void print(int x) override { cout << "B" << endl; }
+    //void print(int x) override { cout << "B" << endl; }
+
+    /*
+        한 편, final 키워드의 역할은 뭘까?
+
+        이 키워드가 붙은 멤버함수는
+        이 클래스를 상속받는 자식 클래스들이
+        더 이상 해당 멤버함수를 override 하지 못하게 막아버리는 역할!
+    */
+    void print(int x) final { cout << "B" << endl; }
 };
 
-//class C : public B
-//{
-//public:
-//    virtual void print() { cout << "C" << endl; }
-//};
+class C : public B
+{
+public:
+    virtual void print(int x) { cout << "C" << endl; }
+};
 
 int main()
 {
