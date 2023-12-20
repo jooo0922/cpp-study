@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -94,6 +95,28 @@ int main()
     b.print();
 
     doSomething(d);
+
+    /*
+        초보 프로그래머의 경우,
+        std::vector 를 잘못 사용할 때
+        의도치 않은 객체 잘림 현상을 경험하게 됨.
+    */
+    Base b1;
+    Derived d1;
+
+    std::vector<Base> my_vec;
+    my_vec.push_back(b1);
+
+    // 이것도 마찬가지로 Base 타입 변수에 Derived 타입 인스턴스를 강제로 복사해버리는 꼴이 됨 
+    // -> 객체 잘림현상 발생!
+    my_vec.push_back(d1); 
+
+    for (auto& ele : my_vec)
+    {
+        // for-each 문으로 추가된 인스턴스들의 print() 함수 실행 시,
+        // 객체 잘림 현상에 의해 전부 부모클래스인 Base 의 print() 만 실행됨!
+        ele.print();
+    }
 
     return 0;
 }
