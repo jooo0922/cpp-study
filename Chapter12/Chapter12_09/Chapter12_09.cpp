@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <functional> // reference_wrapper 사용을 위해 포함
 
 using namespace std;
 
@@ -104,18 +105,42 @@ int main()
     Base b1;
     Derived d1;
 
-    std::vector<Base> my_vec;
-    my_vec.push_back(b1);
+    //std::vector<Base> my_vec;
+    //my_vec.push_back(b1);
 
-    // 이것도 마찬가지로 Base 타입 변수에 Derived 타입 인스턴스를 강제로 복사해버리는 꼴이 됨 
-    // -> 객체 잘림현상 발생!
-    my_vec.push_back(d1); 
+    //// 이것도 마찬가지로 Base 타입 변수에 Derived 타입 인스턴스를 강제로 복사해버리는 꼴이 됨 
+    //// -> 객체 잘림현상 발생!
+    //my_vec.push_back(d1); 
+
+    //for (auto& ele : my_vec)
+    //{
+    //    // for-each 문으로 추가된 인스턴스들의 print() 함수 실행 시,
+    //    // 객체 잘림 현상에 의해 전부 부모클래스인 Base 의 print() 만 실행됨!
+    //    ele.print();
+    //}
+
+    // 위의 std::vector 에서의 객체 잘림 현상을 해결하는 방법 중 하나는
+    // 포인터 변수로 std::vector 를 선언하는 것!
+    //std::vector<Base*> my_vec;
+    //my_vec.push_back(&b1);
+    //my_vec.push_back(&d1); 
+
+    //for (auto& ele : my_vec)
+    //{
+    //    ele->print();
+    //}
+
+    // 또는, 참조변수로 std::vector 를 선언해서 객체 잘림을 해결해야 할 상황이 생긴다면,
+    // std::reference_wrapper<> 를 사용할 것! (std::vector 는 원래 참조변수 타입을 선언할 수 없음!)
+    std::vector<std::reference_wrapper<Base>> my_vec; // 이제 이 vector 는 Base 의 참조변수를 저장하는 vector 가 됨!
+    my_vec.push_back(b1);
+    my_vec.push_back(d1);
 
     for (auto& ele : my_vec)
     {
-        // for-each 문으로 추가된 인스턴스들의 print() 함수 실행 시,
-        // 객체 잘림 현상에 의해 전부 부모클래스인 Base 의 print() 만 실행됨!
-        ele.print();
+        // 여기서 ele 은 std::reference_wrapper<Base> 타입의 변수에 해당되고,
+        // ele.get() 은 std::reference_wrapper.get() 즉, Base 의 참조변수를 반환해주는 getter 함수에 해당함!
+        ele.get().print();
     }
 
     return 0;
