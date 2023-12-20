@@ -67,16 +67,19 @@ public:
     }
 };
 
-class Dog : public Animal
+class Cow : public Animal
 {
 public:
-    Dog(string name)
+    Cow(string name)
         : Animal(name)
     {}
 
-    void speak() const
+    // 자식클래스에서 순수 가상함수를 override 하지 않는다면? -> 컴파일 에러 발생!
+
+    // 컴파일 에러 해결을 위해 순수 가상함수 speak() override
+    virtual void speak() const
     {
-        cout << m_name << " Woof " << endl;
+        cout << m_name << " Moooo " << endl;
     }
 };
 
@@ -89,6 +92,13 @@ int main()
         이러한 추상 클래스는
         "인스턴스를 생성하는 게 불가능" 하다!!
     */
-    Animal ani("Hi");
+    //Animal ani("Hi");
+
+    // 순수 가상함수를 override 하지 않은 자식클래스의 인스턴스를 생성하려고 하면,
+    // "pure virtual function "Animal::speak" has no overrider" 라고 뜸!
+    // 즉, 순수 가상함수는 자식클래스에서 반드시 override 해줘야 한다는 뜻!
+    Cow cow("hello");
+    cow.speak();
+
     return 0;
 }
