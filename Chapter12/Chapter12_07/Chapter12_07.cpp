@@ -133,6 +133,28 @@ public:
     }
 };
 
+/*
+    매개변수가 IErrorLog 라는 인터페이스 클래스 타입의
+    참조변수로 정의되어 있음.
+
+    그런데, IErrorLog 에는
+    reportError() 라는 '순수 가상함수만' 구현되어 있어서,
+    실제로 무슨 작업을 해야 하는지 구현되어 있지는 않는 상태임!
+
+    그럼에도 불구하고,
+    IErrorLog 를 상속받는 자식 클래스들인
+    FileErrorLog, ConsoleErrorLog 타입의 인스턴스들을
+    매개변수로 입력받을 수 있고,
+
+    그들이 override 한
+    reportError() 함수를 출력할 수 있도록 해주기 때문에
+    여러 자식클래스들의 '인터페이스로써의 역할'을 충실히 하고 있음!
+*/
+void doSomething(IErrorLog& log)
+{
+    log.reportError("Runtime error!!");
+}
+
 int main()
 {
     /*
@@ -149,6 +171,15 @@ int main()
     // 즉, 순수 가상함수는 자식클래스에서 반드시 override 해줘야 한다는 뜻!
     Cow cow("hello");
     cow.speak();
+
+
+    /* 인터페이스 클래스가 필요한 이유 */
+
+    FileErrorLog file_log;
+    ConsoleErrorLog console_log;
+
+    doSomething(file_log);
+    doSomething(console_log);
 
     return 0;
 }
