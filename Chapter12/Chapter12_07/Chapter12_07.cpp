@@ -83,6 +83,56 @@ public:
     }
 };
 
+
+/* 인터페이스 클래스 */
+/*
+    인터페이스 클래스란,
+
+    클래스 내부에 선언한 멤버함수들이
+    "모두 순수 가상함수일 때"
+
+    해당 클래스를 "인터페이스 클래스" 라고 함!
+
+    즉, 자기가 실제로 뭘 할 지는 아무것도 정의하지 않고 있고,
+    "이 클래스를 상속받는 자식클래스들은 ~~ 를 반드시 구현해야 한다"
+    는 '인터페이스, 명세'만 갖고 있는 구조!
+
+    참고로, 인터페이스 클래스 이름을 지을 때에는,
+    맨 앞에 'I' 를 반드시 붙여주는 convention 을 지켜줄 것!
+*/
+class IErrorLog
+{
+public:
+    // 순수 가상함수
+    virtual bool reportError(const char* errorMessage) = 0;
+
+    // 가상 소멸자
+    virtual ~IErrorLog() {}
+};
+
+/* 인터페이스 클래스를 상속받은 자식클래스 */
+class FileErrorLog : public IErrorLog
+{
+public:
+    // 인터페이스 클래스의 순수 가상함수 override
+    bool reportError(const char* errorMessage) override
+    {
+        cout << "Writing error to a file" << endl;
+        return true;
+    }
+};
+
+class ConsoleErrorLog : public IErrorLog
+{
+public:
+    // 인터페이스 클래스의 순수 가상함수 override
+    bool reportError(const char* errorMessage) override
+    {
+        cout << "Printing error to a console" << endl;
+        return true;
+    }
+};
+
 int main()
 {
     /*
