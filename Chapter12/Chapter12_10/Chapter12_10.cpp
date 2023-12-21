@@ -54,8 +54,22 @@ int main()
     // 이럴 때 사용하기 좋은 것이 dynamic_cast (동적 형변환)
     auto* base_to_d1 = dynamic_cast<Derived1*>(base);
 
-    // 자식클래스 타입인 Derived1 타입으로 다시 형변환 되었으니, 자식클래스의 멤버변수에도 접근 가능!
-    cout << base_to_d1->m_j << endl;
+    // 그런데, Derived2 도 Base 클래스의 자식클래스니까, Derived2 타입으로 동적 형변환이 가능하지 않을까? -> 불가능함!
+    // why? 애초에 base 는 Derived1 에서 형변환되었던 포인터 변수이기 때문에, Derived2 타입으로 동적 형변환을 시도하면,
+    // dynamic_cast<>() 는 동적 캐스팅 실패에 대한 결과로 nullptr 을 반환함.
+    // auto* base_to_d1 = dynamic_cast<Derived2*>(base);
+
+    // 따라서, dynamic_casting 을 사용하여 반환받은 결과값은 항상 nullptr 체크를 해준 뒤 사용해야 함!
+    if (base_to_d1 != nullptr)
+    {
+        // 자식클래스 타입인 Derived1 타입으로 다시 형변환 되었으니, 자식클래스의 멤버변수에도 접근 가능!
+        cout << base_to_d1->m_j << endl;
+    }
+    else
+    {
+        cout << "Failed " << endl;
+    }
+
 
     return 0;
 }
