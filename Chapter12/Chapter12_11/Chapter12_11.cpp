@@ -59,5 +59,19 @@ public:
 
 int main()
 {
+    Base b;
+    cout << b << '\n';
+
+    Derived d;
+    cout << d << '\n';
+
+    // Base 타입 참조변수에 자식클래스 인스턴스 d 할당
+    // 부모클래스 타입의 참조변수에 저장하면 원래는 부모 클래스의 멤버함수 print() 가 실행되어야 하지만,
+    // 해당 멤버함수가 virtual 로 선언되어 있고, 자식클래스에서 해당 가상함수를 override 하고 있으므로,
+    // 자식 클래스인 Derived 의 print() 멤버함수가 실행되는 것을 볼 수 있다!
+    // https://github.com/jooo0922/cpp-study/blob/main/Chapter12/Chapter12_02/Chapter12_02.cpp 참고!
+    Base& bref = d;
+    cout << bref << '\n';
+
     return 0;
 }
