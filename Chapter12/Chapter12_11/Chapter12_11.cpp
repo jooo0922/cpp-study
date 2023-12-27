@@ -20,11 +20,39 @@ public:
     }
 
     // 출력 스트림을 반환하는 가상함수 구현 (상수함수로 구현 > 클래스 멤버의 불변성 보장)
+    // 출력 연산자 오버로딩을 override 하고 싶으면, 아래의 가상함수를 '대신' override 함!
     virtual ostream& print(ostream& out) const
     {
         out << "Base";
 
         // 등록된 친구함수에서 호출하기 때문에, 출력 스트림을 반환해줘야 함.
+        return out;
+    }
+};
+
+// 자식 클래스
+class Derived : public Base
+{
+public:
+    // 생성자 함수
+    Derived() {}
+
+    /*
+        참고로, 실제 출력 스트림 오버로딩 함수는
+        부모 클래스에서 이미 친구함수로 등록되어 있기 때문에,
+
+        자식 클래스에서 이를 상속받을 때,
+        친구함수로 등록된 함수들도 같이 상속받음.
+
+        따라서, 출력 스트림 오버로딩을
+        자식클래스에 추가로 구현할 필요가 없음!
+    */
+
+    // virtual 과 override 키워드로 출력 스트림 오버로딩 함수를 '간접적으로' override 함
+    // 즉, 실제 출력 스트림 오버로딩 함수를 override 한 것이 아니라, print() 함수를 대신 override 한 것 뿐!
+    virtual ostream& print(ostream& out) const override
+    {
+        out << "Derived";
         return out;
     }
 };
