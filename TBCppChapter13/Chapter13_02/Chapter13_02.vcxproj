@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Chapter13_02.cpp" />
+    <ClCompile Include="MyArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyArray.h" />

@@ -18,6 +18,9 @@
     <ClCompile Include="Chapter13_02.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MyArray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyArray.h">
