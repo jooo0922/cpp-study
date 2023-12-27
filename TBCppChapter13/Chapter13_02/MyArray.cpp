@@ -55,4 +55,16 @@ void MyArray<T>::print()
 	다른 파일에 분리되어 있는 경우에는
 	프로그래머가 직접 instantiation 타입을 '명시'해줘야 함!
 */
-template void MyArray<double>::print();
+//template void MyArray<double>::print();
+
+/*
+	그러나,
+	
+	위와 같이 할 경우,
+	다른 멤버함수들도 일일이 
+	explicit instantiation 해주기 귀찮으니,
+	
+	그냥 클래스 자체를 explicit instantiation
+	처리해주는 게 낫겠지!
+*/
+template class MyArray<double>;
