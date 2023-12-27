@@ -7,7 +7,7 @@ int main()
 		해당 클래스 타입의 변수 및 인스턴스를 선언할 때,
 
 		꺽쇠 <> 안에
-		'template argument list'
+		'template argument list(== template parameter)'
 		라고 하는, 
 		
 		이 클래스가 Template Instantiation 할
