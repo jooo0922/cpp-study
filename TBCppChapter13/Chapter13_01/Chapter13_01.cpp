@@ -22,6 +22,16 @@ using namespace std;
 
     컴파일러가 알아서 내부적으로
     다 만들어줄 수 있게 됨!
+
+    참고로, 템플릿으로 정의된 일반화된 함수로부터
+    컴파일러에 의해 구체적인 타입들(int, float, ...)이
+    지정된 함수들을 'Template Instance' 라고 함!
+
+    또, 컴파일러가 이러한 구체적인 타입을 지정하여 함수를 만드는 행위를
+    'Template Instantiation' 이라고 함!
+
+    넓은 의미로 보면,
+    '클래스 - 인스턴스' 간의 관계와도 유사하다고 볼 수 있음! 
 */
 template<typename T>
 
