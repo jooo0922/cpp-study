@@ -1,5 +1,7 @@
 #include <iostream>
 
+using namespace std;
+
 /*
     템플릿
 
@@ -12,8 +14,23 @@
     구현하도록 일을 시키는 방법은 없을까?
 
     이럴 때 필요한 것이 템플릿!
+
+    템플릿을 typename 으로 지정하면,
+    우리가 일일이 손으로 int, float, double, ... 등등의
+    타입들에 대해서 오버로딩 함수를 쳐줘야 할 것을
+
+    컴파일러가 알아서 내부적으로
+    다 만들어줄 수 있게 됨!
 */
 template<typename T>
+
+/*
+    그렇다면,
+    위와 같이 built-in 데이터 타입만 템플릿으로 넣을 수 있는걸까?
+
+    물론 class, struct 등의
+    user-defined 데이터 타입도 넣을 수 있음!
+*/
 
 // 이제 아래 함수 getMax() 의 반환값과 매개변수 타입은 어떤 것이든 올 수 있음!
 T getMax(T x, T y)
@@ -23,5 +40,10 @@ T getMax(T x, T y)
 
 int main()
 {
+    cout << getMax(1, 2) << endl; // int
+    cout << getMax(3.14, 1.592) << endl; // double
+    cout << getMax(1.0f, 3.4f) << endl; // float
+    cout << getMax('a', 'c') << endl; // float
+
     return 0;
 }
