@@ -7,16 +7,17 @@ using namespace std;
 
 /*
 	만약, 클래스에서도
-	각 멤버변수의 built-in 타입들을
+	각 멤버변수의 타입들을
 	템플릿으로 지정해서 
 
 	컴파일러가 알아서 Template Instantiation 을
 	처리해줄 수 있을까? 물론 가능함!
 
-	참고로, 템플릿에서 'typename' 키워드 대신,
+	참고로, 템플릿에서 template parameter 지정 시, 
+	'typename' 키워드 대신,
 	클래스 이름을 작성하는 것도 가능함.
 
-	그러나, 템플릿에서는 항상
+	그러나, 템플릿에서 template parameter 를 지정할 때에는,
 	클래스같은 user-defined 자료형만 Instantiation 하는 것은 아니므로,
 
 	좀 더 일반적인 built-in 자료형까지 포괄할 수 있도록
@@ -85,12 +86,16 @@ public:
 	}
 
 	// 배열 요소 출력 멤버함수
-	void print()
-	{
-		for (int i = 0; i < m_length; i++)
-		{
-			cout << m_data[i] << " ";
-		}
-		cout << endl;
-	}
+	void print();
 };
+
+// 배열 요소 출력 멤버함수의 구현부(body)를 클래스 바깥으로 추출
+//template<typename T>
+//void MyArray<T>::print()
+//{
+//	for (int i = 0; i < m_length; i++)
+//	{
+//		cout << m_data[i] << " ";
+//	}
+//	cout << endl;
+//}
