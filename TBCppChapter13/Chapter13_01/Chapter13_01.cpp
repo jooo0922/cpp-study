@@ -46,5 +46,9 @@ int main()
     cout << getMax(1.0f, 3.4f) << endl; // float
     cout << getMax('a', 'c') << endl; // float
 
+    // 클래스같은 user-defined 자료형을 템플릿으로 사용하려면,
+    // 템플릿으로써 작동하기 위해 필요한 기능들(ex> 연산자 오버로딩 등)이 미리 구현되어 있어야 함!
+    cout << getMax(Cents(5), Cents(9)) << endl;
+
     return 0;
 }
