@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Storage.h"
 
 using namespace std;
 
@@ -53,6 +54,13 @@ int main()
     // 따라서, 함수에 전달되는 실제 리터럴 값을 템플릿 파라미터에 전달하는 타입으로 강제 형변환하는 것도 가능함!
     cout << getMax<double>(1, 2) << endl; // double
     cout << getMax('a', 'b') << endl; // 템플릿 특수화가 적용된 함수가 실행됨
+
+    // 템플릿 파라미터를 서로 다른 타입으로 전달하여 Storage 클래스의 인스턴스 생성
+    Storage<int> nValue(5);
+    Storage<double> dValue(6.7);
+
+    nValue.print();
+    dValue.print();
 
     return 0;
 }
