@@ -6,7 +6,7 @@ int main()
 		클래스 템플릿에
 		template parameter (템플릿 매개변수) 전달
 	*/
-	MyArray<double> my_array(10);
+	MyArray<double, 100> my_array;
 
 	// MyArray 클래스의 배열 요소들 할당
 	for (int i = 0; i < my_array.getLength(); i++)
