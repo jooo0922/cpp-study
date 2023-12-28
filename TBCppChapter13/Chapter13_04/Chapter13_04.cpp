@@ -12,7 +12,11 @@ T getMax(T x, T y)
 
 int main()
 {
-    cout << getMax(1, 2) << endl; // int
+    // 함수 템플릿을 사용할 때에는, 아래와 같이 '꺽쇠 안에 템플릿 파라미터 전달' 라는 부분이 '생략'된 것으로 보면 됨! 
+    //cout << getMax<int>(1, 2) << endl; // int
+
+    // 따라서, 함수에 전달되는 실제 리터럴 값을 템플릿 파라미터에 전달하는 타입으로 강제 형변환하는 것도 가능함!
+    cout << getMax<double>(1, 2) << endl; // double
 
     return 0;
 }
