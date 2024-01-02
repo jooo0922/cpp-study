@@ -20,6 +20,18 @@ public:
     }
 };
 
+// 함수 템플릿 선언
+// StaticArray 클래스에 저장된 정적 배열 출력해주는 함수
+template <typename T, int size>
+void print(StaticArray<T, size>& array)
+{
+    for (int count = 0; count < size; count++)
+    {
+        cout << array[count] << ' ';
+    }
+    cout << endl;
+}
+
 int main()
 {
     return 0;
