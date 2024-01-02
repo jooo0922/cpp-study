@@ -20,6 +20,19 @@ public:
 	}
 };
 
+// 이때, char 타입의 Instantiation 에 대해서만 특별한 작업을 수행하도록,
+// 클래스 템플릿 특수화 (Template Specialization) 선언
+template<>
+class A<char>
+{
+public:
+	void doSomething()
+	{
+		// char 타입에 대한 특별한 작업 수행
+		cout << "Char type specialization" << endl;
+	}
+};
+
 int main()
 {
 	// Template Instantiation
