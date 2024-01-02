@@ -34,6 +34,30 @@ void printArray(StaticArray<T, size>& array)
     cout << endl;
 }
 
+/*
+    char 타입에 대해서만 예외적으로
+    ' ' 띄어쓰기 출력을 생략하도록 template specialization 해보자!
+
+    이때, printArray 함수 템플릿은
+    template parameter 가 2개 잖아?
+    그 중에서 typename T 에 대해서만 specialization 하고 싶은 거니까,
+    
+    아래와 같이 '템플릿을 부분적으로 특수화' 해줘야 함!
+
+    이럴 경우,
+    특수화하지 않을 template parameter 는 그대로 남겨두면 됨!
+*/
+template <int size>
+void printArray(StaticArray<char, size>& array)
+{
+    for (int count = 0; count < size; count++)
+    {
+        // char 타입에 한해서는 띄어쓰기 출력을 생략하도록 템플릿 특수화 구현
+        cout << array[count];
+    }
+    cout << endl;
+}
+
 int main()
 {
     StaticArray<int, 4> int4;
@@ -50,6 +74,8 @@ int main()
     // strcpy_s() 함수로 문자열 복사 처리함.
     strcpy_s(char14.getArray(), 14, "Hello, World");
     
+    // printArray 함수 템플릿에서, char 타입에 대해서만 예외적으로
+    // ' ' 띄어쓰기 출력을 생략하도록 template specialization 할 수는 없을까? 
     printArray(char14);
     
     return 0;
