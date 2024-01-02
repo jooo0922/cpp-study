@@ -22,6 +22,10 @@ int main()
             // 입력값이 음수일 경우, 제곱근 (sqrt())를 계산할 수 없어 예외처리를 '던진다'
             // 현재 std::string 타입 문자열로 에러메시지를 '던지고' 있음.
             throw std::string("Negative input");
+
+            // 아래와 같이 c-style 문자열로 throw 한다고 해서,
+            // catch 문에서 std::string 타입으로 자동 형변환해주지 않음! -> 엄격한 타입 검사!
+            //throw "Negative input";
         }
 
         // 입력값이 양수일 경우, 제곱근을 계산해서 출력한다
@@ -33,6 +37,19 @@ int main()
         // 여기서는 throw 로 던진 에러메시지를 출력함
         cout << error_message << endl;
     }
+
+    /*
+        throw...catch 문에서 주의할 점
+
+
+        throw 문에서 던진 값의 타입은
+        catch 문에서 절대 '자동으로 casting 해주지 않음!'
+
+        즉, 두 문법은 엄격한 타입 체크를 하기 때문에,
+        throw 에서 그냥 char* 타입의 c-style 문자열로 던지더라도,
+        catch 문에서 std::string 타입으로 자동 형변환 하지 않고,
+        런타임 에러를 발생시키게 됨!
+    */
 
     return 0;
 }
