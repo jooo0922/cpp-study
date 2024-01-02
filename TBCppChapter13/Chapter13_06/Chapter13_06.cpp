@@ -20,19 +20,19 @@ public:
     {
         return m_array[index];
     }
-};
 
-// 함수 템플릿 선언
-// StaticArray 클래스에 저장된 정적 배열 출력해주는 함수
-template <typename T, int size>
-void printArray(StaticArray<T, size>& array)
-{
-    for (int count = 0; count < size; count++)
+    // StaticArray 클래스에 저장된 정적 배열 출력해주는 함수 템플릿 -> 멤버함수로 편입
+    void printArray()
     {
-        cout << array[count] << ' ';
+        for (int count = 0; count < size; count++)
+        {
+            // 현재 클래스로부터 생성된 인스턴스를 가리키는 포인터 변수 this 를 de-referencing 하여
+            // 현재 클래스의 [] 연산자 오버로딩을 사용해 정적배열의 요소를 출력하려는 것!
+            cout << (*this)[count] << ' ';
+        }
+        cout << endl;
     }
-    cout << endl;
-}
+};
 
 /*
     char 타입에 대해서만 예외적으로
@@ -47,16 +47,16 @@ void printArray(StaticArray<T, size>& array)
     이럴 경우,
     특수화하지 않을 template parameter 는 그대로 남겨두면 됨!
 */
-template <int size>
-void printArray(StaticArray<char, size>& array)
-{
-    for (int count = 0; count < size; count++)
-    {
-        // char 타입에 한해서는 띄어쓰기 출력을 생략하도록 템플릿 특수화 구현
-        cout << array[count];
-    }
-    cout << endl;
-}
+//template <int size>
+//void printArray(StaticArray<char, size>& array)
+//{
+//    for (int count = 0; count < size; count++)
+//    {
+//        // char 타입에 한해서는 띄어쓰기 출력을 생략하도록 템플릿 특수화 구현
+//        cout << array[count];
+//    }
+//    cout << endl;
+//}
 
 int main()
 {
@@ -66,7 +66,7 @@ int main()
     int4[2] = 3;
     int4[3] = 4;
 
-    printArray(int4);
+    int4.printArray();
 
     StaticArray<char, 14> char14;
 
@@ -76,7 +76,7 @@ int main()
     
     // printArray 함수 템플릿에서, char 타입에 대해서만 예외적으로
     // ' ' 띄어쓰기 출력을 생략하도록 template specialization 할 수는 없을까? 
-    printArray(char14);
+    char14.printArray();
     
     return 0;
 }
