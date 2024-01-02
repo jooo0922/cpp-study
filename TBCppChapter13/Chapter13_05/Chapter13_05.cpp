@@ -1,5 +1,6 @@
 #include <iostream>
 #include <array>
+#include "Storage8.h"
 
 using namespace std;
 
@@ -65,6 +66,52 @@ int main()
 	a_int.doSomething();
 	a_double.doSomething();
 	a_char.doSomething();
+
+
+	/* Storage8 클래스 템플릿을 활용한 실용적인 예제 테스트 */
+
+	// int 타입으로 Storage8 클래스 Template Instantication
+	Storage8<int> intStorage;
+
+	// Storage 8개 요소를 반복문에서 할당
+	for (int count = 0; count < 8; count++)
+	{
+		intStorage.set(count, count);
+	}
+
+	// 할당된 8개 요소를 반복문에서 출력
+	for (int count = 0; count < 8; count++)
+	{
+		cout << intStorage.get(count) << '\n';
+	}
+
+	// int 타입으로 Instantiation 된 클래스 템플릿의 메모리 사이즈 출력
+	cout << "Sizeof Storage8<int> " << sizeof(Storage8<int>) << endl; // 32 bytes (== 4 bytes * 8)
+
+	// bool 타입으로 Storage8 클래스 Template Instantication -> bool 타입으로 특수화된 템플릿 적용!
+	Storage8<bool> boolStorage;
+
+	// Storage 8개 요소를 반복문에서 할당
+	for (int count = 0; count < 8; count++)
+	{
+		/*
+			count(0부터 7까지의 정수) 값과 3 의 bitwise and 연산 수행 결과, 
+			0000 이 나오면 false 를 전달하고, 그렇지 않으면 true 를 전달함.
+			
+			ex> 0(== 0000) 과 3(== 0011) 을 bitwise and 연산하면 0000 이 되어 false 를 전달하고,
+			1(== 0001) 과 3(== 0011) 을 bitwise and 연산하면 0001 이 되어 true 를 전달함!
+		*/
+		boolStorage.set(count, count & 3);
+	}
+
+	// 할당된 8개 요소를 반복문에서 출력
+	for (int count = 0; count < 8; count++)
+	{
+		cout << (boolStorage.get(count) ? "true" : "false") << '\n';
+	}
+
+	// bool 타입으로 Instantiation 된 클래스 템플릿의 메모리 사이즈 출력
+	cout << "Sizeof Storage8<bool> " << sizeof(Storage8<bool>) << endl; // 1 byte (== 8 bits)
 
 	return 0;
 }
