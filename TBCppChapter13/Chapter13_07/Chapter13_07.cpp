@@ -24,5 +24,19 @@ public:
 
 int main()
 {
+    // int 타입으로 template instantiation
+    A<int> a_int(123);
+    a_int.print();
+
+    // int* (포인터 타입)으로 template instantiation
+    int temp = 456;
+    A<int*> a_int_ptr(&temp);
+    a_int_ptr.print();
+
+    // double* (포인터 타입)으로 template instantiation
+    double temp_d = 3.141592;
+    A<double*> a_double_ptr(&temp_d);
+    a_double_ptr.print();
+
     return 0;
 }
