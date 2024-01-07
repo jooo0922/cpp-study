@@ -44,7 +44,11 @@ void last()
 	cout << "Throw exception" << endl;
 
 	// -1 (int 타입)에러를 던짐
-	throw -1;
+	//throw -1;
+
+	// 어느 곳에서도 catch 하지 못하는 타입의 에러를 던질 경우,
+	// ellipsis(...) 로 에러 타입을 정의한 catch 문이 다 받아서 처리하게 됨.
+	throw 'a';
 
 	cout << "End last " << endl;
 }
