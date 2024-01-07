@@ -19,15 +19,19 @@ using namespace std;
 	throw 문법으로 int 타입 에러를 던지면 어떻게 될까?
 
 	-> 이럴 경우,
-	콜 스택에 쌓인 역순으로 함수들을 되집어가며 (이를 스택 되감기(unwinding) 이라고 함)
+	콜 스택에 쌓인 순서의 역순으로 함수들을 되집어가며 (이를 스택 되감기(unwinding) 이라고 함)
 	int 타입 에러를 catch 하는 코드가 포함된 함수가 있는지 찾아나감.
 
 	그러다가 int 타입 에러를 catch 하여 적절히 예외처리하는
 	first() 함수를 만나면, first 함수의 catch 문 및 이후의 코드들을 모두 실행하여
-	first() 함수 실행을 완료하고,
+	first() 함수 실행을 완료하면서 콜 스택으로부터 pop 해버리고,
 
 	가장 먼저 콜 스택에 push 되어있던 main() 함수로 돌아와서
-	나머지 코드를 수행한 뒤 프로그램이 종료됨.
+	나머지 코드를 수행한 뒤, 콜 스택으로부터 pop 하면서 프로그램이 종료됨.
+
+	물론, 그 사이에 존재하던 함수들은
+	던져진 해당 타입의 에러를 catch 하는 문법이 존재하지 않기 때문에,
+	이후의 코드들을 마저 실행하기도 전에 콜 스택으로부터 pop 되어버리겠지!
 
 	이러한 과정을
 	'예외처리 시 스택 되감기'
@@ -40,7 +44,7 @@ void last()
 	cout << "Throw exception" << endl;
 
 	// -1 (int 타입)에러를 던짐
-	throw - 1;
+	throw -1;
 
 	cout << "End last " << endl;
 }
@@ -114,7 +118,25 @@ int main()
 		*/
 		cerr << "main caught int exception" << endl;
 	}
-	// uncaught exceptions
+	catch (...) // catch-all handlers
+	{
+		/*
+			throw(던져진) 에러를 적절히 catch 하여 처리하지 못하면
+			프로그램이 중간에 runtime 에러를 발생시키면서
+			중단되는 문제가 있기는 하지만,
+
+			모든 타입의 에러에 대응되는 catch 문을
+			일일이 작성하는 것은 현실적으로 어려움.
+
+			따라서, 어떤 타입의 에러가 던져지던지 간에
+			무조건 catch 하여 handling 할 수 있는 catch 문을 작성하려면
+			catch 할 에러 타입을 ellipsis(...) 기호로 선언해주면 됨.
+
+			ellipsis 관련 설명은
+			https://github.com/jooo0922/cpp-study/blob/main/TBCppChapter7/Chapter7_16/Chapter7_16.cpp 참고
+		*/
+		cerr << "main caught ellipsis exception" << endl;
+	}
 
 	cout << "End main" << endl;
 
