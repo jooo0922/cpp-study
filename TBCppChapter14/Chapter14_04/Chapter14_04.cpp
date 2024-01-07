@@ -16,6 +16,40 @@
 	클래스와 호환성있게 사용 가능하여 아주 편리함.
 */
 
+/*
+	아래와 같이,
+	std::exception 을 상속받는 예외 클래스를
+	직접 구현할 수도 있음.
+
+	이때, std 내에 정의된 수많은
+	std::exception 의 자식 클래스들과 동일한 방식으로
+	작동하기를 원한다면,
+
+	std::exception 클래스 내의
+	필수 멤버함수인 what 을 반드시 override 해줘야 함!
+*/
+class CustomException : public std::exception
+{
+public:
+	// 멤버함수 what() overrdie
+	/*
+		다른 키워드들은 다 익숙한데
+		'noexcept' 는 처음 보지?
+
+		이거는 c++ 11 이상 컴파일러를 사용한다면
+		what() 멤버함수 override 시 반드시 들어가줘야 한다고 함.
+
+		이게 뭐냐면,
+		"적어도 해당 멤버함수 안에서는
+		throw std::exception 을 던지지 않음"을
+		보장하도록 하는 키워드라고 함.
+	*/
+	const char* what() const noexcept override
+	{
+		return "Custom exception";
+	}
+};
+
 int main()
 {
 	try
@@ -42,7 +76,13 @@ int main()
 			
 			throw 할 에러 객체의 타입으로 사용할 수도 있음!
 		*/
-		throw std::runtime_error("Bad thing happened");
+		//throw std::runtime_error("Bad thing happened");
+
+		/*
+			std::exception 클래스를 상속받아 직접 만든
+			CustomException 타입의 에러 객체를 throw 해보자!
+		*/
+		throw CustomException();
 	}
 	catch (std::length_error& exception)
 	{
