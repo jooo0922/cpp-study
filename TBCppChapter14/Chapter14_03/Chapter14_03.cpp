@@ -82,35 +82,35 @@ void doSomething()
 		// MyArray 클래스의 멤버함수에서 throw 된 int 타입 에러를 여기서 catch 하여 처리할 것임. 
 		cerr << "Exception " << x << endl;
 	}
-	catch (ArrayException& e)
-	{
-		/*
-			부모 클래스 타입으로 에러가 정의된
-			catch 문에서의 객체 잘림 현상을 방지하려면,
+	//catch (ArrayException& e)
+	//{
+	//	/*
+	//		부모 클래스 타입으로 에러가 정의된
+	//		catch 문에서의 객체 잘림 현상을 방지하려면,
 
-			자식 클래스 타입의 에러가 정의된
-			catch 문을 별도로 구현해줘야 함.
+	//		자식 클래스 타입의 에러가 정의된
+	//		catch 문을 별도로 구현해줘야 함.
 
-			단, 이때,
-			부모 클래스 타입의 catch 문이
-			자식 클래스 타입의 catch 문보다 먼저 정의되어 있으면,
+	//		단, 이때,
+	//		부모 클래스 타입의 catch 문이
+	//		자식 클래스 타입의 catch 문보다 먼저 정의되어 있으면,
 
-			상속관계에 의해
-			부모 클래스 타입의 catch 문이
-			자동으로 먼저 에러를 잡아버리게 되어 있음.
+	//		상속관계에 의해
+	//		부모 클래스 타입의 catch 문이
+	//		자동으로 먼저 에러를 잡아버리게 되어 있음.
 
-			따라서, 이를 방지하려면,6
-			항상 '상속받은 자식 클래스 타입의 catch 문을 먼저' 선언해줘야
-			자식 클래스 타입으로 던져진 에러를 적절하게 catch 하여
-			예외처리할 수 있게 됨.
-		*/
-		cout << "doSomething()" << endl;
-		e.report();
+	//		따라서, 이를 방지하려면,6
+	//		항상 '상속받은 자식 클래스 타입의 catch 문을 먼저' 선언해줘야
+	//		자식 클래스 타입으로 던져진 에러를 적절하게 catch 하여
+	//		예외처리할 수 있게 됨.
+	//	*/
+	//	cout << "doSomething()" << endl;
+	//	e.report();
 
-		// main() 함수에서 동일한 자식클래스 타입의 에러를 다시 catch 할 수 있도록,
-		// ArrayException 타입 에러를 rethrow 함!
-		throw e;
-	}
+	//	// main() 함수에서 동일한 자식클래스 타입의 에러를 다시 catch 할 수 있도록,
+	//	// ArrayException 타입 에러를 rethrow 함!
+	//	throw e;
+	//}
 	catch (Exception& e)
 	{
 		// Exception 클래스 타입의 에러를 catch 한 뒤, 
@@ -136,6 +136,37 @@ void doSomething()
 		*/
 		cout << "doSomething()" << endl;
 		e.report();
+
+		/*
+			만약, 자식 클래스 타입 에러를
+			처음 catch 하는 시점에는 부모 클래스 타입으로 받지만,
+
+			rethrow 를 통해 두 번째 catch 하는 시점에는
+			자식 클래스 타입으로 받을 수 있지 않을까?
+
+			그러나, 아래와 같이 throw e; 형태로 rethrow 해버리면,
+			객체 잘림이 이미 발생해버린 변수 e 를 에러로 던지기 때문에,
+
+			이미 catch 하는 입장에서는 잡은 에러 객체 e 가
+			Exception 와 같이 이미 잘려진 부모 클래스 타입으로 인식하게 됨.
+		*/
+		//throw e;
+
+		/*
+			따라서,
+			맨 처음에 받은 자식 클래스인 ArrayException 타입 에러를
+			객체 잘림 없이 그대로 두 번째 catch 문으로 던지고 싶다면,
+
+			그냥 throw; 만 실행하여
+			rethrow 하도록 하면 됨.
+
+			이렇게 하면,
+			에러 객체를 건들지 않고 그대로 튕겨서 두 번째 catch 문으로 전달해버림.
+
+			그 덕분에 위 catch 문 매개변수 선언을 거치지 않음으로써 
+			객체 잘림이 발생하지 않게 됨.
+		*/
+		throw;
 	}
 }
 
@@ -160,6 +191,11 @@ int main()
 			이 과정에서 Chapter14_02 에서 배웠던
 			'예외처리 시 스택 되감기(unwinding)' 가 수행될 것임!
 		*/
+		cout << "main()" << endl;
+		e.report();
+	}
+	catch (Exception& e)
+	{
 		cout << "main()" << endl;
 		e.report();
 	}
