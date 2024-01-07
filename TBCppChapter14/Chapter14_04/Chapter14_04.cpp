@@ -36,6 +36,28 @@ int main()
 		*/
 		s.resize(-1);
 	}
+	catch (std::length_error& exception)
+	{
+		/*
+			std::string::resize() 에서 던지는
+			std::length_error(std::exception 의 자식클래스) 타입 에러를
+			먼저 catch 하기 위해,
+
+			자식클래스 타입 에러에 대한 catch 문을 먼저 구현함.
+
+			그러나, 매번 std 의 어떤 클래스가 어떤 예외클래스를 던지는 지
+			매번 확인해갖고 자식클래스 에러 타입에 대한 catch 문을
+			일일이 구현하는 게 굉장히 번거롭기 때문에,
+
+			실제로 이렇게 자식 클래스 타입의 catch 문을 
+			별도로 구현하는 경우는 거의 없고,
+
+			대부분은 아래와 같이 std::exception 타입의
+			최상위 부모인 예외 클래스를 선언하여 catch 문을 구현함
+		*/
+		std::cerr << "Length_Error" << std::endl;
+	 	std::cerr << exception.what() << std::endl;
+	}
 	catch (std::exception& exception)
 	{
 		// std::string::resize() 에서 던져진 에러를 catch 하여 적절히 예외처리 함.
