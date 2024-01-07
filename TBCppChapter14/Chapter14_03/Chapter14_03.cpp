@@ -99,12 +99,17 @@ void doSomething()
 			부모 클래스 타입의 catch 문이
 			자동으로 먼저 에러를 잡아버리게 되어 있음.
 
-			따라서, 이를 방지하려면,
+			따라서, 이를 방지하려면,6
 			항상 '상속받은 자식 클래스 타입의 catch 문을 먼저' 선언해줘야
 			자식 클래스 타입으로 던져진 에러를 적절하게 catch 하여
 			예외처리할 수 있게 됨.
 		*/
+		cout << "doSomething()" << endl;
 		e.report();
+
+		// main() 함수에서 동일한 자식클래스 타입의 에러를 다시 catch 할 수 있도록,
+		// ArrayException 타입 에러를 rethrow 함!
+		throw e;
 	}
 	catch (Exception& e)
 	{
@@ -129,13 +134,35 @@ void doSomething()
 			따라서, report() 함수를 호출하더라도,
 			부모 클래스인 Exception 의 report() 멤버함수가 실행될 것임!
 		*/
+		cout << "doSomething()" << endl;
 		e.report();
 	}
 }
 
 int main()
 {
-	doSomething();
+	try
+	{
+		doSomething();
+	}
+	catch (ArrayException& e)
+	{
+		/*
+			이번에는
+
+			doSomething() 함수 내에서
+			ArrayException 타입의 에러가 한 번 catch 됨과 동시에,
+			동일한 에러 객체를 rethrow 하게 되는데,
+
+			main() 함수 내에서 rethrow 된 동일한 에러 객체를
+			다시 잡도록 catch 문을 추가한 것!
+
+			이 과정에서 Chapter14_02 에서 배웠던
+			'예외처리 시 스택 되감기(unwinding)' 가 수행될 것임!
+		*/
+		cout << "main()" << endl;
+		e.report();
+	}
 
     return 0;
 }
