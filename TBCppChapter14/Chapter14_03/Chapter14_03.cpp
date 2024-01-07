@@ -26,6 +26,20 @@ public:
 	}
 };
 
+/*
+	예외 클래스를 상속받는
+	ArrayException 클래스 정의 및 구현
+*/
+class ArrayException : public Exception
+{
+public:
+	// 부모 클래스의 멤버함수 report() 를 override
+	void report()
+	{
+		cerr << "Array exception" << endl;
+	}
+};
+
 class MyArray
 {
 private:
@@ -43,7 +57,10 @@ public:
 			//throw - 1;
 
 			// 이번에는, user-defined 자료형인 Exception 클래스를 에러로 던짐.
-			throw Exception();
+			//throw Exception();
+
+			// 이번에는, Exception 클래스를 상속받는 ArrayException 타입을 에러를 던짐.
+			throw ArrayException();
 		}
 
 		return m_data[index];
@@ -65,10 +82,53 @@ void doSomething()
 		// MyArray 클래스의 멤버함수에서 throw 된 int 타입 에러를 여기서 catch 하여 처리할 것임. 
 		cerr << "Exception " << x << endl;
 	}
+	catch (ArrayException& e)
+	{
+		/*
+			부모 클래스 타입으로 에러가 정의된
+			catch 문에서의 객체 잘림 현상을 방지하려면,
+
+			자식 클래스 타입의 에러가 정의된
+			catch 문을 별도로 구현해줘야 함.
+
+			단, 이때,
+			부모 클래스 타입의 catch 문이
+			자식 클래스 타입의 catch 문보다 먼저 정의되어 있으면,
+
+			상속관계에 의해
+			부모 클래스 타입의 catch 문이
+			자동으로 먼저 에러를 잡아버리게 되어 있음.
+
+			따라서, 이를 방지하려면,
+			항상 '상속받은 자식 클래스 타입의 catch 문을 먼저' 선언해줘야
+			자식 클래스 타입으로 던져진 에러를 적절하게 catch 하여
+			예외처리할 수 있게 됨.
+		*/
+		e.report();
+	}
 	catch (Exception& e)
 	{
 		// Exception 클래스 타입의 에러를 catch 한 뒤, 
 		// 해당 클래스에 추상화된 작업(report() 멤버함수)을 수행함
+
+		/*
+			ArrayException 타입의 에러가 던져졌을 때,
+			
+			만약, 상속받은 자식 클래스 타입에 대한 
+			catch 문을 별도로 구현하지 않는다면,
+
+			어쨋든 상속관계의 부모 클래스인 Exception 타입의 에러로 정의된
+			catch 문이 에러를 잡아서 처리하겠지만,
+
+			https://github.com/jooo0922/cpp-study/blob/main/Chapter12/Chapter12_09/Chapter12_09.cpp 에서 배웠던
+			'객체 잘림 현상' 에 의해
+
+			부모 클래스 타입으로 선언된 에러 변수 e 에는
+			자식 클래스인 ArrayException 에'만' 존재하는 데이터들이 잘려나가 저장됨.
+
+			따라서, report() 함수를 호출하더라도,
+			부모 클래스인 Exception 의 report() 멤버함수가 실행될 것임!
+		*/
 		e.report();
 	}
 }
