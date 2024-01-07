@@ -34,7 +34,15 @@ int main()
 			표준 에러를 catch 하는 코드만 구현해두면
 			예외 처리를 적절하게 handling 할 수 있겠지!
 		*/
-		s.resize(-1);
+		//s.resize(-1);
+
+		/*
+			아래와 같이,
+			std::exception 의 자식클래스 중 하나인 std::runtime_error 를 
+			
+			throw 할 에러 객체의 타입으로 사용할 수도 있음!
+		*/
+		throw std::runtime_error("Bad thing happened");
 	}
 	catch (std::length_error& exception)
 	{
