@@ -3,10 +3,45 @@
 
 using namespace std;
 
+class A
+{
+public:
+	// 소멸자 함수
+	~A()
+	{
+		/*
+			소멸자 함수에서 char* 타입 에러를 throw 하는 상황
+
+			
+			이처럼, 클래스의 소멸자 함수 내에서
+			타입 에러를 throw 하는 것은 금기시 되는 문법임.
+
+			실제로 빌드하면,
+
+			"'A::~A' function assumed not to throw an exception but does"
+			라는 경고가 출력됨.
+
+			즉, destructor 내에서는 에러를 못던지게 되어 있다는 뜻.
+
+			왜냐하면, 상식적으로 destructor 는
+			인스턴스에 할당된 메모리들을 싹 다 지우고 반납하는 과정이므로,
+
+			이 시점에 정상적으로 에러를 던질 수 없는 상황이라고 
+			보는 게 타당하겠지!
+
+			-> warning 이기 때문에 빌드는 정상적으로 되겠지만,
+			실제 실행파일을 돌리면 runtime error 가 발생함!
+		*/
+		//throw "error";
+	}
+};
+
 int main()
 {
 	try
 	{
+		A a;
+
 		// 배열 메모리 동적 할당
 		int* i = new int[1000000];
 
