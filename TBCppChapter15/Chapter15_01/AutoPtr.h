@@ -45,6 +45,35 @@ public:
 		if (m_ptr != nullptr) delete m_ptr;
 	}
 
+	// 복사 생성자를 통해 '메모리 소유권 이동' 구현
+	// 복사 생성자 관련 https://github.com/jooo0922/cpp-study/blob/main/Chapter9/Chapter9_09/Chapter9_09.cpp 참고
+	AutoPtr(AutoPtr& a)
+	{
+		// 매개변수로 전달된 동일한 타입의 인스턴스 a 에서 현재 인스턴스로 m_ptr 의 주소값을 '이동'시킴
+		m_ptr = a.m_ptr;
+		a.m_ptr = nullptr;
+	}
+
+	// 대입 연산자(=) 오버로딩을 통해 '메모리 소유권 이동' 구현
+	AutoPtr& operator = (AutoPtr& a)
+	{
+		// 인스턴스가 자기 자신으로 대입될 경우 아무 것도 하지 않고 함수 종료
+		if (&a == this)
+		{
+			return *this;
+		}
+
+		// 일단, 이미 자신이 갖고 있는 포인터 주소값이 가리키는 메모리는 반납해버림
+		delete m_ptr;
+
+		// 그리고, 대입된 인스턴스 a 로부터 m_ptr 주소값을 '이동'시킴 (메모리 소유권이 '이전'됨)
+		m_ptr = a.m_ptr;
+		a.m_ptr = nullptr;
+
+		// 마지막으로, 자기 자신을 de-referencing 하여 반환
+		return *this;
+	}
+
 	// de-referencing 연산자(*)를 상수 함수로 오버로딩
 	T& operator*() const { return *m_ptr; }
 
