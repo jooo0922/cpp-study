@@ -1,5 +1,51 @@
 #include <iostream>
 
+using namespace std;
+
+/*
+    아래와 같이,
+    R-value reference 와
+    L-value reference 는
+
+    서로 다른 매개변수로 오버로딩이 가능함.
+
+    즉, 서로 다르게 기능할 수 있는 오버로딩으로
+    컴파일러가 인정해준다는 것!
+*/
+
+// 함수의 매개변수를 L-value reference 로 오버로딩
+void doSomething(int& lref)
+{
+    /*
+        L-value 참조변수는
+        이 함수 외부에서도 접근이 가능한,
+        즉, 메모리 공간을 갖는 변수이기 때문에,
+
+        이 함수 내에서 L-value 참조변수에 담긴 값을
+        'move semantics'(메모리 소유권 이동)을 하면
+        
+        이 함수 외부에서 이 참조변수에 접근할 때,
+        값이 이동되어서 사라져버린 상태가 될테니 문제가 되겠지! 
+    */
+    cout << "L-value ref" << endl;
+}
+
+// 함수의 매개변수를 R-value reference 로 오버로딩
+void doSomething(int&& ref)
+{
+    /*
+        R-value 참조변수는 
+        어차피 소멸될 R-value 들(리터럴, 표현식 등)을
+        담고 있기 때문에,
+
+        이 R-value 참조변수를 이 함수 내에서
+        'move semantics'(메모리 소유권 이동)을 해도 아무런 지장이 없음.
+
+        해당 참조변수는 이 함수 외부에서 접근할 일이 아예 없는 R-value 니까!
+    */
+    cout << "R-value ref" << endl;
+}
+
 int getResult()
 {
     return 100 * 100;
@@ -49,6 +95,11 @@ int main()
     //const int&& rr4 = x; // 마찬가지로 상수 R-value reference 에도 Modifiable l-values 는 할당 불가
     //const int&& rr5 = cx; // 마찬가지로 Non-modifiable l-values 도 할당 불가
     const int&& rr6 = 5; // 메모리에 저장되어 있지 않은 R-value 는 상수인 R-value reference 에도 할당 가능
+
+    // L/R-value reference parameters
+    doSomething(x); // L-value 매개변수로 오버로딩된 함수가 실행될 것임.
+    doSomething(5); // R-value 매개변수로 오버로딩된 함수가 실행될 것임.
+    doSomething(getResult()); // R-value 매개변수로 오버로딩된 함수가 실행될 것임.
 
     return 0;
 }
