@@ -96,4 +96,13 @@ public:
 
 		std::cout << std::endl;
 	}
+
+	// 동적 배열의 모든 메모리를 상수 참조변수인 매개변수로 들어온 v 값으로 초기화하는 util
+	void setAll(const int& v)
+	{
+		for (unsigned i = 0; i < m_length; i++)
+		{
+			m_data[i] = v;
+		}
+	}
 };
