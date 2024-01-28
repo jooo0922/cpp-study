@@ -47,6 +47,26 @@ int main()
             */
             std::shared_ptr<Resource> ptr2(ptr1);
 
+            /*
+                shared_ptr 을 추가로 더 만들 때,
+
+                아래 코드와 같이 공유할 메모리 주소값인 res 를
+                직접 전달하여 만들려고 한다면,
+
+                기존의 shared_ptr 인 ptr1 입장에서는
+                자기 자신 외에 다른 shared_ptr 인 ptr2 가
+                res 에 대한 소유권을 공유하고 있다는 것을
+                알 방법이 없음.
+
+                shared_ptr 을 이런 식으로 사용하는 순간
+                믄제가 발생하게 되므로,
+
+                항상 기존 shared_ptr 자체를 매개변수로 넘겨줘야
+                기존 shared_ptr 내부에서 어떤 shared_ptr 들이
+                동일한 메모리 주소값을 공유하고 있는지 내부적으로 관리할 수 있음!
+            */
+            //std::shared_ptr<Resource> ptr2(res);
+
             ptr2->setAll(3);
             ptr2->print();
 
