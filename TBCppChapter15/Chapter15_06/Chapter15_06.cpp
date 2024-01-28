@@ -54,7 +54,7 @@ int main()
 
                 shared_ptr 내부에 자체적으로
                 몇 개의 스마트 포인터가 서로 같은 메모리 주소값을
-                공유하고 있는지 counting 하는 데이터가 존재함.
+                공유하고 있는지 counting 하는 기록이 존재함.
 
                 그래서 아래와 같이 새로운 shared_ptr 을 생성할 때,
                 기존 shared_ptr 인 ptr1 을 매개변수로 넘겨주면,
@@ -63,7 +63,11 @@ int main()
                 Resource 클래스에 대해 동적 할당된 메모리의 주소값인
                 res 를 가리키게 될 것임.
             */
-            std::shared_ptr<Resource> ptr2(ptr1);
+            //std::shared_ptr<Resource> ptr2(ptr1);
+            
+            // 또는, 아래와 같이 대입 연산자로 할당해서 shared_ptr 을 사용하더라도,
+            // 기존 shared_ptr 이 내부적으로 몇 군데에서 Resource 클래스의 메모리를 공유하고 있는지 다 기록할 수 있음! 
+            auto ptr2 = ptr1;
 
             /*
                 shared_ptr 을 추가로 더 만들 때,
