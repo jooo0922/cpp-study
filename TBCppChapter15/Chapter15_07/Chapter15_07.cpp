@@ -5,7 +5,20 @@
 class Person
 {
     std::string m_name;
-    std::shared_ptr<Person> m_partner; // shared_ptr 로 파트너 인스턴스의 주소값을 공유할 수 있겠군.
+    //std::shared_ptr<Person> m_partner; // shared_ptr 로 파트너 인스턴스의 주소값을 공유할 수 있겠군.
+
+    /*
+        shared_ptr 에 의한 메모리 소유권 순환 문제를 
+        해결하기 위한 대안으로 아래 코드와 같이
+        
+        또 다른 스마트 포인터인 weak_ptr 을 사용할 수 있음.
+
+        -> weak_ptr 을 사용하면,
+        메모리 소유권 순환 문제에 빠지지 않고,
+        Person 클래스의 소멸자 함수를 정상적으로 호출시킴으로써,
+        메모리가 정상적으로 반납되는 것을 확인할 수 있음!
+    */
+    std::weak_ptr<Person> m_partner;
 
 public:
     // 생성자 함수
@@ -44,6 +57,27 @@ public:
         std::cout << p1->m_name << " is partnered with " << p2->m_name << "\n";
 
         return true;
+    }
+
+    /*
+        weak_ptr 의 단점
+
+        weak_ptr 은 그 자체로는
+        내부에서 관리하는 Person 에 대해서
+        어떤 작업도 수행할 수 없음.
+
+        Person 에 대해서 무언가를 수행하려면,
+
+        std::weak_ptr.lock() 함수를 사용하여
+        std::shared_ptr 로 변환한 다음에 사용하는 수밖에 없음.
+
+        바꿔 말하면,
+        메모리 소유권 순환 문제를 회피하기 위해
+        weak_ptr 의 구조가 이렇게 만들어져 있다고도 볼 수 있음!
+    */
+    const std::shared_ptr<Person> getPartner() const
+    {
+        return m_partner.lock();
     }
 
     // 이름 문자열을 반환하는 상수 멤버함수 구현
@@ -87,6 +121,11 @@ int main()
         -> 이를 해결하기 위해 사용하는 또 다른 스마트 포인터가 std::weak_ptr 임!
     */
     partnerUp(lucy, ricky);
+
+
+    // weak_ptr 에 lock() 을 걸어서 shared_ptr 로 변환한 다음에야
+    // weak_ptr 이 관리하는 Person 클래스에 접근하여 어떤 작업을 수행할 수 있음!
+    std::cout << lucy->getPartner()->getName() << std::endl;
 
     return 0;
 }
