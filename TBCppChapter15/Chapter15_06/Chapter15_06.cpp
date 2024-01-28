@@ -4,8 +4,8 @@
 int main()
 {
     // Resource 클래스를 동적으로 메모리 할당 및 내부 동적배열 초기화
-    Resource* res = new Resource(3);
-    res->setAll(1);
+    //Resource* res = new Resource(3);
+    //res->setAll(1);
 
     {
         /*
@@ -22,7 +22,25 @@ int main()
             즉, '메모리 소유권을 공유' 하기 위해
             만든 스마트 포인터라고 보면 됨.
         */
-        std::shared_ptr<Resource> ptr1(res);
+        //std::shared_ptr<Resource> ptr1(res);
+
+        /*
+            shared_ptr 로 공유하고자 하는 메모리 주소값 res 를
+            직접 매개변수로 넘겨줘서 발생하는 불상사를 막기 위해,
+
+            애초부터 공유하고자 하는 메모리인 res 자체를 
+            L value 로 만들어서 캐싱해두는 방식을 사용하지 않고,
+
+            아래 코드와 같이 std::make_shared<>() 를 사용하여
+            shared_ptr 을 만드는 것이 훨씬 더 안전하게
+            shared_ptr 을 사용할 수 있는 방법임! 
+
+            unique_ptr 에서와 마찬가지로,
+            shared_ptr 에서도 std::make_shared<>() 문법이
+            훨씬 더 권장되는 문법이라고 볼 수 있겠지!
+        */
+        auto ptr1 = std::make_shared<Resource>(3);
+        ptr1->setAll(1);
 
         ptr1->print();
 
