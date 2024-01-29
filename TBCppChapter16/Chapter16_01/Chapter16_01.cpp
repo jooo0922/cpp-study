@@ -191,6 +191,28 @@ void container_adapters()
         // 헤드노드 dequeue 후 새로운 헤드노드와 테일노드 재출력
         cout << queue.front() << " " << queue.back() << endl;
     }
+
+    // Priority queue (우선순위 큐)
+    {
+        cout << "Priority queue" << endl;
+
+        std::priority_queue<int> queue;
+
+        // 아래와 같이 for-each 문을 사용할 수도 있음.
+        for (const int n : {1, 8, 5, 6, 3, 4, 0, 9, 7, 2})
+        {
+            // 랜덤한 순서의 int 타입 요소 n 값을 우선순위 삼아 정렬하면서 Enqueue 함.
+            queue.push(n);
+        }
+
+        for (int i = 0; i < 10; i++)
+        {
+            // 반복문을 순회하며 현재 우선순위 큐의 테일노드(.top())를 출력하고,
+            // 해당 테일노드를 Dequeue 한 뒤에 다음 순회로 넘어감.
+            cout << queue.top() << endl;
+            queue.pop();
+        }
+    }
 }
 
 int main()
