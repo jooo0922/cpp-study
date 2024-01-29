@@ -76,6 +76,23 @@ void associative_containers()
         }
         cout << endl;
     }
+
+    // multiset : set 과 거의 같으나, 중복 원소를 허용함!
+    {
+        std::multiset<string> str_set;
+
+        str_set.insert("Hello");
+        str_set.insert("World");
+        str_set.insert("Hello"); // 중복 원소 추가 허용
+    
+        cout << str_set.size() << endl;
+
+        for (auto& e : str_set)
+        {
+            cout << e << " ";
+        }
+        cout << endl;
+    }
 }
 
 int main()
