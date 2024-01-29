@@ -16,14 +16,21 @@ int main()
     //list<int> container;
 
     // 이번에는 Set 컨테이너에 반복자를 사용해보자
-    set<int> container;
+    //set<int> container;
+
+    // 이번에는 Map 컨테이너에 반복자를 사용해보자
+    map<int, char> container;
 
     for (int i = 0; i < 10; i++)
     {
         //container.push_back(i);
 
         // set 컨테이너는 요소 추가 시, insert() 를 사용했었지?
-        container.insert(i);
+        //container.insert(i);
+
+        // map 컨테이너는 요소 추가 시, std::pair<key, value> 형태로 추가했었지?
+        // std::pair<key, value> 는 std::make_pair(key, value) 로도 만들 수 있음!
+        container.insert(make_pair(i, char(i + 65)));
     }
 
     // vector 컨테이너의 각 요소들을 순회할 때 사용할 반복자 자체를 하나의 변수로 선언함
@@ -55,7 +62,11 @@ int main()
     */
     for (auto itr = container.begin(); itr != container.end(); ++itr)
     {
-        cout << *itr << " ";
+        //cout << *itr << " ";
+
+        // map 컨테이너에서는 반복자를 de-referencing 할 경우, std::pair<key, value> 를 가리키므로,
+        // 얘내들을 출력하려면, .first, .second 를 사용해야 된다고 했었지?
+        cout << itr->first << " " << itr->second << endl;
     }
     cout << endl;
 
