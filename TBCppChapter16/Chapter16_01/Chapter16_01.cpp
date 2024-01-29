@@ -121,6 +121,27 @@ void associative_containers()
         }
         cout << endl;
     }
+
+    // multimap : 중복 key 를 허용함!
+    {
+        std::multimap<char, int> map;
+
+        map.insert(std::pair('a', 10)); // 컴파일러가 c++ 14 이하이면, 그냥 pair<char, int> 를 사용해야 함.
+        map.insert(std::pair('b', 10));
+        map.insert(std::pair('c', 10));
+        map.insert(std::pair('a', 100)); // 중복된 key 값으로 구성된 std::pair<> 추가 시도!
+
+        // multimap 은 중복된 key 로 등록된 원소가 몇 개인지 .count 로 확인할 수 있음!
+        cout << map.count('a') << endl;
+
+        for (auto& e : map)
+        {
+            // std::map 과 마찬가지로 std::pair<> 로 원소가 추가되어 있으므로,
+            // .first, .second 로 원소의 key, value 에 각각 접근 가능!
+            cout << e.first << " " << e.second << " ";
+        }
+        cout << endl;
+    }
 }
 
 int main()
