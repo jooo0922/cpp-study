@@ -172,7 +172,24 @@ void container_adapters()
 
     // queue
     {
+        cout << "Queue" << endl;
 
+        std::queue<int> queue;
+
+        // enqueue
+        queue.push(1);
+        queue.push(2);
+        queue.push(3);
+
+        // std::queue<>.front() 는 Queue 의 헤드노드를 반환하고,
+        // std::queue<>.back() 은 Queue 의 테일노드를 반환함.
+        cout << queue.front() << " " << queue.back() << endl;
+
+        // dequeue
+        queue.pop();
+
+        // 헤드노드 dequeue 후 새로운 헤드노드와 테일노드 재출력
+        cout << queue.front() << " " << queue.back() << endl;
     }
 }
 
