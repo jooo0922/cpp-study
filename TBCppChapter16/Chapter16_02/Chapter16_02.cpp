@@ -13,11 +13,17 @@ int main()
 
     // 동일한 반복자 인터페이스를 List 컨테이너에서도 사용 가능
     // -> 아래 for 문에서 auto 키워드를 통해 List 컨테이너에 맞는 반복자 타입으로 자동 형변환 해줌. 
-    list<int> container;
+    //list<int> container;
+
+    // 이번에는 Set 컨테이너에 반복자를 사용해보자
+    set<int> container;
 
     for (int i = 0; i < 10; i++)
     {
-        container.push_back(i);
+        //container.push_back(i);
+
+        // set 컨테이너는 요소 추가 시, insert() 를 사용했었지?
+        container.insert(i);
     }
 
     // vector 컨테이너의 각 요소들을 순회할 때 사용할 반복자 자체를 하나의 변수로 선언함
