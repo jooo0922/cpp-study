@@ -144,6 +144,38 @@ void associative_containers()
     }
 }
 
+void container_adapters()
+{
+    // stack
+    {
+        cout << "Stack" << endl;
+
+        std::stack<int> stack;
+
+        // std::stack<>.push() 는 요소를 '복사'해서 추가함 
+        // (int 같은 리터럴은 차이가 없지만, class 같은 사용자 정의 자료형을 push 로 넣을 땐 차이가 날 것임!)
+        stack.push(1); 
+
+        // std::stack<>.emplace() 는 새로운 객체를 만들어서 추가함 
+        stack.emplace(2);
+        stack.emplace(3);
+
+        // stack 의 최상위 노드 출력
+        cout << stack.top() << endl;
+
+        // stack 의 최상위 노드 제거
+        stack.pop();
+
+        // stack 의 새로운 최상위 노드 출력
+        cout << stack.top() << endl;
+    }
+
+    // queue
+    {
+
+    }
+}
+
 int main()
 {
     /* STL - 컨테이너 */
@@ -154,6 +186,9 @@ int main()
 
     // associative containers
     associative_containers();
+
+    // container adapters
+    container_adapters();
 
     return 0;
 }
