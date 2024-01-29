@@ -93,6 +93,34 @@ void associative_containers()
         }
         cout << endl;
     }
+
+    // map : key/value 쌍의 자료구조 -> json 구조와 동일함
+    {
+        std::map<char, int> map;
+        map['a'] = 10;
+        map['b'] = 20;
+        map['c'] = 50;
+
+        cout << map['a'] << endl;
+
+        map['a'] = 100; // 'a' 의 value 를 변경함.
+
+        cout << map['a'] << endl;
+
+        for (auto& e : map)
+        {
+            /*
+                std::map<key, value>.first 는 key 가 할당된 field 이고,
+                std::map<key, value>.second 는 value 가 할당된 field 임.
+
+                first 에 마우스를 갖다대면,
+                내부적으로 std::pair<key, value> 타입으로
+                저장되어 있다는 것을 알 수 있음!
+            */
+            cout << e.first << " " << e.second << " ";
+        }
+        cout << endl;
+    }
 }
 
 int main()
