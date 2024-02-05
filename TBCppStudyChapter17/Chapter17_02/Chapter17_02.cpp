@@ -6,7 +6,7 @@
 using namespace std;
 
 /*
-    어떤 타입의 값이던지 문자열로 변환해주는 함수 구현
+    어떤 타입의 값이던지 문자열로 변환해주는 함수 템플릿 구현
 */
 template <typename T>
 std::string ToString(T x)
@@ -23,6 +23,25 @@ std::string ToString(T x)
         무조건 문자열로 변환해서 던져줌.
     */
     return osstream.str();
+}
+
+/*
+    문자열을 입력받은 매개변수 x 의 타입으로 변환해주는 함수 템플릿 구현
+*/
+template <typename T>
+bool FromString(const std::string& str, T& x)
+{
+    // 문자열 입력 스트림 생성 후, std::string 곧바로 전달
+    std::istringstream isstream(str);
+
+    /*
+        여기서 재미있는 것이,
+        문자열 입력 스트림을 참조 매개변수 x 에 흘려보냄.
+
+        그리고, 이 흘려보내는 작업이
+        성공했는지 실패했는지에 따라 true / false 를 반환함.
+    */
+    return (isstream >> x) ? true : false;
 }
 
 int main()
@@ -53,8 +72,19 @@ int main()
     // 숫자 -> 문자로 변환한 후, std::string 생성자 매개변수에 전달하는 트릭도 알아둘 것!
     //string my_str(std::to_string(1004));
 
-    // 문자열 출력 스트림 std::ostringstream 을 사용해서 문자열 변환하기
+    // 문자열 출력 스트림 std::ostringstream 을 사용해서 '다른 타입 -> 문자열' 변환하기
     string my_str(ToString(3.141592));
+
+    // 문자열 입력 스트림 std::istringstream 을 사용해서 '문자열 -> 다른 타입' 변환 및 성공여부 확인
+    double d;
+    if (FromString(my_str, d))
+    {
+        cout << d << endl;
+    }
+    else
+    {
+        cout << "Cannot convert string to double" << endl;
+    }
 
     // 변환된 문자를 다시 int 또는 float 타입으로 되돌리기
     int i = std::stoi(my_str);
