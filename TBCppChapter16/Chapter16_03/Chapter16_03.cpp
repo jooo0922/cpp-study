@@ -78,5 +78,19 @@ int main()
     }
     cout << endl;
 
+
+    /* std::reverse() 사용 예제 */
+
+    // 해당 컨테이너의 .begin() 부터 .end() 반복자까지의 모든 요소들을 '역순' 정렬 (std::sort() 와 반대!)
+    reverse(container.begin(), container.end());
+
+    // 컨테이너의 요소들 순차적으로 출력
+    for (auto& e : container)
+    {
+        cout << e << " ";
+    }
+    cout << endl;
+
+
     return 0;
 }
