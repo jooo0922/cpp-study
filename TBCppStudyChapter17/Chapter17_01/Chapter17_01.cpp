@@ -46,5 +46,45 @@ int main()
         wchar_t wc;
     }
 
+    // wstring example
+    {
+        /*
+            std::wstring 은 주로 아래와 같이
+            메모리를 많이 잡아먹는 국제어 문자를 저장할 때
+            사용하기 좋은 문자열 클래스라고 보면 됨!
+
+            wchar_t 가 주로
+            이러한 국제어를 저장하기 위한 변수 타입으로 사용됨!
+        */
+        const std::wstring texts[] =
+        {
+            L"안녕하세요?", // Korean
+            L"Ñá", //Spanish
+            L"forêt intérêt", //French
+            L"Gesäß", //German
+            L"取消波蘇日奇諾", //Chinese
+            L"日本人のビット", //Japanese
+            L"немного русский", //Russian
+            L"ένα κομμάτι της ελληνικής", // Greek
+            L"ਯੂਨਾਨੀ ਦੀ ਇੱਕ ਬਿੱਟ", // Punjabi (wtf?). xD
+            L"کمی از ایران ", // Persian (I know it, from 300 movie)
+            L"కానీ ఈ ఏమి నరకం ఉంది?", //Telugu (telu-what?)
+            L"Но какво, по дяволите, е това?" //Bulgarian
+        };
+
+        // 사용자 시스템의 지역 설정을 기본 지역 설정으로 설정
+        std::locale::global(std::locale(""));
+
+        // wide character 출력 스트림인 std::wcout 의 지역 설정을 사용자 시스템의 지역 설정으로 설정
+        std::wcout.imbue(std::locale());
+
+        // std::wstring 출력
+        for (size_t i = 0; i < 12; i++)
+        {
+            // 아래처럼 std::wstring 및 wchar_t 는 출력 스트림도 별도로 존재함.
+            std::wcout << texts[i] << std::endl;
+        }
+    }
+
     return 0;
 }
