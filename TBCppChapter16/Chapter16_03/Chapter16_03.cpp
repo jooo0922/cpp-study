@@ -92,5 +92,21 @@ int main()
     cout << endl;
 
 
+    /*
+        주의사항!
+
+        std::list<> 로 컨테이너를 만들 경우,
+        std::list<> 에는 정렬 및 역순 정렬 알고리즘이 
+        자체적으로 built-in 구현되어 있기 때문에,
+
+        std::sort() 대신,
+        std::list<>.sort() 를,
+
+        std::reverse() 대신,
+        std::list<>.reverse() 를
+        사용해야 함!
+    */
+
+
     return 0;
 }
