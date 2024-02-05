@@ -6,7 +6,7 @@ using namespace std;
 
 int main()
 {
-    /* std::min_element(), std::max_element() */
+    /* std::min_element(), std::max_element() 사용 예제 */
 
     // vector 컨테이너 선언 및 동적 배열에 요소들을 추가
     vector<int> container;
@@ -35,7 +35,7 @@ int main()
     cout << endl;
 
 
-    /* std::find() */
+    /* std::find() 사용 예제 */
 
     /*
         특정 컨테이너의 반복자 .begin() 부터 .end() 까지 중에서
@@ -58,6 +58,20 @@ int main()
     */
     container.insert(itr, 128);
 
+    // 컨테이너의 요소들 순차적으로 출력
+    for (auto& e : container)
+    {
+        cout << e << " ";
+    }
+    cout << endl;
+
+
+    /* std::sort() 사용 예제 */
+
+    // 당연히 해당 컨테이너의 .begin() 부터 .end() 반복자까지의 모든 요소들을 오름차순(기본값) 정렬하겠지!
+    sort(container.begin(), container.end());
+
+    // 컨테이너의 요소들 순차적으로 출력
     for (auto& e : container)
     {
         cout << e << " ";
