@@ -32,9 +32,14 @@ int main()
     // 숫자 -> 문자로 변환한 후, std::string 생성자 매개변수에 전달하는 트릭도 알아둘 것!
     string my_str(std::to_string(1004));
 
+    // 변환된 문자를 다시 int 또는 float 타입으로 되돌리기
+    int i = std::stoi(my_str);
+    int f = std::stof(my_str);
+    cout << i << endl;
+    cout << f << endl;
+
     // 변환된 문자를 뒤에 이어붙이는 것도 가능!
     my_str += std::to_string(128);
-
     cout << my_str << endl;
 
     return 0;
