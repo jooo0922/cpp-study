@@ -29,5 +29,9 @@ int main()
 
     cout << second_string << endl;
 
+    // 숫자 -> 문자로 변환한 후, std::string 생성자 매개변수에 전달하는 트릭도 알아둘 것!
+    string my_str(std::to_string(1004));
+    cout << my_str << endl;
+
     return 0;
 }
