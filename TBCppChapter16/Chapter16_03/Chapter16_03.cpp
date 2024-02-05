@@ -6,6 +6,8 @@ using namespace std;
 
 int main()
 {
+    /* std::min_element(), std::max_element() */
+
     // vector 컨테이너 선언 및 동적 배열에 요소들을 추가
     vector<int> container;
     for (int i = 0; i < 10; i++)
@@ -32,6 +34,35 @@ int main()
 
     cout << endl;
 
+
+    /* std::find() */
+
+    /*
+        특정 컨테이너의 반복자 .begin() 부터 .end() 까지 중에서
+        특정 요소를 찾으려면,
+
+        find() 함수에
+        '.begin(), .end(), 찾고자 하는 요소' 를 전달함.
+
+        이때, itr 은 해당 요소를 가리키는 반복자 포인터 주소값이 할당됨!
+    */
+    itr = find(container.begin(), container.end(), 3);
+
+    /*
+        std::vector<>.insert() 를 사용하면,
+        컨테이너 내의 특정 요소의 메모리 공간을 가리키는 반복자 포인터를 사용해서,
+        해당 반복자가 가리키는 메모리 공간에 저장된 요소를 변경할 수 있음!
+
+        -> 여기서는 3이 차지하던 메모리 공간에 128이 들어가고,
+        3 이후부터의 요소들은 한 칸씩 뒤로 밀려날 것임!
+    */
+    container.insert(itr, 128);
+
+    for (auto& e : container)
+    {
+        cout << e << " ";
+    }
+    cout << endl;
 
     return 0;
 }
