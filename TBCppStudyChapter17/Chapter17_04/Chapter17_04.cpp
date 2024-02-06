@@ -66,7 +66,10 @@ int main()
     cout << my_str.c_str() << endl;
 
     // std::string.c_str() 은 정적 배열 포인터 변수와 다름 없으므로, [] 연산자로 각 문자에 접근 가능!
-    const char* arr = my_str.c_str();
+    //const char* arr = my_str.c_str();
+
+    // std::string.c_str() 과 동일한 기능을 수행하는 .data() 함수!
+    const char* arr = my_str.data();
 
     // int 타입으로 형변환하여 아스키 코드 출력 시, arr[7] 은 종료문자 이므로, 0 이 출력됨!
     // 즉, std::string -> char* 로 변환하면, 변환된 c-style 문자의 끝에는 항상 종료문자가 추가된다는 사실!
