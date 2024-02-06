@@ -56,5 +56,13 @@ int main()
     */
     cout << my_str.capacity() << endl; // 15
 
+
+    /*
+        문자열 용량과 별개로,
+        std::string 클래스가 최대로 저장할 수 있는
+        문자열 길이는 .max_size() 로 출력 가능!
+    */
+    cout << my_str.max_size() << endl;
+
     return 0;
 }
