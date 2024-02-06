@@ -76,5 +76,24 @@ int main()
     cout << (int)arr[6] << endl; // 103
     cout << (int)arr[7] << endl; // 0
 
+
+    /*
+        std::string.copy() 를 통해
+        std::string 에 할당된 문자열을 
+        임의의 char[] 타입 정적배열 버퍼에 복사하는 것도 가능!
+
+        단, 복사된 버퍼에 종료문자를 자동으로 추가하지 않기 때문에,
+        버퍼의 마지막 부분에 '\0' 를 프로그래머가 직접 추가해줘야 함.
+    */
+    char buf[20];
+
+    // my_str 에 저장된 문자열 중 5글자만 buf 에 복사. 이때, 복사 시작 위치 offset 은 0
+    my_str.copy(buf, 5, 0);
+
+    // 복사된 문자열 맨 끝에 종료문자 추가
+    buf[5] = '\0';
+
+    cout << buf << endl;
+
     return 0;
 }
