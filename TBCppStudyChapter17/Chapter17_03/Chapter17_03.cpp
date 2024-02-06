@@ -7,6 +7,17 @@ int main()
 {
     string my_str("012345678");
 
+
+    /*
+        std::string.capacity() 로 출력되는
+        '실제 문자열 길이보다 여유롭게 잡아놓은 메모리 용량'을
+        프로그래머가 직접 커스텀하게 메모리 할당하고 싶다면?
+
+        std::string.reserve() 를 사용하면 됨!
+    */
+    my_str.reserve(1000);
+
+
     /*
         c-style 문자열인 char* 은
         문자열의 종료 부분을 표시하기 위해,
