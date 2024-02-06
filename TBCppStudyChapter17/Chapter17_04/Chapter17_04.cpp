@@ -59,5 +59,19 @@ int main()
         cout << e.what() << endl; // invalid string position
     }
 
+
+    /*
+        std::string -> c-style 문자열로 변환하기
+    */
+    cout << my_str.c_str() << endl;
+
+    // std::string.c_str() 은 정적 배열 포인터 변수와 다름 없으므로, [] 연산자로 각 문자에 접근 가능!
+    const char* arr = my_str.c_str();
+
+    // int 타입으로 형변환하여 아스키 코드 출력 시, arr[7] 은 종료문자 이므로, 0 이 출력됨!
+    // 즉, std::string -> char* 로 변환하면, 변환된 c-style 문자의 끝에는 항상 종료문자가 추가된다는 사실!
+    cout << (int)arr[6] << endl; // 103
+    cout << (int)arr[7] << endl; // 0
+
     return 0;
 }
