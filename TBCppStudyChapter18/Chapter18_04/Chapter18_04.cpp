@@ -40,46 +40,70 @@ void printState(const std::ios& stream)
     cout << "bad()=" << stream.bad() << endl; // 스트림 상태가 나쁜지 출력
 }
 
+// 입력받은 문자열의 각 문자들이 모두 십진수인지 검사
+bool isAllDigit(const string& str)
+{
+    bool ok_flag = true;
+
+    // for-each 문으로 문자열을 순회하며 각각 std::isdigit() 로 검사
+    for (auto e : str)
+    {
+        if (!std::isdigit(e))
+        {
+            // 하나라도 십진수가 아닌 문자가 발견되면 
+            // 플래그를 false 로 바꾸고 for-each 문 종료
+            ok_flag = false;
+            break;
+        }
+    }
+
+    return ok_flag;
+}
+
 int main()
 {
-    while (true)
-    {
-        char i;
+    //while (true)
+    //{
+    //    char i;
 
-        // 만약 입력 스트림에 int 타입이 아닌 문자열이 입력된다면 어떻게 유효성을 검증할 수 있을까?
-        cin >> i;
+    //    // 만약 입력 스트림에 int 타입이 아닌 문자열이 입력된다면 어떻게 유효성을 검증할 수 있을까?
+    //    cin >> i;
 
-        /* 입력 스트림에 입력된 값의 유효성 검증을 위해, 스트림 상태를 확인해보자 */
+    //    /* 입력 스트림에 입력된 값의 유효성 검증을 위해, 스트림 상태를 확인해보자 */
 
-        // 입력 스트림 istream 상태를 출력함
-        printState(cin);
+    //    // 입력 스트림 istream 상태를 출력함
+    //    printState(cin);
 
-        // cin.rdstate() 로 현재 입력 스트림 상태를 bit flag 로 읽어온 후, boolean 으로 출력!
-        /*
-            bit flag 로 스트림 상태의 유효성을 검증하기도 하지만,
-            
-            모던 C++ 로 갈수록 
-            위의 printState() 함수에서 구현한 것처럼
-            스트림 상태를 검증하는 방식을 더 권장한다고 함.
-        */
-        //cout << boolalpha;
-        //cout << std::bitset<8>(cin.rdstate()) << endl;
-        //cout << std::bitset<8>(std::istream::goodbit) << endl;
-        //cout << std::bitset<8>(std::istream::failbit) << endl;
+    //    // cin.rdstate() 로 현재 입력 스트림 상태를 bit flag 로 읽어온 후, boolean 으로 출력!
+    //    /*
+    //        bit flag 로 스트림 상태의 유효성을 검증하기도 하지만,
+    //        
+    //        모던 C++ 로 갈수록 
+    //        위의 printState() 함수에서 구현한 것처럼
+    //        스트림 상태를 검증하는 방식을 더 권장한다고 함.
+    //    */
+    //    //cout << boolalpha;
+    //    //cout << std::bitset<8>(cin.rdstate()) << endl;
+    //    //cout << std::bitset<8>(std::istream::goodbit) << endl;
+    //    //cout << std::bitset<8>(std::istream::failbit) << endl;
 
-        //// failbit 으로 비트마스킹하여 현재 입력 스트림의 fail 상태를 추출함
-        //cout << !bool((cin.rdstate() & std::istream::failbit) != 0) << endl;
-
-
-        // 입력받은 값이 원하는 문자인지 검사
-        printCharacterClassfication(i);
+    //    //// failbit 으로 비트마스킹하여 현재 입력 스트림의 fail 상태를 추출함
+    //    //cout << !bool((cin.rdstate() & std::istream::failbit) != 0) << endl;
 
 
-        // 다음 반복문에서 새로운 입력값을 받기 위해, istream 버퍼를 깨끗이 비우는 작업
-        cin.clear();
-        cin.ignore(1024, '\n');
-        cout << endl;
-    }
+    //    // 입력받은 값이 원하는 문자인지 검사
+    //    printCharacterClassfication(i);
+
+
+    //    // 다음 반복문에서 새로운 입력값을 받기 위해, istream 버퍼를 깨끗이 비우는 작업
+    //    cin.clear();
+    //    cin.ignore(1024, '\n');
+    //    cout << endl;
+    //}
+
+    cout << boolalpha;
+    cout << isAllDigit("1234") << endl;
+    cout << isAllDigit("a1234") << endl;
 
     return 0;
 }
