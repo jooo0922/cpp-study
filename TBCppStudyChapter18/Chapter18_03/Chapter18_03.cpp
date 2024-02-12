@@ -51,6 +51,21 @@ int main()
     str = os.str();
 
     cout << str << endl;
+
+
+    /* 공백을 기준으로 stringstream 삽입 및 출력 구분 */
+    stringstream os2;
+
+    // 공백을 기준으로 insertion operation 구분
+    os2 << "1234 567.89";  
+
+    string str1;
+    string str2;
+
+    // 공백을 기준으로 extraction operation 구분
+    os2 >> str1 >> str2;
+
+    cout << str1 << "|" << str2 << endl;
     
     return 0;
 }
