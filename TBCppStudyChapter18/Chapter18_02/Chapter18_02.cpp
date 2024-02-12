@@ -48,7 +48,7 @@ int main()
 
     /* std::setprecision() 으로 출력 정밀도 설정 */
     /*
-        cout << std::defaultfloat;
+        1. cout << std::defaultfloat;
 
         출력할 숫자의 맨 왼쪽의 자릿수부터 시작해서
         std::setprecision() 으로 설정한 자릿수까지만 제대로 출력하고 
@@ -59,7 +59,7 @@ int main()
         12.3 까지만 출력함
 
 
-        cout << std::fixed;
+        2. cout << std::fixed;
 
         출력할 숫자의 소수점 이후의 자릿수를
         std::setprecision() 으로 설정한 자릿수까지만 출력하고,
@@ -67,10 +67,20 @@ int main()
 
         ex> 12.3456 출력 시,
         std::setprecision(3) 으로 설정했다면,
-        12.345 까지만 출력함.
+        12.346 까지만 출력함.
+
+
+        3. cout << std::scientific
+
+        출력할 숫자를 scientific notation 으로 표기함.
+
+        ex> 12.3456 출력 시,
+        std::setprecision(3) 으로 설정했다면,
+        1.23e+01 로 출력함.
     */
     //cout << std::defaultfloat;
-    cout << std::fixed;
+    //cout << std::fixed;
+    cout << std::scientific;
     cout << std::setprecision(3) << 123.456 << endl;
     cout << std::setprecision(4) << 123.456 << endl;
     cout << std::setprecision(5) << 123.456 << endl;
