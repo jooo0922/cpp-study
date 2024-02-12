@@ -84,6 +84,17 @@ int main()
     os3 >> i2 >> d2;
 
     cout << i2 << "|" << d2 << endl;
-    
+
+
+    /* stringstream 버퍼 비우기 */
+
+    // 공백 문자를 덮어써서 비우기
+    os3.str("");
+
+    // std::stringstream.clear() 로 버퍼 비우기
+    //os3.clear();
+
+    cout << os3.str() << endl;
+
     return 0;
 }
