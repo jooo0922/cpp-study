@@ -37,9 +37,8 @@ int main()
         나머지 4개(5-1) 만 cin 의 입력 스트림 버퍼에서 가져온 뒤,
         char buf[5] 에 할당하는 것임!
     */
-    cin >> setw(5) >> buf;
-
-    cout << buf << endl;
+    //cin >> setw(5) >> buf;
+    //cout << buf << endl;
 
     /*
         setw() 가 가져온 4개의 문자 이외의
@@ -49,13 +48,12 @@ int main()
         나머지 문자들을 다시 가져와서 char buf[5] 에 할당하여 
         새롭게 가져온 문자들로 덮어쓸 수 있음!
     */
-    cin >> setw(5) >> buf;
+    //cin >> setw(5) >> buf;
+    //cout << buf << endl;
 
-    cout << buf << endl;
 
-
-    /* std::cin 으로 공백문자 입력받기 */
-    char ch;
+    /* std::cin.get() 으로 입력 스트림 버퍼에서 가져오기 */
+    char ch[5];
 
     /*
         cin >> ch 로 입력값을 스트림 버퍼에 받게 되면,
@@ -65,10 +63,18 @@ int main()
         이럴 때에는 아래와 같이 
         std::cin.get() 을 사용하여 입력받으면,
         띄어쓰기도 공백문자로 입력받을 수 있게 됨!
+
+        이때, cin.get(char* buf, std::streamsize count) 의
+        두 번째 매개변수 count 에 입력 스트림 버퍼로부터
+        몇 개의 문자까지 가져올 것인지 설정할 수 있음.
+
+        -> 당연히 종료문자('\0')이 들어갈 자리를 제외하고 가져올 것임!
     */
     //cin >> ch;
-    cin.get(ch);
-    cout << ch << endl;
+    cin.get(ch, 5);
+
+    // std::cin.get() 으로 몇 글자를 읽어들였는지 반환해주는 함수 ('get count' 의 약자겠지?)
+    cout << cin.gcount() << " " << ch << endl;
 
     return 0;
 }
