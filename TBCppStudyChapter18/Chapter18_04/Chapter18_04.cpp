@@ -45,6 +45,12 @@ int main()
 
         //// failbit 으로 비트마스킹하여 현재 입력 스트림의 fail 상태를 추출함
         //cout << !bool((cin.rdstate() & std::istream::failbit) != 0) << endl;
+
+
+        // 다음 반복문에서 새로운 입력값을 받기 위해, istream 버퍼를 깨끗이 비우는 작업
+        cin.clear();
+        cin.ignore(1024, '\n');
+        cout << endl;
     }
 
     return 0;
