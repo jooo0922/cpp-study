@@ -53,7 +53,7 @@ int main()
     cout << str << endl;
 
 
-    /* 공백을 기준으로 stringstream 삽입 및 출력 구분 */
+    /* 공백을 기준으로 stringstream 삽입 및 추출 구분 */
     stringstream os2;
 
     // 공백을 기준으로 insertion operation 구분
@@ -66,6 +66,24 @@ int main()
     os2 >> str1 >> str2;
 
     cout << str1 << "|" << str2 << endl;
+
+
+    /* stringstream 에 숫자 삽입 및 추출 */
+    stringstream os3;
+    
+    int i = 12345;
+    double d = 67.89;
+
+    // 공백을 기준으로 삽입 연산 구분
+    os3 << i << " " << d;
+
+    int i2;
+    double d2;
+
+    // 공백을 기준으로 추출 연산 구분
+    os3 >> i2 >> d2;
+
+    cout << i2 << "|" << d2 << endl;
     
     return 0;
 }
