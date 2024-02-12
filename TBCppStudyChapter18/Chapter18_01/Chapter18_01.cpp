@@ -122,12 +122,25 @@ int main()
         입력 스트림 버퍼를 살짝 들여다봐서
         맨 먼저 꺼내올 입력값이 뭔지 미리보기로 알려주는 기능!
     */
+    //char buf[1024];
+    //cout << (char)cin.peek() << endl;
+
+    //cin >> buf;
+    //cout << buf << endl;
+
+
+    /* std::cin.unget() 으로 마지막에 스트림 버퍼로부터 읽은 입력값을 다시 스트림 버퍼에 집어넣기 */
     char buf[1024];
-    cout << (char)cin.peek() << endl;
 
     cin >> buf;
     cout << buf << endl;
 
+    // 여기서 비어있는 입력 스트림 버퍼에 마지막 입력값을 다시 집어넣음
+    cin.unget(); 
+
+    // 여기서 cin.unget() 으로 다시 집어넣은 입력값만 출력됨.
+    cin >> buf;
+    cout << buf << endl;
 
     return 0;
 }
