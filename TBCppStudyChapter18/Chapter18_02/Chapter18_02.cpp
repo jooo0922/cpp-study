@@ -19,7 +19,7 @@ int main()
     cout << 109 << endl;
 
     /* std::ios::uppercase 로 대문자 출력 설정 */
-    cout.setf(std::ios::uppercase);
+    //cout.setf(std::ios::uppercase);
 
     /* cout.setf(std::ios::hex) 로 16진수 출력 */
     // 10진수 모드를 먼저 초기화해야 됨.
@@ -27,8 +27,16 @@ int main()
     cout.setf(std::ios::hex);*/
     // 또는 아래와 같이 std::ios::basefield 로 모든 설정을 한꺼번에 초기화한 상태에서 16진수 출력 설정함.
     //cout.setf(std::ios::hex, std::ios::basefield);
-    // 또는 아래와 같이 cout.setf() 를 사용하지 않고서, std::hex 만으로도 16진수 출력 설정 가능함. 
-    cout << std::hex; 
+    // 또는 아래와 같이 cout.setf() 를 사용하지 않고서, std::hex 만으로도 16진수 출력 설정 가능함.
+    /*
+        참고로, 아래와 같이 
+        cout.setf() 를 거치지 않고,
+        
+        std::hex, std::uppercase 등을 사용하여
+        출력 설정을 직접 건든다는 것은,
+        <iomanip> 라이브러리를 사용한다는 의미임!
+    */
+    cout << std::hex << std::uppercase; 
     cout << 108 << endl;
 
 
