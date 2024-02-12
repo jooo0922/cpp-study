@@ -15,7 +15,7 @@ int main()
         내부에서 버퍼에 저장을 해두고,
         일부씩 꺼내오는 방식을 사용하고 있음.
     */
-    char buf[5];
+    //char buf[5];
 
     /*
         여기서 문자열을 10개 넘게 콘솔 입력하면,
@@ -53,7 +53,7 @@ int main()
 
 
     /* std::cin.get() 으로 입력 스트림 버퍼에서 가져오기 */
-    char ch[5];
+    //char ch[5];
 
     /*
         cin >> ch 로 입력값을 스트림 버퍼에 받게 되면,
@@ -71,10 +71,27 @@ int main()
         -> 당연히 종료문자('\0')이 들어갈 자리를 제외하고 가져올 것임!
     */
     //cin >> ch;
-    cin.get(ch, 5);
+    //cin.get(ch, 5);
 
     // std::cin.get() 으로 몇 글자를 읽어들였는지 반환해주는 함수 ('get count' 의 약자겠지?)
-    cout << cin.gcount() << " " << ch << endl;
+    //cout << cin.gcount() << " " << ch << endl;
+
+
+    /* std::cin.getline() 으로 입력 스트림 버퍼에서 줄 단위로 가져오기 */
+
+    char buf[100];
+
+    cin.getline(buf, 100);
+
+    /*
+        std::cin.getline() 은 줄바꿈 문자 '\n' 까지
+        같이 읽어들이기 때문에,
+
+        입력 스트림 버퍼에서 가져온 글자의 갯수를
+        std::cin.gcount() 로 출력해보면
+        실제 글자 수보다 +1 만큼 더 출력해줌!
+    */
+    cout << cin.gcount() << " " << buf << endl;
 
     return 0;
 }
