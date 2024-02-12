@@ -7,8 +7,11 @@ int main()
 {
     /* ostream 출력 관련 설정 정리 */
 
-
-    /* 출력 시 플래그 옵션 설정 */
+    /* 
+        ostream 출력 시 플래그 옵션을 설정하려면,
+        std::cout.setf() 또는
+        std::cout.unsetf() 를 사용한다!
+    */
 
     /* cout.setf(std::ios::showpos) 로 양수(+) 출력 */
     cout.setf(std::ios::showpos);
@@ -39,6 +42,9 @@ int main()
     cout << std::hex << std::uppercase; 
     cout << 108 << endl;
 
+    /* std::boolalpha 로 boolean 값 출력 설정 (이전 예제에서 몇번 다뤄봤음) */
+    cout << std::boolalpha;
+    cout << true << " " << false << endl;
 
     return 0;
 }
