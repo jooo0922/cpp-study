@@ -64,5 +64,20 @@ int main()
     // std::string.swap() 으로 문자열 교환 후 출력
     cout << string1 << " " << string2 << endl;
 
+
+    /* 문자열 삽입하기 */
+
+    string str("aaaa");
+
+    /*
+        std::string.insert(size_t offset, const char*)
+
+        현재 문자열 상에서 offset 지점의 위치를 시작으로
+        뒤에 전달되는 문자열을 삽입하는 기능!
+    */
+    str.insert(2, "bbb");
+
+    cout << str << endl;
+
     return 0;
 }
