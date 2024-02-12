@@ -5,6 +5,8 @@ using namespace std;
 
 int main()
 {
+    /* 문자열 대입 및 덧붙이기 */
+
     string str1("one");
 
     string str2;
@@ -29,6 +31,12 @@ int main()
         뒤에 문자열을 추가로 덧붙이는 기능!
     */
     str2.assign("two").append(" ").append("three");
+
+    // additive assignment 연산자(+=) 오버로딩을 활용하여 std::string.append() 와 동일하게 사용 가능!
+    str2 += " four";
+
+    // add 연산자 (+) 오버로딩을 활용하여 std::string.append() 와 동일하게 사용 가능!
+    str2 = str2 + " five";
 
     cout << str2 << endl;
 
