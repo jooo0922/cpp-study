@@ -32,5 +32,25 @@ int main()
 
     cout << str2 << endl;
 
+
+    /* 문자열 교환하기 */
+
+    string string1("one");
+    string string2("two");
+
+    // std::swap() 으로 문자열 교환 전 출력
+    cout << string1 << " " << string2 << endl;
+
+    std::swap(string1, string2);
+
+    // std::swap() 으로 문자열 교환 후 출력
+    cout << string1 << " " << string2 << endl;
+
+    // std::string 내에 존재하는 swap() 메서드를 사용하여 문자열 교환
+    string1.swap(string2);
+
+    // std::string.swap() 으로 문자열 교환 후 출력
+    cout << string1 << " " << string2 << endl;
+
     return 0;
 }
