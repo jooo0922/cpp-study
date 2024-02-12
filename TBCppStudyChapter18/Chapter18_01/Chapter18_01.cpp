@@ -95,11 +95,21 @@ int main()
 
 
     /* std::string 타입의 버퍼에 입력값을 할당하기 */
-    string buf;
+    //string buf;
 
     // char* 정적 배열과 달리, std::getline() 을 직접 호출해주고, 
     // cin 과 std::string 버퍼를 매개변수로 전달해줘야 함.
-    getline(cin, buf);
+    //getline(cin, buf);
+    //cout << buf << endl;
+
+
+    /* std::cin.ignore() 로 n 개의 입력값을 무시하고 읽어들이기 */
+
+    char buf[1024];
+
+    cin.ignore(2);
+
+    cin >> buf;
     cout << buf << endl;
 
     return 0;
