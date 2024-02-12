@@ -42,6 +42,9 @@ int main()
     cout << std::hex << std::uppercase; 
     cout << 108 << endl;
 
+    // 10진수로 설정을 되돌림
+    cout << std::dec;
+
     /* std::boolalpha 로 boolean 값 출력 설정 (이전 예제에서 몇번 다뤄봤음) */
     cout << std::boolalpha;
     cout << true << " " << false << endl;
@@ -93,6 +96,27 @@ int main()
     cout << std::setprecision(5) << 123.456 << endl;
     cout << std::setprecision(6) << 123.456 << endl;
     cout << std::setprecision(7) << 123.456 << endl;
+
+
+    /* 자릿수 맞추기 및 shift 설정 */
+    /*
+        std::setw() 는
+        콘솔 출력 시, 특정 길이까지 공백으로 채워서 출력하도록 함.
+
+        std::left, std::right
+        은 공백으로 채워진 출력 내에서
+        실제 출력값을 왼쪽 정렬 또는 오른쪽 정렬함.
+
+        std::internal 은
+        css 의 space between 처럼,
+        출력되는 부호와 숫자 사이에 공백이 놓이도록 정렬함.
+    */
+    cout << -12345 << endl;
+    cout.fill('*'); // 공백을 * 로 채워줌.
+    cout << std::setw(10) << -12345 << endl;
+    cout << std::setw(10) << std::left << -12345 << endl;
+    cout << std::setw(10) << std::right << -12345 << endl;
+    cout << std::setw(10) << std::internal << -12345 << endl;
 
     return 0;
 }
