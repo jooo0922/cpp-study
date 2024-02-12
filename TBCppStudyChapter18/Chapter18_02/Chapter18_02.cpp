@@ -12,8 +12,11 @@ int main()
 
     /* cout.setf() 로 양수(+) 출력 */
     cout.setf(std::ios::showpos);
-    
     cout << 108 << endl;
-    
+
+    /* cout.unset() 으로 이전에 설정한 플래그 옵션 초기화 */
+    cout.unsetf(std::ios::showpos);
+    cout << 109 << endl;
+
     return 0;
 }
