@@ -32,6 +32,10 @@ int main()
     */
     str2.assign("two").append(" ").append("three");
 
+    // std::string 문자열이 하나의 '동적 배열'임을 전제로 하여,
+    // 마치 vector 처럼 하나의 문자 요소 씩 push_back 하여 덧붙이는 것도 가능
+    str2.push_back('A');
+
     // additive assignment 연산자(+=) 오버로딩을 활용하여 std::string.append() 와 동일하게 사용 가능!
     str2 += " four";
 
