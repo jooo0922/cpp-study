@@ -46,5 +46,36 @@ int main()
     cout << std::boolalpha;
     cout << true << " " << false << endl;
 
+    /* std::setprecision() 으로 출력 정밀도 설정 */
+    /*
+        cout << std::defaultfloat;
+
+        출력할 숫자의 맨 왼쪽의 자릿수부터 시작해서
+        std::setprecision() 으로 설정한 자릿수까지만 제대로 출력하고 
+        나머지는 버림.
+
+        ex> 12.3456 출력 시, 
+        std::setprecision(3) 으로 설정했다면,
+        12.3 까지만 출력함
+
+
+        cout << std::fixed;
+
+        출력할 숫자의 소수점 이후의 자릿수를
+        std::setprecision() 으로 설정한 자릿수까지만 출력하고,
+        나머지는 버림.
+
+        ex> 12.3456 출력 시,
+        std::setprecision(3) 으로 설정했다면,
+        12.345 까지만 출력함.
+    */
+    //cout << std::defaultfloat;
+    cout << std::fixed;
+    cout << std::setprecision(3) << 123.456 << endl;
+    cout << std::setprecision(4) << 123.456 << endl;
+    cout << std::setprecision(5) << 123.456 << endl;
+    cout << std::setprecision(6) << 123.456 << endl;
+    cout << std::setprecision(7) << 123.456 << endl;
+
     return 0;
 }
