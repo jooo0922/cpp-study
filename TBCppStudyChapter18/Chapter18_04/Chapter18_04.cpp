@@ -18,5 +18,34 @@ void printState(const std::ios& stream)
 
 int main()
 {
+    while (true)
+    {
+        int i;
+
+        // 만약 입력 스트림에 int 타입이 아닌 문자열이 입력된다면 어떻게 유효성을 검증할 수 있을까?
+        cin >> i;
+
+        /* 입력 스트림에 입력된 값의 유효성 검증을 위해, 스트림 상태를 확인해보자 */
+
+        // 입력 스트림 istream 상태를 출력함
+        printState(cin);
+
+        // cin.rdstate() 로 현재 입력 스트림 상태를 bit flag 로 읽어온 후, boolean 으로 출력!
+        /*
+            bit flag 로 스트림 상태의 유효성을 검증하기도 하지만,
+            
+            모던 C++ 로 갈수록 
+            위의 printState() 함수에서 구현한 것처럼
+            스트림 상태를 검증하는 방식을 더 권장한다고 함.
+        */
+        //cout << boolalpha;
+        //cout << std::bitset<8>(cin.rdstate()) << endl;
+        //cout << std::bitset<8>(std::istream::goodbit) << endl;
+        //cout << std::bitset<8>(std::istream::failbit) << endl;
+
+        //// failbit 으로 비트마스킹하여 현재 입력 스트림의 fail 상태를 추출함
+        //cout << !bool((cin.rdstate() & std::istream::failbit) != 0) << endl;
+    }
+
     return 0;
 }
