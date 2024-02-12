@@ -79,9 +79,9 @@ int main()
 
     /* std::cin.getline() 으로 입력 스트림 버퍼에서 줄 단위로 가져오기 */
 
-    char buf[100];
+    //char buf[100];
 
-    cin.getline(buf, 100);
+    //cin.getline(buf, 100);
 
     /*
         std::cin.getline() 은 줄바꿈 문자 '\n' 까지
@@ -91,7 +91,16 @@ int main()
         std::cin.gcount() 로 출력해보면
         실제 글자 수보다 +1 만큼 더 출력해줌!
     */
-    cout << cin.gcount() << " " << buf << endl;
+    //cout << cin.gcount() << " " << buf << endl;
+
+
+    /* std::string 타입의 버퍼에 입력값을 할당하기 */
+    string buf;
+
+    // char* 정적 배열과 달리, std::getline() 을 직접 호출해주고, 
+    // cin 과 std::string 버퍼를 매개변수로 전달해줘야 함.
+    getline(cin, buf);
+    cout << buf << endl;
 
     return 0;
 }
