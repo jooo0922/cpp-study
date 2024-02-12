@@ -105,12 +105,29 @@ int main()
 
     /* std::cin.ignore() 로 n 개의 입력값을 무시하고 읽어들이기 */
 
-    char buf[1024];
+    //char buf[1024];
 
-    cin.ignore(2);
+    //cin.ignore(2);
+
+    //cin >> buf;
+    //cout << buf << endl;
+
+
+    /* std::cin.peek() 으로 스트림 버퍼에서 꺼내올 입력값을 들여다보기 */
+    /*
+        std::cin.peek() 은
+        입력 스트림 버퍼에서
+        직접 입력값을 꺼내오는 것이 아닌,
+
+        입력 스트림 버퍼를 살짝 들여다봐서
+        맨 먼저 꺼내올 입력값이 뭔지 미리보기로 알려주는 기능!
+    */
+    char buf[1024];
+    cout << (char)cin.peek() << endl;
 
     cin >> buf;
     cout << buf << endl;
+
 
     return 0;
 }
