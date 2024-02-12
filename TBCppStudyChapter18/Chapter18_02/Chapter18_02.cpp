@@ -18,6 +18,9 @@ int main()
     cout.unsetf(std::ios::showpos);
     cout << 109 << endl;
 
+    /* std::ios::uppercase 로 대문자 출력 설정 */
+    cout.setf(std::ios::uppercase);
+
     /* cout.setf(std::ios::hex) 로 16진수 출력 */
     // 10진수 모드를 먼저 초기화해야 됨.
     /*cout.unsetf(std::ios::dec); 
