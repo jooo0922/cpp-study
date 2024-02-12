@@ -77,10 +77,17 @@ int main()
         ex> 12.3456 출력 시,
         std::setprecision(3) 으로 설정했다면,
         1.23e+01 로 출력함.
+
+
+        4. cout << std::showpoint
+
+        출력할 숫자의 소수점 이후를 미출력하게 되더라도,
+        정수 부분 옆에 항상 . 을 붙여서 출력함.
     */
     //cout << std::defaultfloat;
     //cout << std::fixed;
-    cout << std::scientific;
+    //cout << std::scientific;
+    cout << std::showpoint;
     cout << std::setprecision(3) << 123.456 << endl;
     cout << std::setprecision(4) << 123.456 << endl;
     cout << std::setprecision(5) << 123.456 << endl;
