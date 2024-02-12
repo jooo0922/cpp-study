@@ -130,17 +130,33 @@ int main()
 
 
     /* std::cin.unget() 으로 마지막에 스트림 버퍼로부터 읽은 입력값을 다시 스트림 버퍼에 집어넣기 */
+    //char buf[1024];
+
+    //cin >> buf;
+    //cout << buf << endl;
+
+    //// 여기서 입력 스트림 버퍼에 마지막 입력값을 다시 집어넣음
+    //cin.unget(); 
+
+    //cin >> buf;
+
+    //// 여기서 cin.unget() 으로 다시 집어넣은 입력값만 출력됨.
+    //cout << buf << endl;
+
+    /* std::cin.putback() 으로 비어있는 입력 스트림 버퍼에 원하는 문자를 다시 집어넣기 */
     char buf[1024];
 
     cin >> buf;
     cout << buf << endl;
 
-    // 여기서 비어있는 입력 스트림 버퍼에 마지막 입력값을 다시 집어넣음
-    cin.unget(); 
+    // 여기서 비어있는 입력 스트림 버퍼에 원하는 문자 'A' 를 다시 집어넣음
+    cin.putback('A');
+
+    cin >> buf;
 
     // 여기서 cin.unget() 으로 다시 집어넣은 입력값만 출력됨.
-    cin >> buf;
     cout << buf << endl;
+
 
     return 0;
 }
