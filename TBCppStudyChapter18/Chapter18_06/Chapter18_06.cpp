@@ -9,7 +9,7 @@ using namespace std;
 int main()
 {
     // writing
-    if (false)
+    if (true)
     {
         // 파일 출력 스트림 std::ofstream 생성
         /*
@@ -55,9 +55,61 @@ int main()
 
             -> 따라서, 메모장에서 해당 파일을
             열어서 write 된 값을 확인해볼 수 있음!
+
+            (참고로, 아래에서도 설명하겠지만,
+            파일을 binary 모드로 write 할 때에는,
+            std::ofstream.write() 멤버함수를 사용함.)
         */
-        ofs << "Line 1" << endl;
-        ofs << "Line 2" << endl;
+        //ofs << "Line 1" << endl;
+        //ofs << "Line 2" << endl;
+
+
+        /*
+            그러나, 게임같은 용량이 큰 프로그램의 파일을
+            텍스트 모드, 즉, ASCII 포맷으로 저장하면,
+            
+            파일을 저장하는 데만 해도 매우 느리고,
+            저장된 파일을 불러오는 것도 매우 느림.
+
+            따라서, 실무에서는 일반적으로
+            대부분의 파일들은 binary 포맷으로
+            저장하는 경우가 많음!
+
+            binary 로 저장할 때에는,
+            말 그대로 이진수로 변환되어 저장되기 때문에,
+            어떤 데이터가 어디까지 저장되어 있는지 알 수가 없음.
+
+            따라서,
+            어떤 데이터가 얼마만큼 몇 개가 저장되어 있는지
+            미리 약속을 해서 알고 있어야 함.
+
+            아래 예제와 같이,
+            0 ~ 9 까지의 10개의 숫자를 저장하고자 한다면,
+            
+            맨 먼저 저장할 숫자들의 갯수가 10개라는 것을
+            std::ofstream 에 맨 처음 write 해줘야 함.
+
+            그리고 나서,
+            파일을 std::ifstream 으로 파일을 읽어들일 때,
+            맨 먼저 저장된 숫자가 몇 개인지부터 읽어들여서
+            저장된 숫자의 갯수를 알고 있어야 binary 파일을 제대로 읽을 수 있음.
+
+            즉, 파일을 '쓰는 사람'과 '읽는 사람'이 
+            파일이 저장되는 방식에 대해 사전에 약속이 되어있어야 함!
+
+            참고로,
+            std::ofstream 에 binary(이진 데이터)를 write 할 때에는,
+            std::ofstream.write() 멤버함수를 사용하면 됨.
+        */
+        // 먼저 binary 포맷으로 저장할 데이터의 갯수를 c-style 문자열(char*)로 캐스팅하여 입력
+        const unsigned num_data = 10;
+        ofs.write((char*)&num_data, sizeof(num_data));
+
+        // 실제 10개의 데이터를 저장함
+        for (int i = 0; i < num_data; i++)
+        {
+            ofs.write((char*)&i, sizeof(i));
+        }
 
         /*
             파일 닫기 명령도 std::ofstream.close() 로 
@@ -109,12 +161,38 @@ int main()
             while 문의 조건문이 false 가 뜨게 되어
             반복문이 종료됨.
         */
-        while (ifs)
+        /*while (ifs)
         {
             std::string str;
             getline(ifs, str);
 
             cout << str << endl;
+        }*/
+
+        /*
+            입력 파일 스트림에서 
+            binary 데이터를 읽어들이려면,
+
+            std::ifstream.read() 멤버함수를 사용함.
+
+            이때, std::ofstream.write() 으로 작성한
+            'write 한 데이터의 갯수'를 먼저 읽어옴.
+
+            즉, '바이너리를 읽기 위한 서로간의 약속, 규칙'을
+            먼저 확인하는 것임.
+        */
+        
+        // 읽어들일 데이터 갯수를 먼저 확인함.
+        unsigned num_data = 0;
+        ifs.read((char*)&num_data, sizeof(num_data));
+
+        // 위에서 확인한 데이터 갯수만큼 실제 binary 데이터를 읽어들임
+        for (unsigned i = 0; i < num_data; i++)
+        {
+            int num;
+            ifs.read((char*)&num, sizeof(num));
+
+            std::cout << num << endl;
         }
     }
 
