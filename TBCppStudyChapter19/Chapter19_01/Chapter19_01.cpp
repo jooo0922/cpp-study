@@ -6,6 +6,15 @@
 
 using namespace std;
 
+class Object
+{
+public:
+    void hello(const string& s)
+    {
+        cout << "Hello " << s << endl;
+    }
+};
+
 int main()
 {
     /*
@@ -114,6 +123,35 @@ int main()
     // 함수 포인터 func4 를 호출할 때마다, 파라미터를 별도로 넣지 않아도, 
     // 바인딩된 값인 456 이 자동으로 매개변수에 전달되어 실행!
     func4();
+
+
+    /* std::placeholders */
+    {
+        Object instance;
+        
+        /*
+            Object 클래스의 멤버 함수인
+            Object::hello 함수를 std::bind() 로 파라미터 값을 바인딩하려는 상황.
+
+            그런데 만약, 
+            특정 파라미터 값으로 바인딩하지 않고,
+            '1개의 파라미터만 넣도록'
+            함수 포인터 실행 시, 전달하는 파라미터의 갯수를 특정하고 싶다면?
+
+            이럴 때 사용하는 것이 std::placeholders 라고 보면 됨.
+
+            만약, 1개의 파라미터만 넣도록 바인딩하고 싶다면,
+            std::placeholders::_1 을 전달하면 됨.
+
+            (참고로, 어떤 클래스의 멤버 함수의 주소값을
+            함수 포인터에 할당하고 싶다면, 해당 클래스의 인스턴스 주소값도 같이 할당해줘야
+            그 인스턴스의 주소값인 this 를 멤버 함수 내에서 사용할 수 있음.
+            
+            따라서, 클래스의 멤버 함수의 주소값을 함수 포인터에 할당할 때에는,
+            클래스 인스턴스의 주소값도 같이 할당해주도록 함!)
+        */
+        auto f = std::bind(&Object::hello, &instance, std::placeholders::_1);
+    }
 
     return 0;
 }
