@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <algorithm> // for_each 를 사용하기 위해 포함
-#include <functional>
+#include <functional> // c++ 11 부터 도입된 std::function 을 사용하기 위해 포함
 
 using namespace std;
 
@@ -66,12 +66,54 @@ int main()
     v.push_back(2);
 
     // for_each 문으로 std::vector 를 순회하면서 
-    // STL 의 반복자를 인라인으로 정의된 람다 함수의 매개변수로 전달하여 실행할 수 있음!
+    // STL 의 반복자를 람다 함수의 매개변수로 전달하여 실행할 수 있음!
+    auto func2 = [](int val) {cout << val << endl; };
+    for_each(v.begin(), v.end(), func2);
+
+    // 또는, 람다 함수 구현부를 인라인으로 직접 전달하는 것도 가능함! -> 모던 C++ 에서는 이 방식을 더 선호함!
     for_each(v.begin(), v.end(), [](int val) {cout << val << endl; });
 
 
     /* 입출력 스트림 내에서 인라인으로 정의된 람다 함수를 곧바로 실행함 */
     cout << []() -> int {return 1; }() << endl;
+
+
+    /*
+        std::function
+
+        함수 포인터를 좀 더 쉽게 사용하기 위해
+        c++ 11 에서 도입된 함수 포인터를 체계화한 클래스
+
+        아래 챕터에서 이미 한 번 다뤄봤음.
+        https://github.com/jooo0922/cpp-study/blob/main/TBCppChapter7/Chapter7_09/Chapter7_09.cpp 
+    */
+
+    // 위에서 정의한 람다 함수의 주소값을 std::function 으로 선언한 함수 포인터에 할당함.
+    std::function<void(int)> func3 = func2;
+    
+    // 람다 함수의 주소값이 할당된 std::function 함수 포인터 실행
+    func3(123);
+
+
+    /* 
+        std::bind() 
+        
+        만약, std::function<> 으로 정의된 함수 포인터를 호출할 때,
+        특정 타입의 파라미터를 매번 넣어주기 귀찮을 수도 있겠지?
+
+        그럴 때에는, std::bind() 를 사용함으로써,
+        해당 함수 포인터를 실행할 때마다 자동으로 전달해 줄
+        '파라미터 값을 binding 해줄' 수 있음!
+
+        이렇게 하면,
+        함수 포인터를 실행할 때, 파라미터 값을 명시하지 않더라도,
+        바인딩된 파라미터가 자동으로 들어가서 실행됨!
+    */
+    std::function<void()>func4 = std::bind(func3, 456);
+    
+    // 함수 포인터 func4 를 호출할 때마다, 파라미터를 별도로 넣지 않아도, 
+    // 바인딩된 값인 456 이 자동으로 매개변수에 전달되어 실행!
+    func4();
 
     return 0;
 }
