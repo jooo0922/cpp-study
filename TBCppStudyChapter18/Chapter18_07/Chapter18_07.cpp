@@ -38,6 +38,7 @@ int main()
         // n bytes 만큼 이동한 뒤, 해당 파일을 읽어들임. (std::ifstream.get())
         cout << (char)ifs.get() << endl;
 
+
         /*
             ios::cur
 
@@ -46,6 +47,7 @@ int main()
         */
         ifs.seekg(5, ios::cur);
         cout << (char)ifs.get() << endl;
+
 
         /*
             .seekg() 에는 이러한 탐색 모드들이 몇 가지 더 있음!
@@ -57,10 +59,23 @@ int main()
             파일 입력 스트림의 끝 지점을 의미함.
         */
         // 파일 입력 스트림의 끝 지점으로부터 0 byte 만큼 이동? 즉, 파일의 끝 지점을 의미!
-        ifs.seekg(0, ios::end);
+        //ifs.seekg(0, ios::end);
 
         // std::ifstream.tellg() 는 현재 파일의 커서 위치를 알려줌.
-        cout << ifs.tellg() << endl;
+        //cout << ifs.tellg() << endl;
+
+
+        /*
+            .seekg() 로 현재 파일 커서 위치를 설정한 후,
+            std::getline() 으로 읽어오면,
+
+            현재 커서 위치로부터 
+            해당 줄의 모든 문자열을 읽어올 것임.
+        */
+        string str;
+        getline(ifs, str);
+
+        cout << str << endl;
     }
 
     return 0;
