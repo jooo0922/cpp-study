@@ -78,5 +78,26 @@ int main()
         cout << str << endl;
     }
 
+    {
+        /*
+            파일 읽기와 쓰기 동시에 하는 법
+
+            std::fstream 을 사용하면 됨.
+
+            파일의 입력 스트림과 출력 스트림의 기능을
+            모두 갖고 있음.
+        */
+        // std::fstream 으로 파일 열기
+        fstream iofs(filename);
+
+        // 파일 시작 위치에서 5 bytes 이동 후 읽어오기
+        iofs.seekg(5);
+        cout << (char)iofs.get() << endl; // read
+
+        // 5 bytes 이동한 지점에서 다시 5 bytes 만큼 커서 이동 후, 그 자리에 문자 'A' 입력
+        iofs.seekg(5);
+        iofs.put('A'); // write
+    }
+
     return 0;
 }
