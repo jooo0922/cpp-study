@@ -41,11 +41,26 @@ int main()
         /*
             ios::cur
 
-            현재 읽어들인 파일의 현재 위치에서
-            다시 n bytes 만큼 이동하도록 함.
+            현재 읽어들인 파일의 현재 커서 위치에서
+            다시 n bytes 만큼 이동하도록 함.            
         */
         ifs.seekg(5, ios::cur);
         cout << (char)ifs.get() << endl;
+
+        /*
+            .seekg() 에는 이러한 탐색 모드들이 몇 가지 더 있음!
+
+            ios::beg 는
+            파일 입력 스트림의 시작 지점을 의미하고,
+
+            ios::end 는
+            파일 입력 스트림의 끝 지점을 의미함.
+        */
+        // 파일 입력 스트림의 끝 지점으로부터 0 byte 만큼 이동? 즉, 파일의 끝 지점을 의미!
+        ifs.seekg(0, ios::end);
+
+        // std::ifstream.tellg() 는 현재 파일의 커서 위치를 알려줌.
+        cout << ifs.tellg() << endl;
     }
 
     return 0;
