@@ -22,7 +22,11 @@ int main()
 	//regex re("\\d");
 
 	// 1개 이상의 digit 인지 검증하는 정규 표현식
-	regex re("\\d+");
+	//regex re("\\d+");
+
+	// 대괄호 안에 들어있는 문자들만 개별적으로 match 시키는 정규 표현식
+	regex re("[ab]");
+
 
 	// 입력 스트림 cin 으로 흘러들어간 문자열을 한 줄씩 저장할 std::string 문자열 변수
 	string str;
