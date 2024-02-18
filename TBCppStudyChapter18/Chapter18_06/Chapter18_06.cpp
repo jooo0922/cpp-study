@@ -79,7 +79,43 @@ int main()
     // reading
     if (true)
     {
-        ifstream ifs("my_first_file.dat", ios::binary);
+        /*
+            입력 파일 스트림인 std::ifstream 생성하여
+            원하는 파일을 열 수 있음!
+        */
+        ifstream ifs("my_first_file.dat");
+
+        // 파일 열기에 실패했을 때의 예외 처리
+        if (!ifs)
+        {
+            cerr << "Cannot open file" << endl;
+
+            // 파일 열기에 실패할 경우, std::exit() 으로 프로그램을 강제 종료함.
+            // (참고로, 가급적 exit() 은 예외처리 내에서만 사용하는 것을 권장한다고 함.)
+            exit(1);
+        }
+
+        /*
+            열려있는 파일을 읽어들일 때,
+            
+            입력 파일 스트림에 흘러들어온 값들을
+            std::getline() 을 통해
+            "\n" 를 기준으로 한 줄 단위로 읽어들임.
+
+            읽어들인 각 문자열을
+            std::string 문자열 변수에 저장해서 출력하고,
+
+            입력 파일 스트림에서 더 이상 읽어들일 값이 없으면,
+            while 문의 조건문이 false 가 뜨게 되어
+            반복문이 종료됨.
+        */
+        while (ifs)
+        {
+            std::string str;
+            getline(ifs, str);
+
+            cout << str << endl;
+        }
     }
 
     return 0;
