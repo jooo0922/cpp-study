@@ -22,7 +22,18 @@ int main()
             해당 이름으로 파일을 직접 만든 뒤,
             파일을 열어주는 역할을 함.
         */
-        ofstream ofs("my_first_file.dat");
+        //ofstream ofs("my_first_file.dat");
+
+        /*
+            ios::app 모드
+
+            append 모드의 약자로써,
+            출력 스트림에서 ios::app 모드로 파일을 열면,
+
+            기존 파일의 내용에다가 이어서
+            파일 쓰기 작업을 할 수 있음.
+        */
+        ofstream ofs("my_first_file.dat", ios::app);
 
         // 파일을 열 때에는, 아래와 같이 std::ofstream.open() 함수로 직접 파일 열기 명령을 호출할 수도 있음!
         //ofs.open("my_first_file.dat");
@@ -60,8 +71,8 @@ int main()
             파일을 binary 모드로 write 할 때에는,
             std::ofstream.write() 멤버함수를 사용함.)
         */
-        //ofs << "Line 1" << endl;
-        //ofs << "Line 2" << endl;
+        ofs << "Line 1" << endl;
+        ofs << "Line 2" << endl;
 
 
         /*
@@ -102,14 +113,14 @@ int main()
             std::ofstream.write() 멤버함수를 사용하면 됨.
         */
         // 먼저 binary 포맷으로 저장할 데이터의 갯수를 c-style 문자열(char*)로 캐스팅하여 입력
-        const unsigned num_data = 10;
-        ofs.write((char*)&num_data, sizeof(num_data));
+        //const unsigned num_data = 10;
+        //ofs.write((char*)&num_data, sizeof(num_data));
 
-        // 실제 10개의 데이터를 저장함
-        for (int i = 0; i < num_data; i++)
-        {
-            ofs.write((char*)&i, sizeof(i));
-        }
+        //// 실제 10개의 데이터를 저장함
+        //for (int i = 0; i < num_data; i++)
+        //{
+        //    ofs.write((char*)&i, sizeof(i));
+        //}
 
         /*
             파일 닫기 명령도 std::ofstream.close() 로 
@@ -161,13 +172,13 @@ int main()
             while 문의 조건문이 false 가 뜨게 되어
             반복문이 종료됨.
         */
-        /*while (ifs)
+        while (ifs)
         {
             std::string str;
             getline(ifs, str);
 
             cout << str << endl;
-        }*/
+        }
 
         /*
             입력 파일 스트림에서 
@@ -183,17 +194,17 @@ int main()
         */
         
         // 읽어들일 데이터 갯수를 먼저 확인함.
-        unsigned num_data = 0;
-        ifs.read((char*)&num_data, sizeof(num_data));
+        //unsigned num_data = 0;
+        //ifs.read((char*)&num_data, sizeof(num_data));
 
-        // 위에서 확인한 데이터 갯수만큼 실제 binary 데이터를 읽어들임
-        for (unsigned i = 0; i < num_data; i++)
-        {
-            int num;
-            ifs.read((char*)&num, sizeof(num));
+        //// 위에서 확인한 데이터 갯수만큼 실제 binary 데이터를 읽어들임
+        //for (unsigned i = 0; i < num_data; i++)
+        //{
+        //    int num;
+        //    ifs.read((char*)&num, sizeof(num));
 
-            std::cout << num << endl;
-        }
+        //    std::cout << num << endl;
+        //}
     }
 
     return 0;
