@@ -6,6 +6,11 @@
 
 using namespace std;
 
+void goodbye(const string& s)
+{
+    cout << "Goodbye " << s << endl;
+}
+
 class Object
 {
 public:
@@ -151,6 +156,19 @@ int main()
             클래스 인스턴스의 주소값도 같이 할당해주도록 함!)
         */
         auto f = std::bind(&Object::hello, &instance, std::placeholders::_1);
+
+        f(string("World"));
+
+        /*
+            그냥 함수의 주소값을 바인딩할 때에도,
+            입력할 파라미터 갯수를 특정하고 싶다면 std::placeholders 를 사용하면 됨.
+
+            단, 클래스 멤버함수 바인딩과 달리,
+            인스턴스 주소값을 같이 전달할 필요가 없어진다는 게 차이점!
+        */
+        auto f2 = std::bind(&goodbye, std::placeholders::_1);
+        
+        f2(string("World"));
     }
 
     return 0;
