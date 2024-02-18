@@ -36,6 +36,26 @@ int main()
         람다함수 문법을 많이 사용한다고 함.
     */
     [](const int& i) -> void { cout << "Hello, World!" << endl; } (1234);
+
+    {
+        /*
+            람다 함수의 
+            lambda-introducer [] 의 역할
+
+            lambda-introducer 를 사용하는 예시 중 하나로써,
+            [&] 앰퍼샌드 기호를 넣는 방식을 들 수 있는데,
+
+            이는 람다 함수가 선언된 특정 block 내의
+            local variable 의 레퍼런스를
+            람다 함수의 구현부 내부에서 가져와서 사용할 수 있도록 함!
+
+            만약, [=] 와 같이 사용하면,
+            local variable 을
+            람다 함수의 구현부 내부에 '복사'해줄 수 있음!
+        */
+        string name = "JackJack";
+        [&]() { cout << name << endl; } ();
+    }
     
     return 0;
 }
