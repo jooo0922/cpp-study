@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
+#include <algorithm> // for_each 를 사용하기 위해 포함
 #include <functional>
 
 using namespace std;
@@ -56,6 +56,18 @@ int main()
         string name = "JackJack";
         [&]() { cout << name << endl; } ();
     }
-    
+
+
+    /* 람다 함수를 STL 과 같이 사용하기 */
+
+    // std::vector 동적 배열 생성
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+
+    // for_each 문으로 std::vector 를 순회하면서 
+    // STL 의 반복자를 곧바로 정의된 람다 함수의 매개변수로 전달하여 실행할 수 있음!
+    for_each(v.begin(), v.end(), [](int val) {cout << val << endl; });
+
     return 0;
 }
