@@ -66,8 +66,12 @@ int main()
     v.push_back(2);
 
     // for_each 문으로 std::vector 를 순회하면서 
-    // STL 의 반복자를 곧바로 정의된 람다 함수의 매개변수로 전달하여 실행할 수 있음!
+    // STL 의 반복자를 인라인으로 정의된 람다 함수의 매개변수로 전달하여 실행할 수 있음!
     for_each(v.begin(), v.end(), [](int val) {cout << val << endl; });
+
+
+    /* 입출력 스트림 내에서 인라인으로 정의된 람다 함수를 곧바로 실행함 */
+    cout << []() -> int {return 1; }() << endl;
 
     return 0;
 }
