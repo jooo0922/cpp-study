@@ -27,6 +27,26 @@ int main()
         while (true) {}}
     );
 
+    // 여러 개의 std::thread 를 실행해서 cpu 사용량 측정해보기
+    std::thread t2 = std::thread([]() {
+        // 새롭게 생성해서 전달받은 작업을 수행하는 thread 의 id 출력 (Main Thread 와 당연히 다름!)
+        cout << std::this_thread::get_id() << endl;
+        while (true) {}}
+    );
+
+    std::thread t3 = std::thread([]() {
+        // 새롭게 생성해서 전달받은 작업을 수행하는 thread 의 id 출력 (Main Thread 와 당연히 다름!)
+        cout << std::this_thread::get_id() << endl;
+        while (true) {}}
+    );
+
+    std::thread t4 = std::thread([]() {
+        // 새롭게 생성해서 전달받은 작업을 수행하는 thread 의 id 출력 (Main Thread 와 당연히 다름!)
+        cout << std::this_thread::get_id() << endl;
+        while (true) {}}
+    );
+
+
     /*
         main() 함수가 돌고 있는 Main Thread 에서
         std::thread 를 새롭게 생성하면,
@@ -45,6 +65,11 @@ int main()
         std::thread.join() 함수라고 보면 됨!
     */
     t1.join();
+
+    // 항상 생성된 모든 thread 들은 작업을 마치면 Main Thread 로 join 시켜줘야 함!
+    t2.join();
+    t3.join();
+    t4.join();
 
     return 0;
 }
