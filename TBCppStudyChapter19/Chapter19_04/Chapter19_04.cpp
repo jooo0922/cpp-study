@@ -69,9 +69,27 @@ int main()
                 race condition 이슈는
                 mutex.lock(), .unlock() 을 통해서도 해결 가능!
             */
-            mtx.lock();
+            //mtx.lock();
+            //shared_memory++;
+            //mtx.unlock();
+
+            /*
+                lock guard
+
+                mutex.lock() / unlock() 도 물론 좋은데,
+                만약 .unlock() 호출을 빼먹거나,
+
+                예외처리처럼
+                mutex.lock() ~ mutex.unlock() 사이에
+                다른 부분으로 슝 날라가는 코드가 있으면,
+                .unlock() 이 선언되어 있어도 실행이 안될 수 있음.
+
+                이럴 경우 사용하는 클래스 템플릿이
+                std::lock_guard<> 라고 보면 됨.
+            */
+            std::lock_guard<mutex> lock(mtx);
+
             shared_memory++;
-            mtx.unlock();
         }
     };
 
