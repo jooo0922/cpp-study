@@ -136,6 +136,12 @@ int main()
                 mutex.lock() 에 가장 먼저 도달해서 
                 직접 잠가버린 쓰레드 당사자만 mutex.lock() ~ mutex.unlock() 사이의
                 코드를 실행할 수 있는 '상호 배제적인 권한'이 생기게 됨!
+
+                -> 이처럼, 멀티 쓰레딩에서는 단순히 각 쓰레드에 
+                할 일을 넣어주는 게 중요한 게 아니고,
+            
+                각 쓰레드들의 중복되는 작업을 mutex 같은 걸 사용해서
+                잘 처리할 줄 아는 것이 중요함!
             */
             mtx.lock();
             cout << name << " " << std::this_thread::get_id() << " is working " << i << endl;
