@@ -6,6 +6,8 @@
 
 using namespace std;
 
+mutex mtx;
+
 int main()
 {
     // 여러 쓰레드들이 동시에 접근할 4 bytes 의 int 타입 메모리를 0으로 초기화 -> '공유 메모리'
@@ -30,7 +32,8 @@ int main()
         기존 공유 메모리의 ++ 연산자보다,
         atomic 에 오버로딩된 ++ 연산자가 더 느린 측면이 있음!
     */
-    atomic<int> shared_memory(0);
+    //atomic<int> shared_memory(0);
+    int shared_memory(0);
 
     // 각 쓰레드에 전달할 작업(함수)를 람다함수로 구현
     auto count_func = [&]() {
@@ -60,7 +63,15 @@ int main()
                 ++ 연산자는 더 이상 int 의 ++ 가 아니고,
                 atomic 에 정의되어 있는 ++ 연산자 오버로딩을 의미함!
             */
+            //shared_memory++;
+
+            /*
+                race condition 이슈는
+                mutex.lock(), .unlock() 을 통해서도 해결 가능!
+            */
+            mtx.lock();
             shared_memory++;
+            mtx.unlock();
         }
     };
 
