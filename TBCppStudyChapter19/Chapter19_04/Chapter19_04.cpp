@@ -87,7 +87,26 @@ int main()
                 이럴 경우 사용하는 클래스 템플릿이
                 std::lock_guard<> 라고 보면 됨.
             */
-            std::lock_guard<mutex> lock(mtx);
+            //std::lock_guard<mutex> lock(mtx);
+
+            /*
+                std::scoped_lock
+
+
+                c++ 17 에 도입된
+                lock guard 보다 진보된 lock 이라고 함.
+
+                std::lock_guard 와 마찬가지로,
+                현재의 scope 를 벗어나는 순간
+                자동으로 lock 이 해제됨.
+
+                그래서, 가급적 mutex.lock(), unlock() 을
+                직접 사용하는 것보다는,
+
+                std::lock_guard<> 또는
+                std::scoped_lock<> (c++ 17 이후 버전 한정) 사용을 권장한다고 함! 
+            */
+            std::scoped_lock<mutex> lock(mtx);
 
             shared_memory++;
         }
