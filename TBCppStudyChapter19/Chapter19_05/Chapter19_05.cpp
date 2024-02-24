@@ -70,5 +70,53 @@ int main()
         cout << fut.get() << endl;
     }
 
+    // future and promise
+    {
+        /*
+            std::future 는 std::thread 에서도 사용할 수 있는데,
+            그러려면 std::promise<>, 즉, '어떠한 약속'을 선언해줘야 함.
+
+            최근 c++ 에서 구현된 멀티쓰레딩 예제들을 보면
+            promise 개념이 자주 등장하므로 잘 알아두는 것이 좋음!
+
+            std::async() 와 달리,
+            std::thread() 는 std::future 를 직접 반환할 수 없으므로,
+
+            대신해서 std::future 를 반환할 수 있는 존재인
+            std::promise<>.get_future() 를 사용한 것!
+        */
+        std::promise<int> prom;
+        auto fut = prom.get_future();
+
+        // std::thread 생성 및 실행
+        /*
+            이때, thread 에서 std::future 를 사용하려면,
+
+            1. std::move() 를 사용해서 std::promise 를 r-value reference 로 변환한 뒤,
+            std::thread() 의 두 번째 매개변수로 전달함.
+            (std::move() 관련 
+            https://github.com/jooo0922/cpp-study/blob/main/TBCppChapter15/Chapter15_04/Chapter15_04.cpp 참고)
+
+            2. 위 1번에서 r-value reference 로 변환된 std::promise 를 
+            std::thread() 에 첫 번째 매개변수로 전달한 '람다함수의 매개변수'로 전달함.
+            (r-value reference 관련 
+            https://github.com/jooo0922/cpp-study/blob/main/TBCppChapter15/Chapter15_02/Chapter15_02.cpp 참고)
+
+            3. 람다함수 내에서 r-value refernce 로 받은 
+            std::promise.set_value() 를 통해 std::future 가 받아낼 최종적인 결과값을 저장함.
+
+            4. 바깥 쪽 block 에서 std::promise.get_future() 를 통해 받아낸 std::future 는
+            std::promise.set_value() 로 결과값을 받아낼 때까지 하염없이 기다리다가
+            결과값을 받고 나면 std::future.get() 으로 결과값을 받아볼 수 있게 됨!
+        */
+        auto t = std::thread([](std::promise<int>&& prom) 
+        {
+            prom.set_value(1 + 2);
+        }, std::move(prom));
+
+        cout << fut.get() << endl;
+        t.join();
+    }
+
     return 0;
 }
