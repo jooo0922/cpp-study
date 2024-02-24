@@ -1,6 +1,7 @@
 #include <iostream>
 #include <future> // async, future, promise 사용을 위해 포함
 #include <thread>
+#include <chrono>
 
 using namespace std;
 
@@ -116,6 +117,58 @@ int main()
 
         cout << fut.get() << endl;
         t.join();
+    }
+
+    /*
+        std::thread() 와 std::async() 의 중요한 차이점
+
+
+        std::thread() 는 해당 thread 작업의 종료를
+        std::thread.join() 으로 기다려주지만,
+
+        std::async() 는 join() 같은 함수가 없어도
+        알아서 작업이 종료될 때까지 기다렸다가, 
+        작업이 종료되면 알아서 처리해 줌.
+    */
+    {
+        // 아래에서 사용된 std::async() 들은 별도로 join 함수가 없어도, 
+        // 각 thread 의 작업이 종료되면 알아서 Main Thread 로 복귀할 수 있음.
+
+        /*
+            std::async() 관련 주의사항
+
+            만약, 아래와 같이
+            auto f1 = std::async(...) 처럼
+            std::async 와 pair 를 이루는 std::future 를 별도로 반환받지 않을 경우,
+
+            즉, 예를 들어
+            std::async(...) 로만 작성할 경우,
+
+            그냥 sequential 하게 '동기적'으로 코드가 실행됨.
+
+            즉, 첫 번째 async 내의 람다 함수 먼저 다 실행하고,
+            그 다음 두 번째 async 내의 람다 함수 다 실행하고,
+            마지막으로 cout << "Main function" << endl; 을 실행시킴.
+
+            따라서, std::async() 비동기 작업을 수행하고 싶다면,
+            반드시 'auto [변수명] =' 을 붙여서
+            각 std::async 와 pair 를 이루는 std::future 를 변수에 받아놔야 함!
+        */
+        auto f1 = std::async([] {
+            cout << "async1 start" << endl;
+            // std::async() 가 처리하는 람다함수 작업 내에서 2초 간 휴식 강제
+            this_thread::sleep_for(chrono::seconds(2));
+            cout << "async1 end" << endl;
+        });
+
+        auto f2 = std::async([] {
+            cout << "async2 start" << endl;
+            // std::async() 가 처리하는 람다함수 작업 내에서 1초 간 휴식 강제
+            this_thread::sleep_for(chrono::seconds(1));
+            cout << "async2 end" << endl;
+        });
+
+        cout << "Main function" << endl;
     }
 
     return 0;
