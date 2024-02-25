@@ -314,52 +314,100 @@ int main()
     //}
 
     // std::future, std::async 로 작업 기반 비동기 프로그래밍을 구현하여 벡터 내적 계산
-    cout << "Future" << endl;
+    //cout << "Future" << endl;
+    //{
+    //    // 내적 연산이 시작된 시점 저장
+    //    const auto sta = chrono::steady_clock::now();
+
+    //    // 내적 연산의 결과를 누산할 공유 메모리 선언
+    //    unsigned long long sum = 0;
+
+    //    // 4개의 std::future 가 담길 동적 배열 생성 및 초기화
+    //    vector<std::future<int>> futures;
+    //    futures.resize(n_thread);
+
+    //    // 1억 개의 컴포넌트를 갖는 벡터의 내적에서 각 thread 가 연산을 맡을 컴포넌트 갯수 (25,000,000 개)
+    //    const unsigned n_per_thread = n_data / n_thread;
+
+    //    // 각 std::async 를 실행한 결과값이 저장된 std::future 를 반환받음.
+    //    for (unsigned t = 0; t < n_thread; t++)
+    //    {
+    //        futures[t] = std::async(dotProductFuture, std::ref(v0), std::ref(v1),
+    //            t * n_per_thread, (t + 1) * n_per_thread);
+    //    }
+
+    //    // 각 std::future.get() 으로 async 결과값을 공유 메모리에 누산
+    //    /*
+    //        std::async() 는 join() 같은 함수가 없어도
+    //        알아서 작업이 종료될 때까지 기다렸다가,
+    //        작업이 종료되면 알아서 처리해 줌.
+    //    */
+    //    for (unsigned t = 0; t < n_thread; t++)
+    //    {
+    //        sum += futures[t].get();
+    //    }
+
+    //    // 내적 연산 종료 시점에서 시작 시점을 빼서 경과시간 기록
+    //    const chrono::duration<double> dur = chrono::steady_clock::now() - sta;
+
+    //    // 경과시간 출력
+    //    /*
+    //        다른 멀티쓰레딩 벡터 내적 예제들보다
+    //        수행 시간이 훨씬 빨라짐.
+
+    //        오히려 std::inner_product() 보다도 더 빠름.
+
+    //        뿐만 아니라,
+    //        결과값도 정확함.
+    //    */
+    //    cout << dur.count() << endl;
+
+    //    // 내적 연산 결과 출력
+    //    cout << sum << endl;
+    //    cout << endl;
+    //}
+
+    // std::transform_reduce 벡터 내적 계산
+    /*
+        std::transform_reduce 는
+        std::inner_product 의 병렬 처리 버전이라고 보면 됨.
+
+        사실, 이처럼 병렬 처리가 필요한 부분들은
+        STL 에서 지원을 해주기 때문에,
+        위 예제들처럼 병렬 처리를 직접 구현할 필요는 없음.
+
+        그러나, STL 에서 제공해주는 병렬 처리 함수들을 사용하기 전,
+        멀티쓰레딩을 직접 구현해 본 것이 좋은 연습이 되었을 것임.
+    */
+    cout << "std::transform_reduce" << endl;
     {
         // 내적 연산이 시작된 시점 저장
         const auto sta = chrono::steady_clock::now();
 
-        // 내적 연산의 결과를 누산할 공유 메모리 선언
-        unsigned long long sum = 0;
-
-        // 4개의 std::future 가 담길 동적 배열 생성 및 초기화
-        vector<std::future<int>> futures;
-        futures.resize(n_thread);
-
-        // 1억 개의 컴포넌트를 갖는 벡터의 내적에서 각 thread 가 연산을 맡을 컴포넌트 갯수 (25,000,000 개)
-        const unsigned n_per_thread = n_data / n_thread;
-
-        // 각 std::async 를 실행한 결과값이 저장된 std::future 를 반환받음.
-        for (unsigned t = 0; t < n_thread; t++)
-        {
-            futures[t] = std::async(dotProductFuture, std::ref(v0), std::ref(v1),
-                t * n_per_thread, (t + 1) * n_per_thread);
-        }
-
-        // 각 std::future.get() 으로 async 결과값을 공유 메모리에 누산
+        // std::transform_reduce 로 벡터 내적 계산
         /*
-            std::async() 는 join() 같은 함수가 없어도
-            알아서 작업이 종료될 때까지 기다렸다가,
-            작업이 종료되면 알아서 처리해 줌.
+            std::inner_product 와 대부분 매개변수가 동일하나,
+            첫 번째 매개변수로 들어오는 플래그가 추가됨.
+
+            std::execution::par 에서
+            par 은 parallel 의 약자로써,
+            
+            해당 작업을 parallel(병렬)로 돌려달라고 설정하는
+            플래그라고 보면 됨.
+
+            반대 플래그는
+            std::execution::seq 로써,
+            seq, 즉, sequantial(순서대로) 로 돌려달라고 설정하는 것임.
+
+            -> std::execution::seq 플래그로 설정해서 연산한다면,
+            std::inner_product 와 속도가 동일할 것임! (병렬 처리가 미적용되기 때문에...)
         */
-        for (unsigned t = 0; t < n_thread; t++)
-        {
-            sum += futures[t].get();
-        }
+        unsigned long long sum = std::transform_reduce(std::execution::par, v0.begin(), v0.end(), v1.begin(), 0ull);
 
         // 내적 연산 종료 시점에서 시작 시점을 빼서 경과시간 기록
         const chrono::duration<double> dur = chrono::steady_clock::now() - sta;
 
         // 경과시간 출력
-        /*
-            다른 멀티쓰레딩 벡터 내적 예제들보다
-            수행 시간이 훨씬 빨라짐.
-
-            오히려 std::inner_product() 보다도 더 빠름.
-
-            뿐만 아니라,
-            결과값도 정확함.
-        */
         cout << dur.count() << endl;
 
         // 내적 연산 결과 출력
