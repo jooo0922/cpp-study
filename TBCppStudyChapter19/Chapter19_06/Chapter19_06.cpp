@@ -88,6 +88,25 @@ void dotProductAtomic(
     }
 }
 
+// std::async() 가 비동기로 처리할 벡터 내적 함수
+auto dotProductFuture(
+    const vector<int>& v0, // 첫 번째 벡터
+    const vector<int>& v1, // 두 번째 벡터
+    const unsigned i_start, // 현재 thread 가 계산할 각 벡터의 시작 컴포넌트 위치 (즉, 1억 개의 컴포넌트들 중에서 i_start 번째부터는 이 thread 가 계산)
+    const unsigned i_end // 현재 thread 가 계산할 각 벡터의 끝 컴포넌트 위치 (즉, 1억 개의 컴포넌트들 i_end 번째 까지는 이 thread 가 계산)
+)
+{
+    // std::async() 가 처리한 작업에서 반환할 local sum 초기화
+    int sum = 0;
+    for (unsigned i = i_start; i < i_end; i++)
+    {
+        sum += v0[i] * v1[i];
+    }
+
+    return sum;
+}
+
+
 int main()
 {
     /* 멀티쓰레딩으로 벡터 내적 구현 */
@@ -255,38 +274,92 @@ int main()
     //}
 
     // 멀티쓰레딩으로 벡터 내적 연산 구현 (atomic 으로 race condition 이슈 해결)
-    cout << "Atomic" << endl;
+    //cout << "Atomic" << endl;
+    //{
+    //    // 내적 연산이 시작된 시점 저장
+    //    const auto sta = chrono::steady_clock::now();
+
+    //    // 내적 연산의 결과를 누산할 공유 메모리를 atomic 으로 선언
+    //    atomic<unsigned long long> sum = 0;
+
+    //    // 4개의 쓰레드가 담길 동적 배열 생성 및 초기화
+    //    vector<thread> threads;
+    //    threads.resize(n_thread);
+
+    //    // 1억 개의 컴포넌트를 갖는 벡터의 내적에서 각 thread 가 연산을 맡을 컴포넌트 갯수 (25,000,000 개)
+    //    const unsigned n_per_thread = n_data / n_thread;
+
+    //    // 각 쓰레드 생성 및 실행
+    //    for (unsigned t = 0; t < n_thread; t++)
+    //    {
+    //        threads[t] = std::thread(dotProductAtomic, std::ref(v0), std::ref(v1),
+    //            t * n_per_thread, (t + 1) * n_per_thread, std::ref(sum));
+    //    }
+
+    //    // 각 thread 작업이 끝나면 Main Thread 로 join 시킴
+    //    for (unsigned t = 0; t < n_thread; t++)
+    //    {
+    //        threads[t].join();
+    //    }
+
+    //    // 내적 연산 종료 시점에서 시작 시점을 빼서 경과시간 기록
+    //    const chrono::duration<double> dur = chrono::steady_clock::now() - sta;
+
+    //    // 경과시간 출력
+    //    cout << dur.count() << endl;
+
+    //    // 내적 연산 결과 출력
+    //    cout << sum << endl;
+    //    cout << endl;
+    //}
+
+    // std::future, std::async 로 작업 기반 비동기 프로그래밍을 구현하여 벡터 내적 계산
+    cout << "Future" << endl;
     {
         // 내적 연산이 시작된 시점 저장
         const auto sta = chrono::steady_clock::now();
 
-        // 내적 연산의 결과를 누산할 공유 메모리를 atomic 으로 선언
-        atomic<unsigned long long> sum = 0;
+        // 내적 연산의 결과를 누산할 공유 메모리 선언
+        unsigned long long sum = 0;
 
-        // 4개의 쓰레드가 담길 동적 배열 생성 및 초기화
-        vector<thread> threads;
-        threads.resize(n_thread);
+        // 4개의 std::future 가 담길 동적 배열 생성 및 초기화
+        vector<std::future<int>> futures;
+        futures.resize(n_thread);
 
         // 1억 개의 컴포넌트를 갖는 벡터의 내적에서 각 thread 가 연산을 맡을 컴포넌트 갯수 (25,000,000 개)
         const unsigned n_per_thread = n_data / n_thread;
 
-        // 각 쓰레드 생성 및 실행
+        // 각 std::async 를 실행한 결과값이 저장된 std::future 를 반환받음.
         for (unsigned t = 0; t < n_thread; t++)
         {
-            threads[t] = std::thread(dotProductAtomic, std::ref(v0), std::ref(v1),
-                t * n_per_thread, (t + 1) * n_per_thread, std::ref(sum));
+            futures[t] = std::async(dotProductFuture, std::ref(v0), std::ref(v1),
+                t * n_per_thread, (t + 1) * n_per_thread);
         }
 
-        // 각 thread 작업이 끝나면 Main Thread 로 join 시킴
+        // 각 std::future.get() 으로 async 결과값을 공유 메모리에 누산
+        /*
+            std::async() 는 join() 같은 함수가 없어도
+            알아서 작업이 종료될 때까지 기다렸다가,
+            작업이 종료되면 알아서 처리해 줌.
+        */
         for (unsigned t = 0; t < n_thread; t++)
         {
-            threads[t].join();
+            sum += futures[t].get();
         }
 
         // 내적 연산 종료 시점에서 시작 시점을 빼서 경과시간 기록
         const chrono::duration<double> dur = chrono::steady_clock::now() - sta;
 
         // 경과시간 출력
+        /*
+            다른 멀티쓰레딩 벡터 내적 예제들보다
+            수행 시간이 훨씬 빨라짐.
+
+            오히려 std::inner_product() 보다도 더 빠름.
+
+            뿐만 아니라,
+            결과값도 정확함.
+        */
         cout << dur.count() << endl;
 
         // 내적 연산 결과 출력
