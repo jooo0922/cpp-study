@@ -15,6 +15,14 @@ using namespace std;
 mutex mtx;
 
 // 멀티쓰레딩으로 계산할 벡터 내적 함수
+/*
+    dotProductNaive() 함수에서는
+    
+    공유 메모리 sum 에 발생하는 
+    race condition 이슈를 별도로 처리하는 코드가 없기 때문에,
+    
+    결과값이 부정확해지는 이슈가 있음!
+*/
 void dotProductNaive(
     const vector<int>& v0, // 첫 번째 벡터
     const vector<int>& v1, // 두 번째 벡터
@@ -25,6 +33,33 @@ void dotProductNaive(
 {
     for (unsigned i = i_start; i < i_end; i++)
     {
+        sum += v0[i] * v1[i];
+    }
+}
+
+// std::scoped_lock (c++ 17 이후 버전만 사용 가능) 으로 race condition 이슈를 해결한 벡터 내적 함수
+/*
+    std::scoped_lock 은 
+    현재 thread 가 작업을 처리할 때까지
+
+    다른 thread 가 lock 처리된 이후 구간을 
+    접근하지 못하도록 대기시키기 때문에
+
+    lock guard 가 빈번하게 발생하면
+    멀티쓰레딩의 성능이 느려지는 이슈가 있음!
+*/
+void dotProductLock(
+    const vector<int>& v0, // 첫 번째 벡터
+    const vector<int>& v1, // 두 번째 벡터
+    const unsigned i_start, // 현재 thread 가 계산할 각 벡터의 시작 컴포넌트 위치 (즉, 1억 개의 컴포넌트들 중에서 i_start 번째부터는 이 thread 가 계산)
+    const unsigned i_end, // 현재 thread 가 계산할 각 벡터의 끝 컴포넌트 위치 (즉, 1억 개의 컴포넌트들 i_end 번째 까지는 이 thread 가 계산)
+    unsigned long long& sum // 각 thread 에서 벡터 내적 결과를 누산할 l-value reference(참조변수)  
+)
+{
+    for (unsigned i = i_start; i < i_end; i++)
+    {
+        std::scoped_lock lock(mtx); // c++ 17
+
         sum += v0[i] * v1[i];
     }
 }
@@ -151,12 +186,46 @@ int main()
         cout << dur.count() << endl;
 
         // 내적 연산 결과 출력
-        /*
-            dotProductNaive() 함수에서는
-            공유 메모리 sum 에 발생하는 race condition 이슈를
-            별도로 처리하는 코드가 없기 때문에,
-            결과값이 부정확해지는 이슈가 있음!
-        */
+        cout << sum << endl;
+        cout << endl;
+    }
+
+    // 멀티쓰레딩으로 벡터 내적 연산 구현 (lock guard 기법으로 race condition 이슈 해결)
+    cout << "Lockguard" << endl;
+    {
+        // 내적 연산이 시작된 시점 저장
+        const auto sta = chrono::steady_clock::now();
+
+        // 내적 연산의 결과를 누산할 변수 초기화
+        unsigned long long sum = 0;
+
+        // 4개의 쓰레드가 담길 동적 배열 생성 및 초기화
+        vector<thread> threads;
+        threads.resize(n_thread);
+
+        // 1억 개의 컴포넌트를 갖는 벡터의 내적에서 각 thread 가 연산을 맡을 컴포넌트 갯수 (25,000,000 개)
+        const unsigned n_per_thread = n_data / n_thread;
+
+        // 각 쓰레드 생성 및 실행
+        for (unsigned t = 0; t < n_thread; t++)
+        {
+            threads[t] = std::thread(dotProductLock, std::ref(v0), std::ref(v1),
+                t * n_per_thread, (t + 1) * n_per_thread, std::ref(sum));
+        }
+
+        // 각 thread 작업이 끝나면 Main Thread 로 join 시킴
+        for (unsigned t = 0; t < n_thread; t++)
+        {
+            threads[t].join();
+        }
+
+        // 내적 연산 종료 시점에서 시작 시점을 빼서 경과시간 기록
+        const chrono::duration<double> dur = chrono::steady_clock::now() - sta;
+
+        // 경과시간 출력
+        cout << dur.count() << endl;
+
+        // 내적 연산 결과 출력
         cout << sum << endl;
         cout << endl;
     }
