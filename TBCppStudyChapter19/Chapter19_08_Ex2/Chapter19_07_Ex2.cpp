@@ -91,6 +91,27 @@ void doSomething(CustomVector&& vec)
     cout << "Pass by R-ref" << endl;
 
     // move constructor 오버로딩이 실행되겠군
+    /*
+        참고로, vec 매개변수가 이미 r-value 로 선언되어 있는데,
+        왜 굳이 중복해서 std::move() 로 r-value 변환을 하는걸까?
+
+        막상 vec 을 그냥 전달해버리면,
+        copy constructor 가 호출됨.
+
+        즉, l-value reference 로 작동한다는 뜻임!
+
+        따라서, 매개변수가 r-value reference 로 선언되어 있다고 하더라도,
+        생성자에 전달할 때에는 std::move() 를 통해
+        r-value reference 로 명시적으로 변환을 해줘서 전달해야 함!
+
+        이게 왜 이럴까?
+        vec 자체는 r-value 로 선언되어 있지만,
+        vec 도 결국에는 매개'변수' 이기 때문에,
+        '선언된 매개변수에 저장되어 있는 값'으로 인식함.
+
+        즉, 메모리가 존재하는 하나의 변수로 인식하기 때문에
+        컴파일러가 l-value 로 인식해서 처리하는 것임.
+    */
     CustomVector new_vec(std::move(vec));
 }
 
