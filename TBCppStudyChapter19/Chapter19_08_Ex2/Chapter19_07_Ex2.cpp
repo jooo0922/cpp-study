@@ -74,17 +74,43 @@ public:
     }
 };
 
+// l-value reference 를 매개변수로 전달받는 함수
+void doSomething(CustomVector& vec)
+{
+    cout << "Pass by L-ref" << endl;
+
+    // copy constructor 오버로딩이 실행되겠군
+    CustomVector new_vec(vec);
+}
+
+// r-value reference 를 매개변수로 전달받는 함수 
+// (l-value ref 와 r-value ref 는 서로 다른 매개변수로 오버로딩 가능!)
+// (https://github.com/jooo0922/cpp-study/blob/main/TBCppChapter15/Chapter15_02/Chapter15_02.cpp 참고)
+void doSomething(CustomVector&& vec)
+{
+    cout << "Pass by R-ref" << endl;
+
+    // move constructor 오버로딩이 실행되겠군
+    CustomVector new_vec(std::move(vec));
+}
+
 int main()
 {
     CustomVector my_vec(10, 1024);
 
     // l-value reference 를 생성자에 전달 -> copy semantics 로 오버로딩된 생성자 함수가 실행되겠군!
-    CustomVector temp(my_vec);
+    //CustomVector temp(my_vec);
 
     // std::move() 로 r-value reference 로 변환하여 생성자에 전달 -> move semantics 로 오버로딩된 생성자 함수가 실행되겠군!
-    CustomVector temp2(std::move(my_vec));
+    //CustomVector temp2(std::move(my_vec));
 
-    cout << my_vec.n_data << endl;
+    //cout << my_vec.n_data << endl;
+
+    // l-value reference 오버로딩 함수가 호출
+    doSomething(my_vec);
+
+    // l-value reference 오버로딩 함수가 호출
+    doSomething(CustomVector(10, 8));
 
     return 0;
 }
