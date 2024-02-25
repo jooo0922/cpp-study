@@ -78,6 +78,12 @@ int main()
 {
     CustomVector my_vec(10, 1024);
 
+    // l-value reference 를 생성자에 전달 -> copy semantics 로 오버로딩된 생성자 함수가 실행되겠군!
+    CustomVector temp(my_vec);
+
+    // std::move() 로 r-value reference 로 변환하여 생성자에 전달 -> move semantics 로 오버로딩된 생성자 함수가 실행되겠군!
+    CustomVector temp2(std::move(my_vec));
+
     cout << my_vec.n_data << endl;
 
     return 0;
