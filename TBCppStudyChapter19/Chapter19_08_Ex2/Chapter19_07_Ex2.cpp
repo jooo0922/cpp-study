@@ -94,6 +94,31 @@ void doSomething(CustomVector&& vec)
     CustomVector new_vec(std::move(vec));
 }
 
+/*
+    Chapter19_07_Ex1 예제와 마찬가지로,
+    
+    함수 템플릿을 wrapper 로 감싸서
+    위의 두 오버로딩된 함수를 호출하면,
+    l-value 였는지 r-value 였는지에 대한 정보가 날라가 버려서
+    문제가 발생하겠지!
+
+    그래서 std::forward<T>() 를 사용해서
+    오버로딩된 함수 doSomething() 에 vec 을 전달할 때,
+
+    r-value 인지 l-value 인지 명확하게 판단해서
+    해당하는 참조변수로 변환한 다음 전달시켜 줌!
+
+    -> perfect forwarding!
+*/
+template<typename T>
+void doSomethingTemplate(T&& vec)
+{
+    // move constructor 오버로딩이 실행되겠군
+    doSomething(std::forward<T>(vec));
+}
+
+
+
 int main()
 {
     CustomVector my_vec(10, 1024);
@@ -107,10 +132,14 @@ int main()
     //cout << my_vec.n_data << endl;
 
     // l-value reference 오버로딩 함수가 호출
-    doSomething(my_vec);
+    //doSomething(my_vec);
 
     // l-value reference 오버로딩 함수가 호출
-    doSomething(CustomVector(10, 8));
+    //doSomething(CustomVector(10, 8));
+
+    // 함수 템플릿 wrapper 를 통해 오버로딩된 함수 doSomething() 간접 호출
+    doSomethingTemplate(my_vec);
+    doSomethingTemplate(CustomVector(10, 8));
 
     return 0;
 }
