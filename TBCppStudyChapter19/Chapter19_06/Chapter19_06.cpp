@@ -64,6 +64,30 @@ void dotProductLock(
     }
 }
 
+// 공유 메모리 sum 을 atomic 으로 선언하여 race condition 이슈를 해결한 벡터 내적 함수
+/*
+    atomic 으로 선언된 공유 메모리의 
+    += 연산자는 atomic 에서 오버로딩된 연산자를 사용하므로,
+
+    빈번하게 사용할 경우
+    마찬가지로 성능이 느려지는 이슈가 있음.
+*/
+void dotProductAtomic(
+    const vector<int>& v0, // 첫 번째 벡터
+    const vector<int>& v1, // 두 번째 벡터
+    const unsigned i_start, // 현재 thread 가 계산할 각 벡터의 시작 컴포넌트 위치 (즉, 1억 개의 컴포넌트들 중에서 i_start 번째부터는 이 thread 가 계산)
+    const unsigned i_end, // 현재 thread 가 계산할 각 벡터의 끝 컴포넌트 위치 (즉, 1억 개의 컴포넌트들 i_end 번째 까지는 이 thread 가 계산)
+    atomic<unsigned long long>& sum // 각 thread 에서 벡터 내적 결과를 누산할 공유 메모리를 atomic 으로 선언
+)
+{
+    for (unsigned i = i_start; i < i_end; i++)
+    {
+        std::scoped_lock lock(mtx); // c++ 17
+
+        sum += v0[i] * v1[i];
+    }
+}
+
 int main()
 {
     /* 멀티쓰레딩으로 벡터 내적 구현 */
@@ -191,13 +215,53 @@ int main()
     }
 
     // 멀티쓰레딩으로 벡터 내적 연산 구현 (lock guard 기법으로 race condition 이슈 해결)
-    cout << "Lockguard" << endl;
+    //cout << "Lockguard" << endl;
+    //{
+    //    // 내적 연산이 시작된 시점 저장
+    //    const auto sta = chrono::steady_clock::now();
+
+    //    // 내적 연산의 결과를 누산할 변수 초기화
+    //    unsigned long long sum = 0;
+
+    //    // 4개의 쓰레드가 담길 동적 배열 생성 및 초기화
+    //    vector<thread> threads;
+    //    threads.resize(n_thread);
+
+    //    // 1억 개의 컴포넌트를 갖는 벡터의 내적에서 각 thread 가 연산을 맡을 컴포넌트 갯수 (25,000,000 개)
+    //    const unsigned n_per_thread = n_data / n_thread;
+
+    //    // 각 쓰레드 생성 및 실행
+    //    for (unsigned t = 0; t < n_thread; t++)
+    //    {
+    //        threads[t] = std::thread(dotProductLock, std::ref(v0), std::ref(v1),
+    //            t * n_per_thread, (t + 1) * n_per_thread, std::ref(sum));
+    //    }
+
+    //    // 각 thread 작업이 끝나면 Main Thread 로 join 시킴
+    //    for (unsigned t = 0; t < n_thread; t++)
+    //    {
+    //        threads[t].join();
+    //    }
+
+    //    // 내적 연산 종료 시점에서 시작 시점을 빼서 경과시간 기록
+    //    const chrono::duration<double> dur = chrono::steady_clock::now() - sta;
+
+    //    // 경과시간 출력
+    //    cout << dur.count() << endl;
+
+    //    // 내적 연산 결과 출력
+    //    cout << sum << endl;
+    //    cout << endl;
+    //}
+
+    // 멀티쓰레딩으로 벡터 내적 연산 구현 (atomic 으로 race condition 이슈 해결)
+    cout << "Atomic" << endl;
     {
         // 내적 연산이 시작된 시점 저장
         const auto sta = chrono::steady_clock::now();
 
-        // 내적 연산의 결과를 누산할 변수 초기화
-        unsigned long long sum = 0;
+        // 내적 연산의 결과를 누산할 공유 메모리를 atomic 으로 선언
+        atomic<unsigned long long> sum = 0;
 
         // 4개의 쓰레드가 담길 동적 배열 생성 및 초기화
         vector<thread> threads;
@@ -209,7 +273,7 @@ int main()
         // 각 쓰레드 생성 및 실행
         for (unsigned t = 0; t < n_thread; t++)
         {
-            threads[t] = std::thread(dotProductLock, std::ref(v0), std::ref(v1),
+            threads[t] = std::thread(dotProductAtomic, std::ref(v0), std::ref(v1),
                 t * n_per_thread, (t + 1) * n_per_thread, std::ref(sum));
         }
 
