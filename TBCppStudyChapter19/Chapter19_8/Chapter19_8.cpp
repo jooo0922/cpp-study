@@ -509,6 +509,23 @@ public:
         // lambda3 는 l-value reference, 즉, 참조변수이므로, 두 람다함수의 주소값은 동일함.
         cout << &lambda << " " << &lambda3 << endl;
     }
+
+    /*
+        다른 일반 함수에서는
+        매개변수 타입에 auto 키워드를 사용할 수 없지만,
+        람다함수는 매개변수 타입에 auto 를 사용할 수 있음!
+    */
+    void ex16()
+    {
+        // generic lambda
+        auto lambda = [](auto x, auto y)
+        {
+            return x + y;
+        };
+
+        // 각각 double, int, int 타입의 결과값이 출력됨.
+        cout << lambda(1.1, 2) << " " << lambda(3, 4) << " " << lambda(4.5, 2.2) << endl;
+    }
 };
 
 int main()
