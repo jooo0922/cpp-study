@@ -63,6 +63,39 @@ public:
 
         volatile auto vavx = vx;
     }
+
+    /*
+        함수 템플릿의 파라미터에서
+        자료형 추론이 적용된다면?
+    */
+    template<class T>
+    void func_ex3(T arg)
+    {}
+
+    /*
+        함수 템플릿에서도 마찬가지로
+        const, & 등의 예약어 추론까지 포함하고 싶다면,
+
+        템플릿 파라미터의 타입을 선언할 때,
+        해당 예약어를 자체적으로 선언해줘야 함.
+    */
+    /*template<class T>
+    void func_ex3(const T& arg)
+    {}*/
+
+    void ex3()
+    {
+        const int& crx = 123;
+
+        /*
+            마찬가지로, 함수 템플릿의 
+            템플릿 파라미터 타입에 대해 자료형 추론 시,
+
+            const, & 등의 예약어는 다 제외되고,
+            'int' 타입만 자동 추론됨!
+        */
+        func_ex3(crx);
+    }
 };
 
 int main()
