@@ -368,6 +368,56 @@ public:
         */
         //auto d = std::min(x, d1); // error
     }
+
+    /*
+        아래와 같이 크기 비교 함수를 구현할 경우,
+        x, y 가 서로 같은 자료형일 경우,
+        위에서 확인해 본 바와 같이,
+
+        decltype() 에 의해 l-value reference 로 
+        타입이 추론되어 버리는 문제점이 있음!
+    */
+    template<typename T, typename S>
+    auto fpmin_wrong(T x, S y) -> decltype(x < y ? x : y)
+    {
+        return x < y ? x : y;
+    }
+
+    /*
+        std::remove_reference<decltype(표현식)>::type
+
+        아래와 같이 std::remove_reference 와 decltype 을 같이 사용하면,
+        
+        동일한 타입의 템플릿 파라미터에 대해 
+        decltype 이 l-value reference 로 타입을 추론해버리는
+        문제를 해결할 수 있음!
+    */
+    template<typename T, typename S>
+    auto fpmin(T x, S y) -> 
+        typename std::remove_reference<decltype(x < y ? x : y)>::type
+    {
+        return x < y ? x : y;
+    }
+
+    void ex12()
+    {
+        int i = 42;
+        double d = 45.1;
+
+        auto a = std::min(static_cast<double>(i), d);
+        
+        // int 타입 변수 i 에 대한 참조변수 선언
+        int& j = i;
+
+        // 전달되는 두 템플릿 파라미터의 타입이 동일할 경우, l-value reference 로 반환 타입이 추론되어 버림.
+        typedef decltype(fpmin_wrong(d, d)) fpmin_return_type1;
+
+        // 희한하게 두 파라미터의 타입이 다르면 double 로 추론해 줌.
+        typedef decltype(fpmin_wrong(i, d)) fpmin_return_type2;
+
+        // 파라미터 중 하나가 l-value reference 여도 double 로 추론함 -> 그냥 지 맘대로 추론해버림. 이런 게 문제라는 거..
+        typedef decltype(fpmin_wrong(j, d)) fpmin_return_type3;
+    }
 };
 
 int main()
