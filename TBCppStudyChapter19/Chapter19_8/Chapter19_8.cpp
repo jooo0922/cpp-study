@@ -133,6 +133,18 @@ public:
         auto&& ri_1 = i; // l-value
         auto&& ri_2 = 42; // r-value
     }
+
+    void ex6()
+    {
+        int x = 42;
+        const int* p1 = &x;
+
+        /*
+            const 포인터 변수의 경우,
+            auto 키워드가 const 까지 알아서 추론해 줌.
+        */
+        auto p2 = p1;
+    }
 };
 
 int main()
