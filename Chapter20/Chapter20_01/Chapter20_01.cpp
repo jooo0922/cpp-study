@@ -39,7 +39,7 @@ void run()
 int main()
 {
 	// 이 호출부에서 cpu 사용량 profiling
-	run();
+	//run();
 
 	// 이 부분에서 힙 메모리 profiling
 	int* d = new int[10000];
