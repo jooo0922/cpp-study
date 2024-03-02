@@ -197,6 +197,69 @@ public:
     {
         return lhs * rhs;
     }
+
+    void ex7_8()
+    {
+        func_ex7(1.0, 345);
+        func_ex8(1.2, 345);
+    }
+
+    // 예제 설명을 위한 구조체 선언
+    struct S
+    {
+        int m_x; // int 타입 멤버 선언
+
+        // 구조체의 생성자 함수 선언 후, 내부에서 멤버변수 초기화 (구조체도 생성자 함수가 있구나...)
+        S()
+        {
+            m_x = 42; 
+        }
+    };
+
+    void ex9()
+    {
+        int x;
+        const int cx = 42; // const int 변수
+        const int& crx = x; // r-value reference
+        const S* p = new S(); // 구조체 S 의 포인터 변수
+
+        // 위에 선언된 변수들에 대한 auto 키워드의 자동 타입 추론을 아래 코드들에서 확인해보자!
+        auto a = x;
+        auto b = cx;
+        auto c = crx;
+        auto d = p;
+
+        /*
+            p 가 const 이므로 변경이 불가하다면, 
+            멤버변수인 m_x 도 변경이 불가할테니 auto 키워드가
+            const 까지는 자동 추론을 해줘야 할 것 같지만,
+
+            m_x 의 리터럴 값 자체를
+            변수 e 에 복사한다면,
+            변수 e 는 이제 const 포인터 변수 p 와 무관하므로,
+
+            얼마든지 수정 가능하게 되어
+            const 추론이 빠지게 된 것임!
+        */
+        auto e = p->m_x;
+
+        /*
+            decltype vs auto
+
+            decltype 은 말 그대로
+            '선언되어 있는 타입'을 그대로 가져옴.
+
+            따라서, auto 와 달리
+            const, &(reference) 등의 예약어를
+            그대로 추론하여 가져옴.
+        */
+        typedef decltype(x) x_type;
+        typedef decltype(cx) cx_type;
+        typedef decltype(crx) crx_type;
+
+        // 여기서는 m_x 멤버변수가 구조체 내부에서는 'int' 로만 선언(declared) 되어 있으니 int 까지만 추론
+        typedef decltype(p->m_x) m_x_type; 
+    }
 };
 
 int main()
