@@ -418,6 +418,20 @@ public:
         // 파라미터 중 하나가 l-value reference 여도 double 로 추론함 -> 그냥 지 맘대로 추론해버림. 이런 게 문제라는 거..
         typedef decltype(fpmin_wrong(j, d)) fpmin_return_type3;
     }
+
+    void ex13()
+    {
+        /*
+            decltype 은 std::vector 가 실제로는 비어있더라도,
+            그저 타입 추론을 위해 사용되는 것이므로,
+
+            std::vector 내부에 오버로딩된
+            [] 연산자를 사용해서 비어있는 요소에 접근하더라도,
+            에러를 발생시키지 않고 타입 추론만 해줌! 
+        */
+        std::vector<int> vect; // vect is empty
+        typedef decltype(vect[0]) integer;
+    }
 };
 
 int main()
