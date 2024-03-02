@@ -114,6 +114,25 @@ public:
         auto& rc = c;
         //rc = 123; // error
     }
+
+    // amendment (개정)
+    void ex5()
+    {
+        int i = 42;
+
+        /*
+            auto&& 로 r-value reference 를 선언할 경우,
+
+            할당된 값이 r-value 이면,
+            r-value reference 로 auto 가 자료형 추론을 해주고,
+
+            할당된 값이 l-value 이면,
+            l-value reference 로 auto 가 자료형 추론을 해줌.
+            -> 이러한 과정을 'amendment(개정)' 이라고 함!
+        */
+        auto&& ri_1 = i; // l-value
+        auto&& ri_2 = 42; // r-value
+    }
 };
 
 int main()
