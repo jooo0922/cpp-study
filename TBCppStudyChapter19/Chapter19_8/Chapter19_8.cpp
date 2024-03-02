@@ -269,6 +269,51 @@ public:
         typedef decltype((crx)) crx_with_parens_type;
         typedef decltype((p->m_x)) m_x_with_parens_type;
     }
+
+    // 반환값이 const S 인 멤버함수 선언
+    const S foo()
+    {
+        return S();
+    }
+
+    // 반환값이 const s& 인 멤버함수 선언
+    const int& foobar()
+    {
+        return 123;
+    }
+
+    void ex10()
+    {
+        std::vector<int> vect = { 42, 43 };
+
+        /*
+            각 케이스별
+            auto vs decltype
+            의 타입 추론 차이점
+        */
+        auto a = foo();
+        typedef decltype(foo()) foo_type;
+
+        auto b = foobar();
+        typedef decltype(foobar()) foobar_type;
+
+        auto itr = vect.begin();
+        typedef decltype(vect.begin()) iterator_type;
+
+        /*
+            왜 std::vector 의 요소들이
+            auto 에서는 그냥 'int' 로 추론되고,
+            decltype 에서는 'int&' 로 추론될까?
+
+            std::vector 내의 [] 연산자 오버로딩 함수에서는
+            l-value reference(&) 를 반환하도록 되어 있음!
+
+            따라서, 반환값의 타입 선언(decl)을 그대로 유지한 채
+            가져오기 때문에, int& 로 타입 추론이 되는 것임.
+        */
+        auto first_element = vect[0];
+        decltype(vect[1]) second_element = vect[1];
+    }
 };
 
 int main()
