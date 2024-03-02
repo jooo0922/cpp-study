@@ -31,6 +31,38 @@ public:
             cout << itr;
         }
     }
+
+    void ex2()
+    {
+        int x = int();
+
+        // auto_x 변수명에 마우스를 갖다대면 'int auto_x' 와 같이 자료형이 자동으로 추론되고 있음!
+        auto auto_x = x;
+
+        const int& crx = x;
+
+        // auto_crx1 에 마우스 갖다대면 'int auto_crx1' 이라고만 추론됨.
+        // -> 즉, auto 는 const, &(reference) 등의 예약어들은 제외하고 추론해 줌!
+        auto auto_crx1 = crx;
+
+        // auto 로 자료형 추론 시, const, & 를 함께 사용하고 싶다면, 별도로 선언해줘야 함.
+        const auto& auto_crx2 = crx;
+
+        /*
+            volatile
+
+            값이 자주 변경되는 변수이므로,
+            최적화 시 빼달라는 의미를 갖는 예약어.
+
+            이 예약어도 const, & 와 마찬가지로
+            auto 가 자동으로 추론해주지는 못함.
+        */
+        volatile int vx = 1024;
+
+        auto avx = vx;
+
+        volatile auto vavx = vx;
+    }
 };
 
 int main()
