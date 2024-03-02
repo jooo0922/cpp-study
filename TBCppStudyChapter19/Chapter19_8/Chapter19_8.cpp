@@ -314,6 +314,60 @@ public:
         auto first_element = vect[0];
         decltype(vect[1]) second_element = vect[1];
     }
+
+    /*
+        decltype 으로 
+        자료형이 서로 다른 두 피연산자의 
+        연산 결과 타입 추론하기
+    */
+    void ex11()
+    {
+        int x = 0;
+        int y = 0;
+        const int cx = 42;
+        const int cy = 43;
+        double d1 = 3.14;
+        double d2 = 2.72;
+
+        typedef decltype(x * y) prod_xy_type;
+        auto a = x * y;
+
+        /*
+            cx, cy 는 const int 이지만,
+            두 피연산자를 곱한 결과값은 리터럴, 
+            
+            즉, r-value reference 이므로,
+            const 가 붙지 않고, int 까지만 추론해 줌!
+        */
+        typedef decltype(cx * cy) prod_cxcy_type;
+        auto b = cx * cy;
+
+        /*
+            decltype 으로 삼항연산자의 결과값의 자료형을 추론할 때에는,
+            & 가 하나 붙어서 l-value reference 로 추론됨.
+        */
+        typedef decltype(d1 < d2 ? d1 : d2) cond_type;
+        auto c = d1 < d2 ? d1 : d2;
+
+        /*
+            서로 다른 자료형 int 와 double 로
+            삼항 연산자를 비교할 경우, int 가 double 로 promotion 되어
+            결과값의 타입이 double 로 추론됨!
+        */
+        typedef decltype(x < d2 ? x : d2) cond_type_mixed;
+        auto d = x < d2 ? x : d2;
+
+        /*
+            std::min() 함수는
+            크기를 비교할 두 피연산자의 자료형을
+            동일하게 맞춰줘야 한다는 한계점이 있음.
+
+            decltype 을 이용하여,
+            자료형이 서로 다른 두 연산자 간의 크기를 비교하는
+            함수를 직접 구현해보자 (하단 fpmin() 함수 참고)
+        */
+        //auto d = std::min(x, d1); // error
+    }
 };
 
 int main()
