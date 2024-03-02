@@ -96,6 +96,24 @@ public:
         */
         func_ex3(crx);
     }
+
+    void ex4()
+    {
+        const int c = 0;
+
+        /*
+            변수 c 가 const 인데,
+            이것을 l-value reference(참조변수) 로 가져오려고 한다면,
+
+            당연히 원본변수가 const 이면
+            참조변수도 const 여야 하므로,
+
+            이럴 경우, 예외적으로
+            auto 가 똑똑하게 const 로 자료형 추론을 해줌!
+        */
+        auto& rc = c;
+        //rc = 123; // error
+    }
 };
 
 int main()
