@@ -432,6 +432,50 @@ public:
         std::vector<int> vect; // vect is empty
         typedef decltype(vect[0]) integer;
     }
+
+    // 클래스 템플릿 선언
+    template<typename R>
+    class SomeFunctor
+    {
+    public:
+        /*
+            () 연산자 오버로딩의 반환 타입을 
+            사용자 정의 타입(typedef)을 사용하여
+            
+            템플릿 파라미터 타입(R) 으로 선언
+        */
+        typedef R result_type; 
+
+        // 생성자 함수 선언
+        SomeFunctor()
+        {}
+
+        result_type operator() ()
+        {
+            return R();
+        }
+    };
+
+    void ex14()
+    {
+        SomeFunctor<int> func;
+
+        /*
+            decltype 의 재미있는 점은,
+            SomeFunctor 클래스 타입 내부에 정의된(nested type)
+            result_type 도 추론할 수 있게 해줌!
+
+            이렇게 함으로써,
+            위에서 SomeFunctor 타입 선언 시,
+            템플릿 파라미터로 전달한 int 가
+            내부에 정의된 result_type 으로 들어가게 될 것이고,
+
+            결과적으로,
+            decltype(func)::result_type 은
+            int 로 추론됨!
+        */
+        typedef decltype(func)::result_type integer;
+    }
 };
 
 int main()
