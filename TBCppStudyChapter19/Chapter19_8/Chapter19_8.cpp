@@ -176,6 +176,27 @@ public:
 
         decltype(lhs * rhs) prod3 = lhs * rhs;
     }
+
+    /*
+        decltype 으로
+        함수의 반환값 타입도 선언할 수 있음.
+
+        auto 와 함께 '-> 반환값 타입' 형식으로
+        반환값 타입을 정의하는 것은
+
+        C++ 에서 함수의 반환 타입을 정의하는 
+        'Trailing return type' 이라는 기법이다!
+
+        특히, 아래처럼
+        복잡한 템플릿 파라미터로 선언되어 있는
+        함수 템플릿에서 반환 타입을 정의할 때 
+        자주 사용되는 문법이라고 함!
+    */
+    template<typename T, typename S>
+    auto func_ex8(T lhs, S rhs) -> decltype(lhs* rhs)
+    {
+        return lhs * rhs;
+    }
 };
 
 int main()
