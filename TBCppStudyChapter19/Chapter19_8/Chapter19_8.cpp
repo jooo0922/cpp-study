@@ -258,7 +258,16 @@ public:
         typedef decltype(crx) crx_type;
 
         // 여기서는 m_x 멤버변수가 구조체 내부에서는 'int' 로만 선언(declared) 되어 있으니 int 까지만 추론
-        typedef decltype(p->m_x) m_x_type; 
+        typedef decltype(p->m_x) m_x_type;
+
+        /*
+            decltype(()) 로 이중 괄호로 선언할 경우,
+            해당 타입을 l-value reference 로 만들어 줌!
+        */
+        typedef decltype((x)) x_with_parens_type;
+        typedef decltype((cx)) cx_with_parens_type;
+        typedef decltype((crx)) crx_with_parens_type;
+        typedef decltype((p->m_x)) m_x_with_parens_type;
     }
 };
 
