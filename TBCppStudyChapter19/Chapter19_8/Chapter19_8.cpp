@@ -476,6 +476,39 @@ public:
         */
         typedef decltype(func)::result_type integer;
     }
+
+    void ex15()
+    {
+        // 람다함수 선언
+        auto lambda = []() {return 42; };
+
+        /*
+            람다함수를 decltype 으로 추론하여
+            해당 람다함수와 동일한 타입의 변수를 선언하고,
+
+            거기에 해당 람다함수를 할당해버리면,
+            주소값만 다르고 동일한 기능을 하는 
+            새로운 람다함수가 정의됨.
+        */
+        decltype(lambda) lambda2(lambda);
+
+        /*
+            decltype(()) 으로 추론된 타입은
+            l-value reference, 즉, 참조변수로 바꿔준댔지?
+
+            이는 람다함수에도 마찬가지로 적용되어서,
+            l-value reference 로 정의된 람다함수 변수를 선언해 줌
+        */
+        decltype((lambda)) lambda3(lambda);
+
+        cout << "Lambda functions" << endl;
+
+        // 두 람다함수는 주소값이 다름
+        cout << &lambda << " " << &lambda2 << endl;
+
+        // lambda3 는 l-value reference, 즉, 참조변수이므로, 두 람다함수의 주소값은 동일함.
+        cout << &lambda << " " << &lambda3 << endl;
+    }
 };
 
 int main()
