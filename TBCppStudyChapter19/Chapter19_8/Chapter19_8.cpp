@@ -145,6 +145,37 @@ public:
         */
         auto p2 = p1;
     }
+
+    /*
+        decltype
+
+        자료형이 다른 두 피연산자 간의
+        연산의 결과를 추론해주는 예약어
+    */
+    template<typename T, typename S>
+    void func_ex7(T lhs, S rhs)
+    {
+        /*
+            기존 auto 키워드 가지고는
+            자료형이 서로 다른 두 매개변수 lhs 와 rhs 의
+            곱 연산의 결과값의 자료형 추론이 어려웠음.
+        */
+        auto prod1 = lhs * rhs;
+
+        /*
+            아래와 같이 decltype 예약어를 이용함으로써,
+            
+            서로 다른 두 자료형 lhs 와 rhs 의 
+            연산 결과에 대한 타입을
+            
+            user-defined 타입을 선언할 수 있게 됨!
+        */
+        typedef decltype(lhs * rhs) product_type;
+        
+        product_type prod2 = lhs * rhs;
+
+        decltype(lhs * rhs) prod3 = lhs * rhs;
+    }
 };
 
 int main()
