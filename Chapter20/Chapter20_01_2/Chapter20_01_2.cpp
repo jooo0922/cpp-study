@@ -8,7 +8,9 @@
 #include <atomic> // atomic<> 으로 공유 메모리 race condition 이슈 해결을 위해 포함
 #include <future> // async, future, promise 등 작업 기반 비동기 프로그래밍 사용을 위해 포함
 #include <numeric> // std::inner_product (벡터 내적) 사용을 위해 포함
-#include <execution> // parallel execution 
+#include <execution> // parallel execution
+
+#include <boost/asio.hpp>
 
 using namespace std;
 
